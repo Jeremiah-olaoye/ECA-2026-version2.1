@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduTrack Pro — Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ════════════════════════════════════════════════
+       DESIGN TOKENS
+    ════════════════════════════════════════════════ */
+    :root {
+      --primary : #3B82F6;
+      --pdark   : #2563EB;
+      --accent  : #7C3AED;
+      --bg      : #F8FAFC;
+      --surface : #FFFFFF;
+      --border  : #E2E8F0;
+      --text    : #1E293B;
+      --muted   : #64748B;
+      --danger  : #EF4444;
+      --success : #22C55E;
+      --warn    : #F59E0B;
+    }
+    [data-theme="dark"] {
+      --bg      : #0D1117;
+      --surface : #161B22;
+      --border  : #30363D;
+      --text    : #E6EDF3;
+      --muted   : #8B949E;
+    }
+    *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+    body {
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      transition:background .25s,color .25s;
+    }
+
+    /* ════ LEFT PANEL ════════════════════════════════ */
+    .left {
+      flex:1;
+      background:linear-gradient(145deg,#0F172A 0%,#1E3A5F 50%,#0F172A 100%);
+      display:flex; align-items:center; justify-content:center;
+      padding:48px; position:relative; overflow:hidden;
+    }
+    .left::before {
+      content:''; position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse at 30% 50%,rgba(59,130,246,.22) 0%,transparent 60%),
+        radial-gradient(ellipse at 80% 20%,rgba(124,58,237,.18) 0%,transparent 50%);
+    }
+    .blob { position:absolute; border-radius:50%; opacity:.08; }
+    .b1 { width:340px;height:340px;background:#3B82F6;top:-100px;right:-100px; }
+    .b2 { width:240px;height:240px;background:#7C3AED;bottom:-80px;left:-80px; }
+
+    .left-inner {
+      position:relative; z-index:1;
+      text-align:center; max-width:420px;
+    }
+    .logo-box {
+      width:70px; height:70px;
+      background:linear-gradient(135deg,#3B82F6,#7C3AED);
+      border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 22px;
+      box-shadow:0 8px 32px rgba(59,130,246,.45);
+    }
+    .logo-box svg { width:38px; height:38px; }
+    .brand   { font-family:'Poppins',sans-serif;font-size:2.1rem;font-weight:800;color:#fff;margin-bottom:6px; }
+    .tagline { font-size:.92rem;color:#94A3B8;line-height:1.7;margin-bottom:44px; }
+    .feats   { list-style:none;text-align:left;display:flex;flex-direction:column;gap:16px; }
+    .feats li{ display:flex;align-items:center;gap:13px;color:#CBD5E1;font-size:.88rem;line-height:1.5; }
+    .ficon   { width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem; }
+
+    /* ════ RIGHT PANEL ═══════════════════════════════ */
+    .right {
+      width:480px; flex-shrink:0;
+      background:var(--surface);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:48px 40px; position:relative;
+    }
+    .form-wrap { width:100%; max-width:370px; }
+
+    /* Theme btn */
+    .tbtn {
+      position:absolute; top:18px; right:18px;
+      background:var(--bg); border:1.5px solid var(--border);
+      border-radius:9px; width:38px; height:38px;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; font-size:1.1rem; color:var(--muted);
+      transition:all .2s;
+    }
+    .tbtn:hover { border-color:var(--primary); color:var(--primary); }
+
+    /* Tabs */
+    .tabs {
+      display:flex; gap:3px;
+      background:var(--bg); border:1.5px solid var(--border);
+      border-radius:10px; padding:4px; margin-bottom:26px;
+    }
+    .tab {
+      flex:1; padding:9px; border:none; background:none;
+      border-radius:7px; font-family:'Inter',sans-serif;
+      font-size:.83rem; font-weight:600;
+      color:var(--muted); cursor:pointer; transition:all .18s;
+    }
+    .tab.active {
+      background:var(--surface); color:var(--primary);
+      box-shadow:0 1px 5px rgba(0,0,0,.09);
+    }
+
+    /* Headings */
+    .ftitle { font-family:'Poppins',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text);margin-bottom:4px; }
+    .fdesc  { font-size:.83rem;color:var(--muted);margin-bottom:22px; }
+
+    /* Fields */
+    .field { margin-bottom:14px; }
+    .field label {
+      display:block; font-size:.7rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.5px;
+      color:var(--muted); margin-bottom:5px;
+    }
+    .fw { position:relative; }
+    .fi {
+      position:absolute; left:12px; top:50%; transform:translateY(-50%);
+      font-size:.92rem; color:var(--muted); pointer-events:none;
+    }
+    .fw input {
+      width:100%; padding:10px 38px;
+      border:1.5px solid var(--border); border-radius:9px;
+      font-family:'Inter',sans-serif; font-size:.88rem;
+      color:var(--text); background:var(--bg);
+      outline:none; transition:all .2s;
+    }
+    [data-theme="dark"] .fw input { background:#0D1117; }
+    .fw input:focus {
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(59,130,246,.14);
+      background:var(--surface);
+    }
+    .fw input.bad { border-color:var(--danger); animation:shake .35s ease; }
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+    .eyebtn {
+      position:absolute; right:11px; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer;
+      font-size:.95rem; color:var(--muted); padding:2px;
+    }
+    .eyebtn:hover { color:var(--primary); }
+
+    /* Remember / forgot row */
+    .rowflex { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .remem   { display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted);cursor:pointer;user-select:none; }
+    .remem input { accent-color:var(--primary);width:15px;height:15px;cursor:pointer; }
+    .lnkbtn  { background:none;border:none;color:var(--primary);font-size:.82rem;font-weight:600;cursor:pointer;padding:0; }
+    .lnkbtn:hover { opacity:.7; }
+
+    /* Banners */
+    .banner { display:none;align-items:center;gap:9px;padding:11px 14px;border-radius:9px;font-size:.82rem;margin-bottom:14px; }
+    .banner.show { display:flex; }
+    .berr { background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#DC2626; }
+    .bok  { background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#16a34a; }
+    .bwarn{ background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#b45309; }
+
+    /* Submit button */
+    .btngo {
+      width:100%; padding:12px;
+      background:var(--primary); color:#fff;
+      border:none; border-radius:9px;
+      font-family:'Inter',sans-serif; font-size:.92rem; font-weight:700;
+      cursor:pointer; transition:all .2s;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      position:relative;
+    }
+    .btngo:hover:not(:disabled){ background:var(--pdark);box-shadow:0 4px 16px rgba(59,130,246,.38);transform:translateY(-1px); }
+    .btngo:disabled { opacity:.6;cursor:not-allowed;transform:none; }
+    .spin {
+      width:17px; height:17px;
+      border:2.5px solid rgba(255,255,255,.3);
+      border-top-color:#fff;
+      border-radius:50%;
+      animation:rot .65s linear infinite;
+      display:none; flex-shrink:0;
+    }
+    .btngo.loading .spin { display:block; }
+    .btngo.loading .lbl  { opacity:0;position:absolute; }
+    @keyframes rot { to{transform:rotate(360deg)} }
+
+    /* OTP display box */
+    .otp-box {
+      background:linear-gradient(135deg,#0F172A,#1E3A5F);
+      border:2px solid rgba(59,130,246,.35);
+      border-radius:14px;
+      padding:22px;
+      text-align:center;
+      margin:4px 0 18px;
+    }
+    .otp-label { font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#60A5FA;margin-bottom:8px; }
+    .otp-code  {
+      font-family:'Poppins',sans-serif;
+      font-size:2.6rem; font-weight:800;
+      letter-spacing:10px;
+      color:#fff;
+      text-shadow:0 0 20px rgba(59,130,246,.6);
+    }
+    .otp-timer { font-size:.75rem;color:#94A3B8;margin-top:6px; }
+    .otp-copy  {
+      background:rgba(59,130,246,.2); border:1px solid rgba(59,130,246,.3);
+      color:#93C5FD; border-radius:7px;
+      font-size:.75rem; font-weight:600;
+      cursor:pointer; padding:5px 14px;
+      margin-top:10px; transition:all .2s;
+    }
+    .otp-copy:hover { background:rgba(59,130,246,.35); }
+
+    /* OTP input boxes */
+    .otp-inputs {
+      display:flex; gap:8px; justify-content:center;
+      margin-bottom:18px;
+    }
+    .otp-input {
+      width:46px; height:54px;
+      border:2px solid var(--border);
+      border-radius:10px;
+      font-family:'Poppins',sans-serif;
+      font-size:1.4rem; font-weight:700;
+      text-align:center;
+      color:var(--text); background:var(--bg);
+      outline:none; transition:all .2s;
+    }
+    .otp-input:focus { border-color:var(--primary);box-shadow:0 0 0 3px rgba(59,130,246,.15);background:var(--surface); }
+    .otp-input.filled { border-color:var(--success); color:var(--success); }
+
+    /* Step indicator */
+    .steps {
+      display:flex; align-items:center; justify-content:center;
+      gap:0; margin-bottom:22px;
+    }
+    .step {
+      display:flex; align-items:center; gap:6px;
+      font-size:.72rem; font-weight:700;
+      color:var(--muted);
+    }
+    .step-num {
+      width:24px; height:24px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.7rem; font-weight:800;
+      background:var(--border); color:var(--muted);
+      transition:all .3s;
+    }
+    .step.active .step-num { background:var(--primary); color:#fff; }
+    .step.done   .step-num { background:var(--success); color:#fff; }
+    .step-line {
+      width:36px; height:2px;
+      background:var(--border); margin:0 4px;
+      transition:background .3s;
+    }
+    .step-line.done { background:var(--success); }
+
+    /* Demo box */
+    .demo {
+      background:rgba(59,130,246,.07);
+      border:1px solid rgba(59,130,246,.18);
+      border-radius:9px; padding:13px 15px;
+      font-size:.78rem; color:var(--muted); margin-top:16px;
+    }
+    .demo strong { color:var(--primary);display:block;margin-bottom:6px; }
+    .drow { display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(59,130,246,.12); }
+    .drow:last-of-type{ border-bottom:none;margin-bottom:4px; }
+    .badge { font-size:.62rem;padding:2px 8px;border-radius:99px;font-weight:700; }
+    .ba  { background:rgba(59,130,246,.15);color:#3B82F6; }
+    .bt  { background:rgba(124,58,237,.15);color:#7C3AED; }
+    .bp  { background:rgba(34,197,94,.15);color:#16a34a; }
+    .fillbtn { background:none;border:none;color:var(--primary);font-size:.74rem;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;display:inline-block;margin-right:8px;margin-top:4px; }
+
+    /* Footer */
+    .foot { margin-top:22px;text-align:center;font-size:.74rem;color:var(--muted); }
+
+    /* Responsive */
+    @media(max-width:900px){ .left{ display:none; } }
+    @media(max-width:520px){ .right{ width:100%; padding:32px 18px; } }
+  </style>
+</head>
+<body>
+
+<!-- ════ LEFT BRANDING ════════════════════════════════════════ -->
+<div class="left">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="left-inner">
+    <div class="logo-box">
+      <svg viewBox="0 0 32 32" fill="none">
+        <path d="M8 22L16 10L24 22" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="10" r="2.5" fill="white"/>
+        <rect x="10" y="20" width="12" height="2.5" rx="1.25" fill="white" opacity=".7"/>
+      </svg>
+    </div>
+    <h1 class="brand">EduTrack Pro</h1>
+    <p class="tagline">Complete school result management — manage students, publish results and generate report cards instantly.</p>
+    <ul class="feats">
+      <li><div class="ficon" style="background:rgba(59,130,246,.15)">📊</div>Real-time analytics and performance tracking</li>
+      <li><div class="ficon" style="background:rgba(34,197,94,.15)">📋</div>Automated report card generation and PDF export</li>
+      <li><div class="ficon" style="background:rgba(245,158,11,.15)">🎓</div>Manage students, teachers and subjects</li>
+      <li><div class="ficon" style="background:rgba(124,58,237,.15)">🔒</div>Role-based access: Admin, Teacher, Principal</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════ RIGHT FORM ═══════════════════════════════════════════ -->
+<div class="right">
+  <button class="tbtn" id="themeBtn" title="Toggle theme">🌙</button>
+
+  <div class="form-wrap">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="showTab('login')">Sign In</button>
+      <button class="tab"        id="tabReset" onclick="showTab('reset')">Reset Password</button>
+    </div>
+
+    <!-- ════ LOGIN FORM ═══════════════════════════════════ -->
+    <div id="loginForm">
+      <h2 class="ftitle">Welcome back 👋</h2>
+      <p class="fdesc">Sign in to your EduTrack admin dashboard.</p>
+
+      <div class="banner berr" id="loginErr">
+        <span>⚠</span><span id="loginErrMsg">Invalid credentials.</span>
+      </div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <div class="fw">
+          <span class="fi">✉</span>
+          <input type="email" id="eml" placeholder="admin@ghs.edu.ng" autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="fw">
+          <span class="fi">🔒</span>
+          <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+          <button class="eyebtn" id="eyeBtn" type="button">👁</button>
+        </div>
+      </div>
+
+      <div class="rowflex">
+        <label class="remem">
+          <input type="checkbox" id="rememberMe" /> Remember me
+        </label>
+        <button class="lnkbtn" onclick="showTab('reset')">Forgot password?</button>
+      </div>
+
+      <button class="btngo" id="loginBtn" onclick="doLogin()">
+        <div class="spin" id="ls"></div>
+        <span class="lbl">Sign In to Dashboard</span>
+      </button>
+
+      <div class="demo">
+        <strong>🔑 Demo Accounts — click to auto-fill</strong>
+        <div class="drow"><span>admin@ghs.edu.ng / Admin@123</span><span class="badge ba">Admin</span></div>
+        <div class="drow"><span>teacher@ghs.edu.ng / Teacher@123</span><span class="badge bt">Teacher</span></div>
+        <div class="drow"><span>principal@ghs.edu.ng / Principal@123</span><span class="badge bp">Principal</span></div>
+        <button class="fillbtn" onclick="fill('admin')">Auto-fill Admin</button>
+        <button class="fillbtn" onclick="fill('teacher')">Auto-fill Teacher</button>
+        <button class="fillbtn" onclick="fill('principal')">Auto-fill Principal</button>
+      </div>
+    </div>
+
+    <!-- ════ RESET PASSWORD — 3 STEPS ═════════════════════ -->
+    <div id="resetForm" style="display:none">
+
+      <!-- Step indicator -->
+      <div class="steps">
+        <div class="step active" id="st1"><div class="step-num" id="sn1">1</div><span>Email</span></div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step" id="st2"><div class="step-num" id="sn2">2</div><span>Code</span></div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step" id="st3"><div class="step-num" id="sn3">3</div><span>New Password</span></div>
+      </div>
+
+      <!-- ── STEP 1: Enter email ── -->
+      <div id="rStep1">
+        <h2 class="ftitle">Reset Password 🔑</h2>
+        <p class="fdesc">Enter your registered email to receive a reset code.</p>
+
+        <div class="banner berr" id="rErr1"><span>⚠</span><span id="rErr1Msg">Error.</span></div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <div class="fw">
+            <span class="fi">✉</span>
+            <input type="email" id="rEml" placeholder="admin@ghs.edu.ng" />
+          </div>
+        </div>
+
+        <button class="btngo" id="rBtn1" onclick="resetStep1()">
+          <div class="spin" id="rs1"></div>
+          <span class="lbl">Send Reset Code</span>
+        </button>
+        <p style="margin-top:12px;text-align:center">
+          <button class="lnkbtn" onclick="showTab('login')">← Back to Sign In</button>
+        </p>
+      </div>
+
+      <!-- ── STEP 2: Show OTP code + verify ── -->
+      <div id="rStep2" style="display:none">
+        <h2 class="ftitle">Enter Reset Code 🔢</h2>
+        <p class="fdesc">Your reset code is shown below. Copy it and enter it in the boxes.</p>
+
+        <!-- Generated OTP displayed here -->
+        <div class="otp-box">
+          <div class="otp-label">Your Reset Code</div>
+          <div class="otp-code" id="otpDisplay">------</div>
+          <div class="otp-timer" id="otpTimer">Expires in 10:00</div>
+          <button class="otp-copy" onclick="copyOtp()">📋 Copy Code</button>
+        </div>
+
+        <div class="banner berr" id="rErr2"><span>⚠</span><span id="rErr2Msg">Error.</span></div>
+
+        <!-- 6 OTP input boxes -->
+        <div class="otp-inputs" id="otpInputs">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+        </div>
+
+        <button class="btngo" id="rBtn2" onclick="resetStep2()">
+          <div class="spin" id="rs2"></div>
+          <span class="lbl">Verify Code</span>
+        </button>
+
+        <p style="margin-top:10px;text-align:center;font-size:.78rem;color:var(--muted)">
+          Didn't get a code? <button class="lnkbtn" onclick="resetStep1(true)">Resend</button>
+        </p>
+      </div>
+
+      <!-- ── STEP 3: Set new password ── -->
+      <div id="rStep3" style="display:none">
+        <h2 class="ftitle">New Password 🔐</h2>
+        <p class="fdesc">Create a strong new password for your account.</p>
+
+        <div class="banner berr" id="rErr3"><span>⚠</span><span id="rErr3Msg">Error.</span></div>
+        <div class="banner bok"  id="rOk3" ><span>✓</span><span>Password changed! Redirecting to login…</span></div>
+
+        <div class="field">
+          <label>New Password</label>
+          <div class="fw">
+            <span class="fi">🔒</span>
+            <input type="password" id="newPwd"  placeholder="Min 8 characters" />
+            <button class="eyebtn" onclick="toggleEye('newPwd',this)" type="button">👁</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Confirm Password</label>
+          <div class="fw">
+            <span class="fi">🔒</span>
+            <input type="password" id="confPwd" placeholder="Repeat password" />
+            <button class="eyebtn" onclick="toggleEye('confPwd',this)" type="button">👁</button>
+          </div>
+        </div>
+
+        <!-- Password strength meter -->
+        <div style="margin-bottom:16px">
+          <div style="height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:4px">
+            <div id="strengthBar" style="height:100%;width:0%;border-radius:99px;transition:all .3s;background:var(--danger)"></div>
+          </div>
+          <span id="strengthLabel" style="font-size:.7rem;color:var(--muted)">Enter a password</span>
+        </div>
+
+        <button class="btngo" id="rBtn3" onclick="resetStep3()">
+          <div class="spin" id="rs3"></div>
+          <span class="lbl">Change Password</span>
+        </button>
+      </div>
+
+    </div><!-- /resetForm -->
+
+    <p class="foot">EduTrack Pro v2.0 &nbsp;·&nbsp; © 2025 Government High School</p>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   USERS — ADD / EDIT ACCOUNTS HERE
+   Each user: { email, password, name, role, school }
+   ════════════════════════════════════════════════════════════════ */
+var USERS = [
+  { email:'admin@ghs.edu.ng',     password:'Admin@123',     name:'Mr. Adebayo K.',  role:'Super Admin', school:'Government High School' },
+  { email:'teacher@ghs.edu.ng',   password:'Teacher@123',   name:'Mrs. Ngozi Eze',  role:'Teacher',     school:'Government High School' },
+  { email:'principal@ghs.edu.ng', password:'Principal@123', name:'Dr. Amaka Obi',   role:'Principal',   school:'Government High School' },
+  /* ADD MORE USERS BELOW ↓
+  { email:'staff@ghs.edu.ng', password:'Staff@123', name:'Staff Name', role:'Admin', school:'Government High School' },
+  */
+];
+
+/* ════════════════════════════════════════════════════════════════
+   SESSION & RESET STATE
+   ════════════════════════════════════════════════════════════════ */
+var SESSION_KEY = 'edutrack_session';
+var resetState  = { email:'', otp:'', expiresAt:0, timerInterval:null };
+
+/* ── If already logged in skip to dashboard ──────────────────── */
+(function(){
+  try {
+    var raw = localStorage.getItem(SESSION_KEY);
+    if(!raw) return;
+    var s = JSON.parse(raw);
+    if(s && s.loggedIn && s.expiresAt > Date.now()){
+      window.location.replace('index.html');
+    }
+  } catch(e){ localStorage.removeItem(SESSION_KEY); }
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   TAB SWITCHER
+   ════════════════════════════════════════════════════════════════ */
+function showTab(t){
+  document.getElementById('loginForm').style.display = t==='login' ? '' : 'none';
+  document.getElementById('resetForm').style.display = t==='reset' ? '' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active', t==='login');
+  document.getElementById('tabReset').classList.toggle('active', t==='reset');
+  clearBanners();
+  /* If switching to reset, start at step 1 */
+  if(t==='reset') goResetStep(1);
+}
+
+function clearBanners(){
+  ['loginErr','rErr1','rErr2','rErr3','rOk3'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.classList.remove('show');
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AUTO-FILL DEMO ACCOUNTS
+   ════════════════════════════════════════════════════════════════ */
+function fill(type){
+  var map = {
+    admin:     { e:'admin@ghs.edu.ng',     p:'Admin@123'     },
+    teacher:   { e:'teacher@ghs.edu.ng',   p:'Teacher@123'   },
+    principal: { e:'principal@ghs.edu.ng', p:'Principal@123' },
+  };
+  var acc = map[type];
+  if(!acc) return;
+  document.getElementById('eml').value = acc.e;
+  document.getElementById('pwd').value = acc.p;
+  clearBanners();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EYE TOGGLE
+   ════════════════════════════════════════════════════════════════ */
+document.getElementById('eyeBtn').addEventListener('click', function(){
+  var p=document.getElementById('pwd');
+  p.type=p.type==='password'?'text':'password';
+  this.textContent=p.type==='password'?'👁':'🙈';
+});
+function toggleEye(fieldId, btn){
+  var p=document.getElementById(fieldId);
+  p.type=p.type==='password'?'text':'password';
+  btn.textContent=p.type==='password'?'👁':'🙈';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   THEME TOGGLE
+   ════════════════════════════════════════════════════════════════ */
+var themeBtn=document.getElementById('themeBtn');
+applyT(localStorage.getItem('edutrack-theme')||'light');
+themeBtn.addEventListener('click', function(){
+  applyT(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+function applyT(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('edutrack-theme',t);
+  themeBtn.textContent=t==='dark'?'☀️':'🌙';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ENTER KEY SUBMITS
+   ════════════════════════════════════════════════════════════════ */
+document.addEventListener('keydown', function(e){
+  if(e.key!=='Enter') return;
+  var onLogin = document.getElementById('loginForm').style.display!=='none';
+  if(onLogin){ doLogin(); return; }
+  if(document.getElementById('rStep1').style.display!=='none') resetStep1();
+  if(document.getElementById('rStep2').style.display!=='none') resetStep2();
+  if(document.getElementById('rStep3').style.display!=='none') resetStep3();
+});
+
+/* ════════════════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════════════════ */
+function showErr(bannerId, msgId, msg, inputId){
+  document.getElementById(msgId).textContent=msg;
+  document.getElementById(bannerId).classList.add('show');
+  if(inputId){
+    var el=document.getElementById(inputId);
+    if(!el) return;
+    el.classList.add('bad');
+    el.focus();
+    setTimeout(function(){ el.classList.remove('bad'); },400);
+  }
+}
+function setLoading(btnId, spinId, on){
+  var btn=document.getElementById(btnId);
+  if(!btn) return;
+  btn.disabled=on;
+  btn.classList.toggle('loading',on);
+  document.getElementById(spinId).style.display=on?'block':'none';
+}
+function findUser(email){
+  var em=email.toLowerCase().trim();
+  for(var i=0;i<USERS.length;i++){
+    if(USERS[i].email.toLowerCase()===em) return USERS[i];
+  }
+  return null;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LOGIN
+   ════════════════════════════════════════════════════════════════ */
+function doLogin(){
+  clearBanners();
+  var email= document.getElementById('eml').value.trim();
+  var pass = document.getElementById('pwd').value;
+  var rem  = document.getElementById('rememberMe').checked;
+
+  if(!email){ showErr('loginErr','loginErrMsg','Please enter your email address.','eml'); return; }
+  if(!pass) { showErr('loginErr','loginErrMsg','Please enter your password.','pwd'); return; }
+
+  setLoading('loginBtn','ls',true);
+
+  setTimeout(function(){
+    var user=findUser(email);
+
+    if(!user){
+      setLoading('loginBtn','ls',false);
+      showErr('loginErr','loginErrMsg','No account found with that email address.','eml');
+      return;
+    }
+    if(user.password!==pass){
+      setLoading('loginBtn','ls',false);
+      showErr('loginErr','loginErrMsg','Incorrect password. Please try again.','pwd');
+      return;
+    }
+
+    /* ✅ SUCCESS */
+    var HOUR=60*60*1000;
+    var sess={
+      loggedIn : true,
+      email    : user.email,
+      name     : user.name,     /* ← full name saved here */
+      role     : user.role,
+      school   : user.school,
+      loginTime: Date.now(),
+      expiresAt: Date.now() + (rem ? 7*24*HOUR : 8*HOUR),
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(sess));
+
+    /* Save name separately so script.js can always find it easily */
+    localStorage.setItem('edutrack_user_name', user.name);
+    localStorage.setItem('edutrack_user_role', user.role);
+
+    window.location.replace('index.html');
+  }, 700);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESET PASSWORD — STEP 1: Enter email → generate OTP
+   ════════════════════════════════════════════════════════════════ */
+function resetStep1(resend){
+  clearBanners();
+  var email = (document.getElementById('rEml').value||resetState.email).trim().toLowerCase();
+
+  if(!email){
+    showErr('rErr1','rErr1Msg','Please enter your email address.','rEml');
+    return;
+  }
+
+  setLoading('rBtn1','rs1',true);
+
+  setTimeout(function(){
+    setLoading('rBtn1','rs1',false);
+
+    var user=findUser(email);
+    if(!user){
+      showErr('rErr1','rErr1Msg','No account found with that email address.','rEml');
+      return;
+    }
+
+    /* Generate 6-digit OTP */
+    var otp = Math.floor(100000+Math.random()*900000).toString();
+    resetState.email     = email;
+    resetState.otp       = otp;
+    resetState.expiresAt = Date.now() + 10*60*1000; /* 10 minutes */
+
+    /* Show OTP on screen */
+    document.getElementById('otpDisplay').textContent = otp;
+
+    /* Move to step 2 */
+    goResetStep(2);
+
+    /* Start countdown timer */
+    startOtpTimer();
+
+    /* Clear old OTP inputs */
+    document.querySelectorAll('.otp-input').forEach(function(inp){ inp.value=''; inp.classList.remove('filled'); });
+    var first=document.querySelector('.otp-input');
+    if(first) setTimeout(function(){ first.focus(); },100);
+
+  }, 800);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESET PASSWORD — STEP 2: Verify OTP
+   ════════════════════════════════════════════════════════════════ */
+function resetStep2(){
+  clearBanners();
+
+  /* Collect digits from input boxes */
+  var digits='';
+  document.querySelectorAll('.otp-input').forEach(function(inp){ digits+=inp.value.trim(); });
+
+  if(digits.length<6){
+    showErr('rErr2','rErr2Msg','Please enter all 6 digits of the reset code.');
+    return;
+  }
+
+  setLoading('rBtn2','rs2',true);
+
+  setTimeout(function(){
+    setLoading('rBtn2','rs2',false);
+
+    /* Check expiry */
+    if(Date.now()>resetState.expiresAt){
+      showErr('rErr2','rErr2Msg','This code has expired. Click Resend to get a new one.');
+      return;
+    }
+
+    /* Check OTP */
+    if(digits!==resetState.otp){
+      showErr('rErr2','rErr2Msg','Incorrect code. Please check and try again.');
+      /* Shake inputs */
+      document.querySelectorAll('.otp-input').forEach(function(inp){
+        inp.classList.add('bad');
+        setTimeout(function(){ inp.classList.remove('bad'); },400);
+      });
+      return;
+    }
+
+    /* ✅ OTP verified */
+    if(resetState.timerInterval) clearInterval(resetState.timerInterval);
+    goResetStep(3);
+  }, 600);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESET PASSWORD — STEP 3: Set new password
+   ════════════════════════════════════════════════════════════════ */
+function resetStep3(){
+  clearBanners();
+
+  var newPwd  = document.getElementById('newPwd').value;
+  var confPwd = document.getElementById('confPwd').value;
+
+  if(!newPwd){
+    showErr('rErr3','rErr3Msg','Please enter a new password.','newPwd');
+    return;
+  }
+  if(newPwd.length<8){
+    showErr('rErr3','rErr3Msg','Password must be at least 8 characters.','newPwd');
+    return;
+  }
+  if(newPwd!==confPwd){
+    showErr('rErr3','rErr3Msg','Passwords do not match. Please try again.','confPwd');
+    return;
+  }
+
+  setLoading('rBtn3','rs3',true);
+
+  setTimeout(function(){
+    setLoading('rBtn3','rs3',false);
+
+    /* Update the password in the USERS array */
+    var user=findUser(resetState.email);
+    if(user){
+      user.password=newPwd;
+
+      /* ─────────────────────────────────────────────────────
+         IMPORTANT: This only changes the password in memory
+         (the USERS array) for this browser session.
+         If you want the change to persist across reloads,
+         you need to also save the updated users to localStorage.
+         See the note below for how to do this.
+         ───────────────────────────────────────────────────── */
+      /* Save updated passwords to localStorage */
+      var savedPwds={};
+      try{ savedPwds=JSON.parse(localStorage.getItem('et_pwds')||'{}'); }catch(e){}
+      savedPwds[user.email.toLowerCase()]=newPwd;
+      localStorage.setItem('et_pwds', JSON.stringify(savedPwds));
+    }
+
+    /* Show success */
+    document.getElementById('rOk3').classList.add('show');
+
+    /* Redirect to login after 2.5 seconds */
+    setTimeout(function(){
+      resetState={ email:'', otp:'', expiresAt:0, timerInterval:null };
+      showTab('login');
+    }, 2500);
+
+  }, 800);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   STEP NAVIGATION HELPERS
+   ════════════════════════════════════════════════════════════════ */
+function goResetStep(n){
+  [1,2,3].forEach(function(i){
+    document.getElementById('rStep'+i).style.display = i===n ? '' : 'none';
+    var st=document.getElementById('st'+i);
+    var sn=document.getElementById('sn'+i);
+    st.classList.remove('active','done');
+    if(i<n){  st.classList.add('done');   sn.textContent='✓'; }
+    if(i===n){ st.classList.add('active'); sn.textContent=i; }
+    if(i>n){   sn.textContent=i; }
+  });
+  /* Step lines */
+  if(document.getElementById('sl1')) document.getElementById('sl1').classList.toggle('done', n>1);
+  if(document.getElementById('sl2')) document.getElementById('sl2').classList.toggle('done', n>2);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OTP TIMER COUNTDOWN
+   ════════════════════════════════════════════════════════════════ */
+function startOtpTimer(){
+  if(resetState.timerInterval) clearInterval(resetState.timerInterval);
+  resetState.timerInterval=setInterval(function(){
+    var remaining=Math.max(0, resetState.expiresAt-Date.now());
+    var mins=Math.floor(remaining/60000);
+    var secs=Math.floor((remaining%60000)/1000);
+    var timerEl=document.getElementById('otpTimer');
+    if(timerEl) timerEl.textContent='Expires in '+mins+':'+(secs<10?'0':'')+secs;
+    if(remaining<=0){
+      clearInterval(resetState.timerInterval);
+      if(timerEl) timerEl.textContent='Code expired — click Resend';
+      timerEl.style.color='#EF4444';
+      document.getElementById('otpDisplay').textContent='------';
+      document.getElementById('otpDisplay').style.opacity='.3';
+    }
+  }, 1000);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   COPY OTP CODE TO CLIPBOARD
+   ════════════════════════════════════════════════════════════════ */
+function copyOtp(){
+  var code=resetState.otp;
+  if(!code) return;
+  navigator.clipboard.writeText(code).then(function(){
+    var btn=document.querySelector('.otp-copy');
+    var orig=btn.textContent;
+    btn.textContent='✓ Copied!';
+    btn.style.background='rgba(34,197,94,.25)';
+    setTimeout(function(){ btn.textContent=orig; btn.style.background=''; },2000);
+  }).catch(function(){
+    /* Fallback for older browsers */
+    var ta=document.createElement('textarea');
+    ta.value=code; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OTP INPUT — auto-advance + paste support
+   ════════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.otp-input').forEach(function(inp, idx, all){
+  /* Auto-advance to next box when a digit is typed */
+  inp.addEventListener('input', function(){
+    var v=inp.value.replace(/[^0-9]/g,'');
+    inp.value=v.slice(-1);
+    inp.classList.toggle('filled', v.length>0);
+    if(v&&idx<all.length-1) all[idx+1].focus();
+  });
+
+  /* Backspace goes to previous box */
+  inp.addEventListener('keydown', function(e){
+    if(e.key==='Backspace'&&!inp.value&&idx>0) all[idx-1].focus();
+  });
+
+  /* Paste 6 digits at once */
+  inp.addEventListener('paste', function(e){
+    e.preventDefault();
+    var paste=(e.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'');
+    all.forEach(function(box, i){
+      box.value=paste[i]||'';
+      box.classList.toggle('filled', !!paste[i]);
+    });
+    /* Focus last filled box */
+    var last=Math.min(paste.length, all.length)-1;
+    if(last>=0) all[last].focus();
+  });
+});
+
+/* ════════════════════════════════════════════════════════════════
+   PASSWORD STRENGTH METER
+   ════════════════════════════════════════════════════════════════ */
+document.getElementById('newPwd').addEventListener('input', function(){
+  var p=this.value;
+  var score=0;
+  if(p.length>=8)  score++;
+  if(p.length>=12) score++;
+  if(/[A-Z]/.test(p)) score++;
+  if(/[0-9]/.test(p)) score++;
+  if(/[^A-Za-z0-9]/.test(p)) score++;
+
+  var pct  = (score/5*100)+'%';
+  var color= score<=1?'#EF4444': score<=2?'#F59E0B': score<=3?'#60A5FA':'#22C55E';
+  var label= ['','Weak','Fair','Good','Strong','Very Strong'][score]||'';
+
+  document.getElementById('strengthBar').style.width=pct;
+  document.getElementById('strengthBar').style.background=color;
+  document.getElementById('strengthLabel').textContent=label;
+  document.getElementById('strengthLabel').style.color=color;
+});
+
+/* ════════════════════════════════════════════════════════════════
+   LOAD SAVED PASSWORDS (so changed passwords persist on reload)
+   This checks if a password was changed and uses the new one.
+   ════════════════════════════════════════════════════════════════ */
+(function loadSavedPasswords(){
+  try {
+    var saved=JSON.parse(localStorage.getItem('et_pwds')||'{}');
+    USERS.forEach(function(u){
+      var key=u.email.toLowerCase();
+      if(saved[key]) u.password=saved[key];
+    });
+  } catch(e){}
+})();
+</script>
+</body>
+</html>
