@@ -43,7 +43,7 @@
     <div class="school-strip">
       <div class="school-avatar">GHS</div>
       <div class="school-info">
-        <span class="school-name">Government High School</span>
+        <span class="school-name">Loading…</span>
         <span class="school-session">2024/2025 Session</span>
       </div>
     </div>
@@ -114,8 +114,8 @@
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=b6e3f4" alt="Admin" />
         </div>
         <div class="user-details">
-          <span class="user-name-sm">Mr. Adebayo K.</span>
-          <span class="user-role-sm">Administrator</span>
+          <span class="user-name-sm">Loading…</span>
+          <span class="user-role-sm">Admin</span>
         </div>
         <span class="user-arrow" data-action="logout" title="Logout" style="cursor:pointer"><i data-lucide="log-out"></i></span>
       </div>
@@ -166,16 +166,16 @@
             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=b6e3f4" alt="Admin" />
           </div>
           <div class="admin-info">
-            <span class="admin-name">Mr. Adebayo</span>
-            <span class="admin-role">Super Admin</span>
+            <span class="admin-name">Admin</span>
+            <span class="admin-role">Administrator</span>
           </div>
           <i data-lucide="chevron-down" class="admin-caret"></i>
 
           <!-- Admin Dropdown -->
           <div class="admin-dropdown" id="adminDropdown">
             <div class="dropdown-header">
-              <span class="dh-name">Adebayo Kolawole</span>
-              <span class="dh-email">admin@ghs.edu.ng</span>
+              <span class="dh-name">Administrator</span>
+              <span class="dh-email">admin@school.edu.ng</span>
             </div>
             <ul class="dropdown-list">
               <li data-page-link="settings"><i data-lucide="user"></i> My Profile</li>
@@ -198,8 +198,8 @@
         <!-- Page Header -->
         <div class="page-header">
           <div class="ph-left">
-            <h1 class="page-title">Good morning, Mr. Adebayo 👋</h1>
-            <p class="page-subtitle">Here's what's happening in your school today — 3rd Term, 2024/2025 Session.</p>
+            <h1 class="page-title">Welcome back 👋</h1>
+            <p class="page-subtitle">Here's what's happening in your school today.</p>
           </div>
           <div class="ph-right">
             <button class="btn btn-outline"><i data-lucide="download"></i> Export Report</button>
@@ -493,20 +493,20 @@
         <div class="page-header">
           <div class="ph-left">
             <h1 class="page-title">Report Card Generator</h1>
-            <p class="page-subtitle">Fill the form — the preview updates live as you type.</p>
+            <p class="page-subtitle">Fill the form on the left — preview updates live as you type.</p>
           </div>
           <div class="ph-right">
             <button class="btn btn-outline" id="btnPrintReport"><i data-lucide="printer"></i> Print</button>
-            <button class="btn btn-primary" id="btnSaveReport"><i data-lucide="download"></i> Save &amp; Print</button>
+            <button class="btn btn-primary"  id="btnSaveReport"><i data-lucide="download"></i> Save &amp; Print</button>
           </div>
         </div>
 
         <div class="report-grid">
 
-          <!-- ══ LEFT: INPUT FORM ══════════════════════════════ -->
+          <!-- ══════════════ LEFT: INPUT FORM ══════════════════ -->
           <div class="report-form-panel">
 
-            <!-- School Details -->
+            <!-- ── School Details ─────────────────────────────── -->
             <div class="rcard">
               <h3 class="rcard-title"><i data-lucide="school"></i> School Details</h3>
               <div class="logo-upload-area" id="logoUploadArea">
@@ -534,15 +534,15 @@
                 <div class="form-group">
                   <label>Term</label>
                   <select id="rc_term" class="form-input">
-                    <option>3rd Term</option>
-                    <option>2nd Term</option>
                     <option>1st Term</option>
+                    <option>2nd Term</option>
+                    <option selected>3rd Term</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <!-- Student Information -->
+            <!-- ── Student Information ────────────────────────── -->
             <div class="rcard">
               <h3 class="rcard-title"><i data-lucide="user"></i> Student Information</h3>
               <div class="form-row">
@@ -561,14 +561,23 @@
                   <input type="text" id="rc_admNo" class="form-input" placeholder="GHS/2024/001" />
                 </div>
                 <div class="form-group">
-                  <label>Class</label>
+                  <label>Class <span style="font-size:.68rem;color:#3B82F6;font-weight:500">(subjects auto-change)</span></label>
                   <select id="rc_class" class="form-input">
-                    <option>SS 3A</option><option>SS 3B</option>
-                    <option>SS 2A</option><option>SS 2B</option>
-                    <option>SS 1A</option><option>SS 1B</option>
-                    <option>JSS 3A</option><option>JSS 3B</option>
-                    <option>JSS 2A</option><option>JSS 2B</option>
-                    <option>JSS 1A</option><option>JSS 1B</option>
+                    <optgroup label="Senior Secondary">
+                      <option>SS 1A</option><option>SS 1B</option>
+                      <option>SS 2A</option><option>SS 2B</option>
+                      <option>SS 3A</option><option>SS 3B</option>
+                    </optgroup>
+                    <optgroup label="Junior Secondary">
+                      <option>JSS 1A</option><option>JSS 1B</option>
+                      <option>JSS 2A</option><option>JSS 2B</option>
+                      <option>JSS 3A</option><option>JSS 3B</option>
+                    </optgroup>
+                    <optgroup label="Primary">
+                      <option>Primary 1</option><option>Primary 2</option>
+                      <option>Primary 3</option><option>Primary 4</option>
+                      <option>Primary 5</option><option>Primary 6</option>
+                    </optgroup>
                   </select>
                 </div>
               </div>
@@ -591,46 +600,63 @@
                   <input type="text" id="rc_position" class="form-input" placeholder="e.g. 3rd" />
                 </div>
                 <div class="form-group">
-                  <label>No. in Class</label>
+                  <label>No. of Students</label>
                   <input type="number" id="rc_classSize" class="form-input" placeholder="e.g. 42" />
                 </div>
               </div>
             </div>
 
-            <!-- Subject Scores -->
+            <!-- ── Subject Scores ─────────────────────────────── -->
             <div class="rcard">
-              <h3 class="rcard-title"><i data-lucide="book-open"></i> Subject Scores</h3>
-              <div class="term-tabs">
-                <button class="term-tab active" data-term="1">1st Term</button>
-                <button class="term-tab" data-term="2">2nd Term</button>
-                <button class="term-tab" data-term="3">3rd Term</button>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+                <h3 class="rcard-title" style="margin:0"><i data-lucide="book-open"></i> Subject Scores</h3>
+                <button class="btn btn-outline btn-sm" id="btnAddSubject" style="font-size:.75rem">
+                  <i data-lucide="plus-circle"></i> Add Subject
+                </button>
               </div>
+
+              <!-- Score breakdown columns info -->
+              <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:.75rem;color:#3B82F6;">
+                <strong>Scoring:</strong> CA1 (10) + CA2 (10) + Mid-Term Test (20) + Exam (60) = <strong>100 Total</strong>
+              </div>
+
               <div class="scores-table-wrap">
-                <table class="scores-table">
+                <table class="scores-table" id="scoresTable">
                   <thead>
-                    <tr><th>Subject</th><th>CA (30)</th><th>Exam (70)</th><th>Total</th><th>Grade</th></tr>
+                    <tr>
+                      <th style="min-width:130px">Subject</th>
+                      <th style="width:52px">CA1<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/10</span></th>
+                      <th style="width:52px">CA2<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/10</span></th>
+                      <th style="width:60px">Mid-Term<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/20</span></th>
+                      <th style="width:58px">Exam<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/60</span></th>
+                      <th style="width:50px">Total</th>
+                      <th style="width:46px">Grade</th>
+                      <th style="width:90px">Comment</th>
+                      <th style="width:34px"></th>
+                    </tr>
                   </thead>
                   <tbody id="scoresBody"><!-- injected by JS --></tbody>
                 </table>
               </div>
-              <div class="score-summary">
-                <div class="ss-item"><span>Total Score</span><strong id="totalScore">—</strong></div>
+
+              <div class="score-summary" style="grid-template-columns:repeat(4,1fr)">
+                <div class="ss-item"><span>Grand Total</span><strong id="totalScore">—</strong></div>
                 <div class="ss-item"><span>Average</span><strong id="avgScore">—</strong></div>
                 <div class="ss-item"><span>Overall Grade</span><strong id="overallGrade">—</strong></div>
                 <div class="ss-item"><span>Remark</span><strong id="overallRemark">—</strong></div>
               </div>
             </div>
 
-            <!-- Comments -->
+            <!-- ── Comments ───────────────────────────────────── -->
             <div class="rcard">
               <h3 class="rcard-title"><i data-lucide="message-square"></i> Comments</h3>
               <div class="form-group">
-                <label>Class Teacher's Comment</label>
-                <textarea id="rc_teacherComment" class="form-input" rows="3" placeholder="Enter teacher's remark…"></textarea>
+                <label>Class Teacher's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated — you can edit)</span></label>
+                <textarea id="rc_teacherComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered…"></textarea>
               </div>
               <div class="form-group">
-                <label>Principal's Comment</label>
-                <textarea id="rc_principalComment" class="form-input" rows="3" placeholder="Enter principal's remark…"></textarea>
+                <label>Principal's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated — you can edit)</span></label>
+                <textarea id="rc_principalComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered…"></textarea>
               </div>
               <div class="form-group">
                 <label>Next Term Begins</label>
@@ -638,20 +664,18 @@
               </div>
             </div>
 
-          </div><!-- /form panel -->
+          </div><!-- /form-panel -->
 
-          <!-- ══ RIGHT: LIVE PREVIEW ══════════════════════════ -->
+          <!-- ══════════════ RIGHT: LIVE PREVIEW ══════════════ -->
           <div class="report-preview-panel">
             <div class="preview-sticky">
               <div class="preview-label"><i data-lucide="eye"></i> Live Preview — updates as you type</div>
 
               <div class="report-card-preview" id="reportPreview">
 
-                <!-- PREVIEW HEADER -->
+                <!-- Header -->
                 <div class="rp-header">
-                  <div class="rp-logo-placeholder" id="prev_logo">
-                    <i data-lucide="school"></i>
-                  </div>
+                  <div class="rp-logo-placeholder" id="prev_logo"><i data-lucide="school"></i></div>
                   <div class="rp-school-info">
                     <h2 id="prev_schoolName">Government High School, Lagos</h2>
                     <p  id="prev_schoolAddr">12 Education Crescent, Lagos State</p>
@@ -659,59 +683,55 @@
                   </div>
                 </div>
 
-                <!-- STUDENT INFO -->
+                <!-- Student Info Grid -->
                 <div class="rp-student-info">
-                  <div class="rp-si-row"><span>Name:</span>      <strong id="prev_name">—</strong></div>
-                  <div class="rp-si-row"><span>Adm. No:</span>   <strong id="prev_admNo">—</strong></div>
-                  <div class="rp-si-row"><span>Class:</span>     <strong id="prev_class">—</strong></div>
-                  <div class="rp-si-row"><span>Gender:</span>    <strong id="prev_gender">—</strong></div>
+                  <div class="rp-si-row"><span>Name:</span>         <strong id="prev_name">—</strong></div>
+                  <div class="rp-si-row"><span>Adm. No:</span>      <strong id="prev_admNo">—</strong></div>
+                  <div class="rp-si-row"><span>Class:</span>        <strong id="prev_class">—</strong></div>
+                  <div class="rp-si-row"><span>Gender:</span>       <strong id="prev_gender">—</strong></div>
                   <div class="rp-si-row"><span>Date of Birth:</span><strong id="prev_dob">—</strong></div>
-                  <div class="rp-si-row"><span>Session:</span>   <strong id="prev_session">2024/2025</strong></div>
-                  <div class="rp-si-row"><span>Term:</span>      <strong id="prev_term">3rd Term</strong></div>
+                  <div class="rp-si-row"><span>Session:</span>      <strong id="prev_session">2024/2025</strong></div>
+                  <div class="rp-si-row"><span>Term:</span>         <strong id="prev_term">3rd Term</strong></div>
+                  <div class="rp-si-row"><span>Position:</span>     <strong id="prev_position">—</strong></div>
                 </div>
 
-                <!-- SCORES TABLE -->
+                <!-- Scores Table Preview -->
                 <table class="rp-scores">
                   <thead>
                     <tr>
                       <th>Subject</th>
-                      <th>CA</th>
-                      <th>Exam</th>
-                      <th>Total</th>
-                      <th>Grade</th>
-                      <th>Remark</th>
+                      <th style="text-align:center">CA1</th>
+                      <th style="text-align:center">CA2</th>
+                      <th style="text-align:center">Mid</th>
+                      <th style="text-align:center">Exam</th>
+                      <th style="text-align:center">Total</th>
+                      <th style="text-align:center">Grade</th>
+                      <th>Comment</th>
                     </tr>
                   </thead>
                   <tbody id="prev_scoresBody">
-                    <tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:12px;">Enter scores above to see them here</td></tr>
+                    <tr><td colspan="8" style="text-align:center;color:#94A3B8;padding:14px;font-size:.78rem;">
+                      Select a class and enter scores to see them here
+                    </td></tr>
                   </tbody>
                 </table>
 
-                <!-- SUMMARY -->
+                <!-- Summary Bar -->
                 <div class="rp-summary">
-                  <div class="rps-item"><span>Total</span>    <strong id="prev_total">—</strong></div>
-                  <div class="rps-item"><span>Average</span>  <strong id="prev_avg">—</strong></div>
-                  <div class="rps-item"><span>Grade</span>    <strong id="prev_grade">—</strong></div>
-                  <div class="rps-item"><span>Position</span> <strong id="prev_position">—</strong></div>
+                  <div class="rps-item"><span>Grand Total</span><strong id="prev_total">—</strong></div>
+                  <div class="rps-item"><span>Average</span>   <strong id="prev_avg">—</strong></div>
+                  <div class="rps-item"><span>Grade</span>     <strong id="prev_grade">—</strong></div>
+                  <div class="rps-item"><span>Position</span>  <strong id="prev_position2">—</strong></div>
                 </div>
 
-                <!-- COMMENTS -->
+                <!-- Comments -->
                 <div class="rp-comments">
-                  <div class="rp-comment">
-                    <strong>Class Teacher:</strong>
-                    <em id="prev_teacherComment">—</em>
-                  </div>
-                  <div class="rp-comment">
-                    <strong>Principal:</strong>
-                    <em id="prev_principalComment">—</em>
-                  </div>
-                  <div class="rp-comment">
-                    <strong>Next Term Begins:</strong>
-                    <em id="prev_nextTerm">—</em>
-                  </div>
+                  <div class="rp-comment"><strong>Class Teacher:</strong> <em id="prev_teacherComment">—</em></div>
+                  <div class="rp-comment"><strong>Principal:</strong>     <em id="prev_principalComment">—</em></div>
+                  <div class="rp-comment"><strong>Next Term Begins:</strong> <em id="prev_nextTerm">—</em></div>
                 </div>
 
-                <!-- SIGNATURES -->
+                <!-- Signature Line -->
                 <div class="rp-footer">
                   <div class="rp-sig"><div class="sig-line"></div><span>Class Teacher</span></div>
                   <div class="rp-sig"><div class="sig-line"></div><span>Principal</span></div>
@@ -720,7 +740,7 @@
 
               </div><!-- /reportPreview -->
             </div>
-          </div><!-- /preview panel -->
+          </div><!-- /preview-panel -->
 
         </div><!-- /report-grid -->
       </section>

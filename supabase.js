@@ -185,7 +185,7 @@
       { id: _uid(), name: 'Yusuf Bello',     admission_no: 'GHS/2025/008', class: 'SS 1B',  gender: 'Male',   date_of_birth: '2008-12-08' },
       { id: _uid(), name: 'Ngozi Adamu',     admission_no: 'GHS/2025/009', class: 'SS 2A',  gender: 'Female', date_of_birth: '2007-08-14' },
       { id: _uid(), name: 'Chidi Okonkwo',   admission_no: 'GHS/2025/010', class: 'SS 3A',  gender: 'Male',   date_of_birth: '2006-02-27' },
-    ];
+    ];S
     _save('students', students);
   
     /* Seed results for each student */
