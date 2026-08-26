@@ -952,82 +952,25 @@ function drawPerfChart(){
   }));
 }
 
-function drawGradeDonut() {
-  var cv = document.getElementById('gradeChart');
-  if (!cv) return;
-
-  cv.style.height = '200px';
-  cv.style.maxHeight = '200px';
-
-  reg('donut', new Chart(cv.getContext('2d'), {
-    type: 'doughnut',
-
-    data: {
-      labels: ['A (80-100)', 'B (65-79)', 'C (50-64)', 'F (0-49)'],
-      datasets: [{
-        data: [22, 31, 29, 18],
-        backgroundColor: [
-          '#3B82F6',
-          '#22C55E',
-          '#F59E0B',
-          '#EF4444'
-        ],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
-    },
-
-    options: {
-      cutout: '70%',
-      responsive: true,
-      maintainAspectRatio: false,
-
-      plugins: {
-        legend: {
-          display: false
-        },
-
-        tooltip: {
-          backgroundColor: '#0F172A',
-          titleColor: '#F1F5F9',
-          bodyColor: '#94A3B8',
-          padding: 10,
-          cornerRadius: 8
-        }
-      }
-    }
+function drawGradeDonut(){
+  var cv=document.getElementById('gradeChart'); if(!cv) return;
+  cv.style.height='200px'; cv.style.maxHeight='200px';
+  reg('donut',new Chart(cv.getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['A (80-100)','B (65-79)','C (50-64)','F (0-49)'],datasets:[{data:[22,31,29,18],backgroundColor:['#3B82F6','#22C55E','#F59E0B','#EF4444'],borderWidth:0,hoverOffset:8}]},
+    options:{cutout:'70%',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0F172A',titleColor:'#F1F5F9',bodyColor:'#94A3B8',padding:10,cornerRadius:8}}}
   }));
 }
 
-
-function drawAnalyticsCharts() {
-  if (App.analyticsDrawn) return;
-
-  if (typeof Chart === 'undefined') {
-    setTimeout(drawAnalyticsCharts, 200);
-    return;
-  }
-
-  App.analyticsDrawn = true;
-
-  var TT = {
-    backgroundColor: '#0F172A',
-    titleColor: '#F1F5F9',
-    bodyColor: '#94A3B8',
-    padding: 10,
-    cornerRadius: 8
-  };
-
-  function mk(id, cfg) {
-    var cv = document.getElementById(id);
-    if (!cv) return;
-
-    cv.style.display = 'block';
-    cv.style.width = '100%';
-    cv.style.height = '100%';
-
-    reg(id, new Chart(cv.getContext('2d'), cfg));
-  }
+function drawAnalyticsCharts(){
+  if(App.analyticsDrawn) return;
+  if(typeof Chart==='undefined'){ setTimeout(drawAnalyticsCharts,200); return; }
+  App.analyticsDrawn=true;
+  var TT={backgroundColor:'#0F172A',titleColor:'#F1F5F9',bodyColor:'#94A3B8',padding:10,cornerRadius:8};
+  function mk(id,cfg){
+    var cv=document.getElementById(id); if(!cv) return;
+    cv.style.display='block'; cv.style.width='100%'; cv.style.height='100%';
+    reg(id,new Chart(cv.getContext('2d'),cfg));
   }
   mk('trendChart',{type:'line',
     data:{labels:['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8','Wk9','Wk10'],datasets:[
