@@ -14,6 +14,7 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
@@ -41,10 +42,10 @@
 
     <!-- School Info Strip -->
     <div class="school-strip">
-      <div class="school-avatar">GHS</div>
+      <div class="school-avatar">ECA</div>
       <div class="school-info">
-        <span class="school-name">Loading…</span>
-        <span class="school-session">2024/2025 Session</span>
+        <span class="school-name">Emirate Classic Academy</span>
+        <span class="school-session">2026/2027 Session</span>
       </div>
     </div>
 
@@ -53,42 +54,48 @@
       <div class="nav-section-label">Main</div>
       <ul class="nav-list">
         <li class="nav-item active" data-page="dashboard">
-          <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>
+          <span class="nav-icon"><i class="fas fa-th-large"></i></span>
           <span class="nav-label">Dashboard</span>
           <span class="nav-badge">New</span>
         </li>
         <li class="nav-item" data-page="students">
-          <span class="nav-icon"><i data-lucide="users"></i></span>
+          <span class="nav-icon"><i class="fas fa-users"></i></span>
           <span class="nav-label">Students</span>
           <span class="nav-count">8</span>
         </li>
         <li class="nav-item" data-page="results">
-          <span class="nav-icon"><i data-lucide="file-text"></i></span>
+          <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
           <span class="nav-label">Results</span>
           <span class="nav-count">8</span>
         </li>
         <li class="nav-item" data-page="subjects">
-          <span class="nav-icon"><i data-lucide="book-open"></i></span>
+          <span class="nav-icon"><i class="fas fa-book-open"></i></span>
           <span class="nav-label">Subjects</span>
         </li>
         <li class="nav-item" data-page="teachers">
-          <span class="nav-icon"><i data-lucide="user-check"></i></span>
+          <span class="nav-icon"><i class="fas fa-chalkboard-teacher"></i></span>
           <span class="nav-label">Teachers</span>
+          <span class="nav-count">3</span>
+        </li>
+        <li class="nav-item" data-page="gallery">
+          <span class="nav-icon"><i class="fas fa-images"></i></span>
+          <span class="nav-label">Gallery</span>
+          <span class="nav-count" id="galleryCount">0</span>
         </li>
       </ul>
 
       <div class="nav-section-label">Analytics</div>
       <ul class="nav-list">
         <li class="nav-item" data-page="attendance">
-          <span class="nav-icon"><i data-lucide="calendar-check"></i></span>
+          <span class="nav-icon"><i class="fas fa-calendar-check"></i></span>
           <span class="nav-label">Attendance</span>
         </li>
         <li class="nav-item" data-page="analytics">
-          <span class="nav-icon"><i data-lucide="bar-chart-3"></i></span>
+          <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
           <span class="nav-label">Analytics</span>
         </li>
         <li class="nav-item" data-page="report">
-          <span class="nav-icon"><i data-lucide="printer"></i></span>
+          <span class="nav-icon"><i class="fas fa-print"></i></span>
           <span class="nav-label">Report Card</span>
         </li>
       </ul>
@@ -96,12 +103,12 @@
       <div class="nav-section-label">System</div>
       <ul class="nav-list">
         <li class="nav-item" data-page="messages">
-          <span class="nav-icon"><i data-lucide="message-square"></i></span>
+          <span class="nav-icon"><i class="fas fa-comments"></i></span>
           <span class="nav-label">Messages</span>
           <span class="nav-alert">3</span>
         </li>
         <li class="nav-item" data-page="settings">
-          <span class="nav-icon"><i data-lucide="settings"></i></span>
+          <span class="nav-icon"><i class="fas fa-cog"></i></span>
           <span class="nav-label">Settings</span>
         </li>
       </ul>
@@ -117,7 +124,7 @@
           <span class="user-name-sm">Loading…</span>
           <span class="user-role-sm">Admin</span>
         </div>
-        <span class="user-arrow" data-action="logout" title="Logout" style="cursor:pointer"><i data-lucide="log-out"></i></span>
+        <span class="user-arrow" data-action="logout" title="Logout" style="cursor:pointer"><i class="fas fa-sign-out-alt"></i></span>
       </div>
     </div>
   </aside>
@@ -130,10 +137,10 @@
       <!-- Left: Hamburger + Breadcrumb -->
       <div class="topbar-left">
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle sidebar">
-          <i data-lucide="menu"></i>
+          <i class="fas fa-bars"></i>
         </button>
         <nav class="breadcrumb" id="breadcrumb">
-          <span class="bc-home"><i data-lucide="home"></i></span>
+          <span class="bc-home"><i class="fas fa-home"></i></span>
           <span class="bc-sep">/</span>
           <span class="bc-current" id="bcCurrent">Dashboard</span>
         </nav>
@@ -143,21 +150,21 @@
       <div class="topbar-right">
         <!-- Search Bar -->
         <div class="search-wrapper">
-          <i data-lucide="search" class="search-icon"></i>
+          <i class="fas fa-search"></i>
           <input type="text" class="search-input" placeholder="Search students, results…" id="globalSearch" />
           <kbd class="search-kbd">⌘K</kbd>
         </div>
 
         <!-- Notification Bell -->
         <button class="icon-btn" id="notifBtn" aria-label="Notifications">
-          <i data-lucide="bell"></i>
+          <i class="fas fa-bell"></i>
           <span class="notif-dot"></span>
         </button>
 
         <!-- Dark Mode Toggle -->
         <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle theme">
-          <i data-lucide="moon" class="icon-moon"></i>
-          <i data-lucide="sun" class="icon-sun" style="display:none"></i>
+          <i class="fas fa-moon" id="themeIconDash"></i>
+          <i class="fas fa-sun" id="themeIconDashSun" style="display:none"></i>
         </button>
 
         <!-- Admin Profile -->
@@ -169,7 +176,7 @@
             <span class="admin-name">Admin</span>
             <span class="admin-role">Administrator</span>
           </div>
-          <i data-lucide="chevron-down" class="admin-caret"></i>
+          <i class="fas fa-chevron-down"></i>
 
           <!-- Admin Dropdown -->
           <div class="admin-dropdown" id="adminDropdown">
@@ -178,11 +185,11 @@
               <span class="dh-email">admin@school.edu.ng</span>
             </div>
             <ul class="dropdown-list">
-              <li data-page-link="settings"><i data-lucide="user"></i> My Profile</li>
-              <li><i data-lucide="shield"></i> Security</li>
-              <li data-page-link="settings"><i data-lucide="settings"></i> Preferences</li>
+              <li data-page-link="settings"><i class="fas fa-user"></i> My Profile</li>
+              <li><i class="fas fa-shield-alt"></i> Security</li>
+              <li data-page-link="settings"><i class="fas fa-cog"></i> Preferences</li>
               <li class="dropdown-divider"></li>
-              <li class="text-danger" data-action="logout" style="cursor:pointer"><i data-lucide="log-out"></i> Logout</li>
+              <li class="text-danger" data-action="logout" style="cursor:pointer"><i class="fas fa-sign-out-alt"></i> Logout</li>
             </ul>
           </div>
         </div>
@@ -202,8 +209,8 @@
             <p class="page-subtitle">Here's what's happening in your school today.</p>
           </div>
           <div class="ph-right">
-            <button class="btn btn-outline"><i data-lucide="download"></i> Export Report</button>
-            <button class="btn btn-primary"><i data-lucide="plus"></i> Add Result</button>
+            <button class="btn btn-outline"><i class="fas fa-download"></i> Export Report</button>
+            <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Result</button>
           </div>
         </div>
 
@@ -211,12 +218,12 @@
         <div class="stats-grid">
           <div class="stat-card" style="--card-accent:#3B82F6">
             <div class="stat-icon" style="background:rgba(59,130,246,.15); color:#3B82F6">
-              <i data-lucide="users"></i>
+              <i class="fas fa-users"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Total Students</span>
               <span class="stat-value" data-count="0"  data-stat="stat-students">0</span>
-              <span class="stat-trend up"><i data-lucide="trending-up"></i> +12 this term</span>
+              <span class="stat-trend up"><i class="fas fa-arrow-up"></i> +12 this term</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline1" width="80" height="40"></canvas>
@@ -225,12 +232,12 @@
 
           <div class="stat-card" style="--card-accent:#7C3AED">
             <div class="stat-icon" style="background:rgba(124,58,237,.15); color:#7C3AED">
-              <i data-lucide="file-text"></i>
+              <i class="fas fa-file-alt"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Total Results</span>
               <span class="stat-value" data-count="0" data-stat="stat-results">0</span>
-              <span class="stat-trend up"><i data-lucide="trending-up"></i> +85 uploaded</span>
+              <span class="stat-trend up"><i class="fas fa-arrow-up"></i> +85 uploaded</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline2" width="80" height="40"></canvas>
@@ -239,12 +246,12 @@
 
           <div class="stat-card" style="--card-accent:#22C55E">
             <div class="stat-icon" style="background:rgba(34,197,94,.15); color:#22C55E">
-              <i data-lucide="bar-chart-2"></i>
+              <i class="fas fa-chart-bar"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Avg. Performance</span>
               <span class="stat-value" data-count="0"   data-stat="stat-avg">0</span>
-              <span class="stat-trend up"><i data-lucide="trending-up"></i> +4.2% vs last term</span>
+              <span class="stat-trend up"><i class="fas fa-arrow-up"></i> +4.2% vs last term</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline3" width="80" height="40"></canvas>
@@ -253,12 +260,12 @@
 
           <div class="stat-card" style="--card-accent:#22C55E">
             <div class="stat-icon" style="background:rgba(34,197,94,.15); color:#22C55E">
-              <i data-lucide="check-circle"></i>
+              <i class="fas fa-check-circle"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Passed Students</span>
               <span class="stat-value" data-count="0"  data-stat="stat-passed">0</span>
-              <span class="stat-trend up"><i data-lucide="trending-up"></i> 82.6% pass rate</span>
+              <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 82.6% pass rate</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline4" width="80" height="40"></canvas>
@@ -267,12 +274,12 @@
 
           <div class="stat-card" style="--card-accent:#EF4444">
             <div class="stat-icon" style="background:rgba(239,68,68,.15); color:#EF4444">
-              <i data-lucide="x-circle"></i>
+              <i class="fas fa-user-times"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Failed Students</span>
               <span class="stat-value" data-count="0"   data-stat="stat-failed">0</span>
-              <span class="stat-trend down"><i data-lucide="trending-down"></i> -5 vs last term</span>
+              <span class="stat-trend down"><i class="fas fa-arrow-down"></i> -5 vs last term</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline5" width="80" height="40"></canvas>
@@ -281,12 +288,12 @@
 
           <div class="stat-card" style="--card-accent:#F59E0B">
             <div class="stat-icon" style="background:rgba(245,158,11,.15); color:#F59E0B">
-              <i data-lucide="calendar-check"></i>
+              <i class="fas fa-calendar-check"></i>
             </div>
             <div class="stat-body">
               <span class="stat-label">Attendance Rate</span>
               <span class="stat-value" data-count="0"   data-stat="stat-attendance">0</span>
-              <span class="stat-trend up"><i data-lucide="trending-up"></i> Above target</span>
+              <span class="stat-trend up"><i class="fas fa-arrow-up"></i> Above target</span>
             </div>
             <div class="stat-sparkline">
               <canvas id="sparkline6" width="80" height="40"></canvas>
@@ -301,7 +308,7 @@
             <div class="chart-header">
               <div>
                 <h3 class="chart-title">Performance Overview</h3>
-                <p class="chart-subtitle">Average scores per subject — 3rd Term 2024/2025</p>
+                <p class="chart-subtitle">Average scores per subject — 3rd Term 2026/2027</p>
               </div>
               <div class="chart-actions">
                 <button class="btn-chip active">This Term</button>
@@ -345,7 +352,7 @@
               </div>
               <div class="th-right">
                 <div class="tbl-search-wrap">
-                  <i data-lucide="search"></i>
+                  <i class="fas fa-search"></i>
                   <input type="text" class="tbl-search" placeholder="Search student…" id="tableSearch" />
                 </div>
                 <select class="tbl-filter" id="classFilter">
@@ -379,13 +386,13 @@
 
             <!-- Pagination -->
             <div class="pagination">
-              <button class="pg-btn" disabled><i data-lucide="chevron-left"></i></button>
+              <button class="pg-btn" disabled><i class="fas fa-chevron-left"></i></button>
               <button class="pg-num active">1</button>
               <button class="pg-num">2</button>
               <button class="pg-num">3</button>
               <span class="pg-ellipsis">…</span>
               <button class="pg-num">12</button>
-              <button class="pg-btn"><i data-lucide="chevron-right"></i></button>
+              <button class="pg-btn"><i class="fas fa-chevron-right"></i></button>
             </div>
           </div>
 
@@ -397,42 +404,42 @@
             </div>
             <ul class="timeline">
               <li class="tl-item">
-                <div class="tl-dot" style="background:#3B82F6"><i data-lucide="upload"></i></div>
+                <div class="tl-dot" style="background:#3B82F6"><i class="fas fa-upload"></i></div>
                 <div class="tl-body">
                   <p class="tl-text">Result uploaded for <strong>SS 2A</strong> — Mathematics</p>
                   <span class="tl-time">2 min ago</span>
                 </div>
               </li>
               <li class="tl-item">
-                <div class="tl-dot" style="background:#22C55E"><i data-lucide="user-plus"></i></div>
+                <div class="tl-dot" style="background:#22C55E"><i class="fas fa-circle"></i></div>
                 <div class="tl-body">
                   <p class="tl-text">New student <strong>Amaka Okafor</strong> enrolled in JSS 1B</p>
                   <span class="tl-time">14 min ago</span>
                 </div>
               </li>
               <li class="tl-item">
-                <div class="tl-dot" style="background:#F59E0B"><i data-lucide="edit-3"></i></div>
+                <div class="tl-dot" style="background:#F59E0B"><i class="fas fa-edit"></i></div>
                 <div class="tl-body">
                   <p class="tl-text"><strong>Mr. Chukwu</strong> updated grades for SS 3 Physics</p>
                   <span class="tl-time">1 hr ago</span>
                 </div>
               </li>
               <li class="tl-item">
-                <div class="tl-dot" style="background:#7C3AED"><i data-lucide="printer"></i></div>
+                <div class="tl-dot" style="background:#7C3AED"><i class="fas fa-print"></i></div>
                 <div class="tl-body">
                   <p class="tl-text">Report card printed for <strong>Ibrahim Musa</strong></p>
                   <span class="tl-time">2 hr ago</span>
                 </div>
               </li>
               <li class="tl-item">
-                <div class="tl-dot" style="background:#EF4444"><i data-lucide="alert-triangle"></i></div>
+                <div class="tl-dot" style="background:#EF4444"><i class="fas fa-circle"></i></div>
                 <div class="tl-body">
                   <p class="tl-text">Low attendance alert — <strong>JSS 3C</strong> (below 75%)</p>
                   <span class="tl-time">Yesterday</span>
                 </div>
               </li>
               <li class="tl-item">
-                <div class="tl-dot" style="background:#22C55E"><i data-lucide="check-circle"></i></div>
+                <div class="tl-dot" style="background:#22C55E"><i class="fas fa-check-circle"></i></div>
                 <div class="tl-body">
                   <p class="tl-text">Term results approved by <strong>Principal Adaeze</strong></p>
                   <span class="tl-time">Yesterday</span>
@@ -452,8 +459,8 @@
             <p class="page-subtitle">View, upload, edit and manage all student results.</p>
           </div>
           <div class="ph-right">
-            <button class="btn btn-outline"><i data-lucide="filter"></i> Filter</button>
-            <button class="btn btn-primary"><i data-lucide="upload"></i> Upload Results</button>
+            <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+            <button class="btn btn-primary"><i class="fas fa-upload"></i> Upload Results</button>
           </div>
         </div>
 
@@ -465,12 +472,12 @@
             </div>
             <div class="th-right">
               <div class="tbl-search-wrap">
-                <i data-lucide="search"></i>
+                <i class="fas fa-search"></i>
                 <input type="text" class="tbl-search" placeholder="Search…" />
               </div>
               <select class="tbl-filter"><option>All Classes</option><option>SS 1</option><option>SS 2</option><option>SS 3</option></select>
               <select class="tbl-filter"><option>All Terms</option><option>1st Term</option><option>2nd Term</option><option>3rd Term</option></select>
-              <button class="btn btn-outline btn-sm"><i data-lucide="download"></i> Export</button>
+              <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Export</button>
             </div>
           </div>
           <div class="table-wrapper">
@@ -480,10 +487,10 @@
             </table>
           </div>
           <div class="pagination">
-            <button class="pg-btn" disabled><i data-lucide="chevron-left"></i></button>
+            <button class="pg-btn" disabled><i class="fas fa-chevron-left"></i></button>
             <button class="pg-num active">1</button><button class="pg-num">2</button><button class="pg-num">3</button>
             <span class="pg-ellipsis">…</span><button class="pg-num">25</button>
-            <button class="pg-btn"><i data-lucide="chevron-right"></i></button>
+            <button class="pg-btn"><i class="fas fa-chevron-right"></i></button>
           </div>
         </div>
       </section>
@@ -495,9 +502,11 @@
             <h1 class="page-title">Report Card Generator</h1>
             <p class="page-subtitle">Fill the form on the left — preview updates live as you type.</p>
           </div>
-          <div class="ph-right">
-            <button class="btn btn-outline" id="btnPrintReport"><i data-lucide="printer"></i> Print</button>
-            <button class="btn btn-primary"  id="btnSaveReport"><i data-lucide="download"></i> Save &amp; Print</button>
+          <div class="ph-right" style="flex-wrap:wrap;gap:8px;">
+            <button class="btn btn-outline" id="btnPrintReport"><i class="fas fa-print"></i> Print</button>
+            <button class="btn btn-outline" id="btnImageReport" style="border-color:#7C3AED;color:#7C3AED;"><i class="fas fa-image"></i> Save Image</button>
+            <button class="btn btn-outline" id="btnShareReport" style="border-color:#22C55E;color:#22C55E;"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="btn btn-primary"  id="btnSaveReport"><i class="fas fa-download"></i> Download PDF</button>
           </div>
         </div>
 
@@ -508,25 +517,25 @@
 
             <!-- ── School Details ─────────────────────────────── -->
             <div class="rcard">
-              <h3 class="rcard-title"><i data-lucide="school"></i> School Details</h3>
+              <h3 class="rcard-title"><i class="fas fa-school"></i> School Details</h3>
               <div class="logo-upload-area" id="logoUploadArea">
-                <i data-lucide="image"></i>
+                <i class="fas fa-image"></i>
                 <span id="logoUploadText">Click to upload school logo</span>
                 <input type="file" accept="image/*" id="logoUpload" hidden />
               </div>
               <div class="form-group">
                 <label>School Name</label>
-                <input type="text" id="rc_schoolName" class="form-input" value="Government High School, Lagos" />
+                <input type="text" id="rc_schoolName" class="form-input" value="Emirate Classic Academy, Lagos" />
               </div>
               <div class="form-group">
                 <label>School Address</label>
-                <input type="text" id="rc_schoolAddr" class="form-input" value="12 Education Crescent, Lagos State" />
+                <input type="text" id="rc_schoolAddr" class="form-input" value="ECA School Address, Nigeria" />
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Session</label>
                   <select id="rc_session" class="form-input">
-                    <option>2024/2025</option>
+                    <option>2026/2027</option>
                     <option>2023/2024</option>
                     <option>2025/2026</option>
                   </select>
@@ -544,7 +553,7 @@
 
             <!-- ── Student Information ────────────────────────── -->
             <div class="rcard">
-              <h3 class="rcard-title"><i data-lucide="user"></i> Student Information</h3>
+              <h3 class="rcard-title"><i class="fas fa-user"></i> Student Information</h3>
               <div class="form-row">
                 <div class="form-group">
                   <label>First Name</label>
@@ -558,7 +567,7 @@
               <div class="form-row">
                 <div class="form-group">
                   <label>Admission No.</label>
-                  <input type="text" id="rc_admNo" class="form-input" placeholder="GHS/2024/001" />
+                  <input type="text" id="rc_admNo" class="form-input" placeholder="ECA/2026/001" />
                 </div>
                 <div class="form-group">
                   <label>Class <span style="font-size:.68rem;color:#3B82F6;font-weight:500">(subjects auto-change)</span></label>
@@ -609,9 +618,9 @@
             <!-- ── Subject Scores ─────────────────────────────── -->
             <div class="rcard">
               <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
-                <h3 class="rcard-title" style="margin:0"><i data-lucide="book-open"></i> Subject Scores</h3>
+                <h3 class="rcard-title" style="margin:0"><i class="fas fa-book-open"></i> Subject Scores</h3>
                 <button class="btn btn-outline btn-sm" id="btnAddSubject" style="font-size:.75rem">
-                  <i data-lucide="plus-circle"></i> Add Subject
+                  <i class="fas fa-plus-circle"></i> Add Subject
                 </button>
               </div>
 
@@ -649,7 +658,7 @@
 
             <!-- ── Comments ───────────────────────────────────── -->
             <div class="rcard">
-              <h3 class="rcard-title"><i data-lucide="message-square"></i> Comments</h3>
+              <h3 class="rcard-title"><i class="fas fa-comments"></i> Comments</h3>
               <div class="form-group">
                 <label>Class Teacher's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated — you can edit)</span></label>
                 <textarea id="rc_teacherComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered…"></textarea>
@@ -669,17 +678,17 @@
           <!-- ══════════════ RIGHT: LIVE PREVIEW ══════════════ -->
           <div class="report-preview-panel">
             <div class="preview-sticky">
-              <div class="preview-label"><i data-lucide="eye"></i> Live Preview — updates as you type</div>
+              <div class="preview-label"><i class="fas fa-eye"></i> Live Preview — updates as you type</div>
 
               <div class="report-card-preview" id="reportPreview">
 
                 <!-- Header -->
                 <div class="rp-header">
-                  <div class="rp-logo-placeholder" id="prev_logo"><i data-lucide="school"></i></div>
+                  <div class="rp-logo-placeholder" id="prev_logo"><i class="fas fa-school"></i></div>
                   <div class="rp-school-info">
-                    <h2 id="prev_schoolName">Government High School, Lagos</h2>
+                    <h2 id="prev_schoolName">Emirate Classic Academy, Lagos</h2>
                     <p  id="prev_schoolAddr">12 Education Crescent, Lagos State</p>
-                    <p class="rp-term-badge" id="prev_termBadge">3rd Term Report Card — 2024/2025</p>
+                    <p class="rp-term-badge" id="prev_termBadge">3rd Term Report Card — 2026/2027</p>
                   </div>
                 </div>
 
@@ -690,7 +699,7 @@
                   <div class="rp-si-row"><span>Class:</span>        <strong id="prev_class">—</strong></div>
                   <div class="rp-si-row"><span>Gender:</span>       <strong id="prev_gender">—</strong></div>
                   <div class="rp-si-row"><span>Date of Birth:</span><strong id="prev_dob">—</strong></div>
-                  <div class="rp-si-row"><span>Session:</span>      <strong id="prev_session">2024/2025</strong></div>
+                  <div class="rp-si-row"><span>Session:</span>      <strong id="prev_session">2026/2027</strong></div>
                   <div class="rp-si-row"><span>Term:</span>         <strong id="prev_term">3rd Term</strong></div>
                   <div class="rp-si-row"><span>Position:</span>     <strong id="prev_position">—</strong></div>
                 </div>
@@ -754,7 +763,7 @@
           </div>
           <div class="ph-right">
             <select class="tbl-filter"><option>3rd Term 2024/25</option><option>2nd Term 2024/25</option></select>
-            <button class="btn btn-primary"><i data-lucide="download"></i> Export</button>
+            <button class="btn btn-primary"><i class="fas fa-download"></i> Export</button>
           </div>
         </div>
 
@@ -785,27 +794,27 @@
         <!-- Subject Stats Cards -->
         <div class="subject-stats-grid">
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(59,130,246,.12); color:#3B82F6"><i data-lucide="calculator"></i></div>
+            <div class="ssc-icon" style="background:rgba(59,130,246,.12); color:#3B82F6"><i class="fas fa-graduation-cap"></i></div>
             <div class="ssc-info"><span>Mathematics</span><strong>68.4%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:68%;background:#3B82F6"></div></div></div>
           </div>
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(34,197,94,.12); color:#22C55E"><i data-lucide="book"></i></div>
+            <div class="ssc-icon" style="background:rgba(34,197,94,.12); color:#22C55E"><i class="fas fa-check-circle"></i></div>
             <div class="ssc-info"><span>English Language</span><strong>74.2%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:74%;background:#22C55E"></div></div></div>
           </div>
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(245,158,11,.12); color:#F59E0B"><i data-lucide="zap"></i></div>
+            <div class="ssc-icon" style="background:rgba(245,158,11,.12); color:#F59E0B"><i class="fas fa-chart-line"></i></div>
             <div class="ssc-info"><span>Physics</span><strong>61.8%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:62%;background:#F59E0B"></div></div></div>
           </div>
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(124,58,237,.12); color:#7C3AED"><i data-lucide="flask-conical"></i></div>
+            <div class="ssc-icon" style="background:rgba(124,58,237,.12); color:#7C3AED"><i class="fas fa-book"></i></div>
             <div class="ssc-info"><span>Chemistry</span><strong>59.3%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:59%;background:#7C3AED"></div></div></div>
           </div>
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(239,68,68,.12); color:#EF4444"><i data-lucide="leaf"></i></div>
+            <div class="ssc-icon" style="background:rgba(239,68,68,.12); color:#EF4444"><i class="fas fa-times-circle"></i></div>
             <div class="ssc-info"><span>Biology</span><strong>71.5%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:72%;background:#EF4444"></div></div></div>
           </div>
           <div class="subject-stat-card">
-            <div class="ssc-icon" style="background:rgba(96,165,250,.12); color:#60A5FA"><i data-lucide="trending-up"></i></div>
+            <div class="ssc-icon" style="background:rgba(96,165,250,.12); color:#60A5FA"><i class="fas fa-users"></i></div>
             <div class="ssc-info"><span>Economics</span><strong>77.9%</strong><div class="ssc-bar"><div class="ssc-fill" style="width:78%;background:#60A5FA"></div></div></div>
           </div>
         </div>
@@ -819,17 +828,17 @@
             <p class="page-subtitle">Manage school configuration, themes and preferences.</p>
           </div>
           <div class="ph-right">
-            <button class="btn btn-primary"><i data-lucide="save"></i> Save Changes</button>
+            <button class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
           </div>
         </div>
 
         <div class="settings-grid">
           <!-- Settings Sidebar Tabs -->
           <div class="settings-nav">
-            <button class="set-tab active" data-set="school"><i data-lucide="school"></i> School Settings</button>
-            <button class="set-tab" data-set="theme"><i data-lucide="palette"></i> Theme & Display</button>
-            <button class="set-tab" data-set="profile"><i data-lucide="user"></i> Profile Settings</button>
-            <button class="set-tab" data-set="notif"><i data-lucide="bell"></i> Notifications</button>
+            <button class="set-tab active" data-set="school"><i class="fas fa-school"></i> School Settings</button>
+            <button class="set-tab" data-set="theme"><i class="fas fa-palette"></i> Theme &amp; Display</button>
+            <button class="set-tab" data-set="profile"><i class="fas fa-user"></i> Profile Settings</button>
+            <button class="set-tab" data-set="notif"><i class="fas fa-bell"></i> Notifications</button>
           </div>
 
           <!-- Settings Panels -->
@@ -837,9 +846,9 @@
             <div class="settings-panel active" id="set-school">
               <div class="rcard">
                 <h3 class="rcard-title">School Information</h3>
-                <div class="form-row"><div class="form-group"><label>School Name</label><input class="form-input" type="text" value="Government High School, Lagos" /></div><div class="form-group"><label>Registration No.</label><input class="form-input" type="text" value="LG/EDU/2003/001" /></div></div>
+                <div class="form-row"><div class="form-group"><label>School Name</label><input class="form-input" type="text" value="Emirate Classic Academy, Lagos" /></div><div class="form-group"><label>Registration No.</label><input class="form-input" type="text" value="LG/EDU/2003/001" /></div></div>
                 <div class="form-row"><div class="form-group"><label>Address</label><input class="form-input" type="text" value="12 Education Crescent, Ikeja, Lagos" /></div><div class="form-group"><label>Phone</label><input class="form-input" type="text" value="+234 801 234 5678" /></div></div>
-                <div class="form-row"><div class="form-group"><label>Email</label><input class="form-input" type="email" value="admin@ghs.edu.ng" /></div><div class="form-group"><label>Current Session</label><select class="form-input"><option>2024/2025</option><option>2023/2024</option></select></div></div>
+                <div class="form-row"><div class="form-group"><label>Email</label><input class="form-input" type="email" value="admin@ghs.edu.ng" /></div><div class="form-group"><label>Current Session</label><select class="form-input"><option>2026/2027</option><option>2023/2024</option></select></div></div>
                 <div class="form-row"><div class="form-group"><label>Current Term</label><select class="form-input"><option>3rd Term</option><option>2nd Term</option><option>1st Term</option></select></div><div class="form-group"><label>Max Score (CA)</label><input class="form-input" type="number" value="30" /></div></div>
               </div>
             </div>
@@ -850,8 +859,8 @@
                 <div class="form-group">
                   <label>Color Mode</label>
                   <div class="theme-toggle-row">
-                    <button class="theme-option active" onclick="setTheme('light', this)"><i data-lucide="sun"></i> Light Mode</button>
-                    <button class="theme-option" onclick="setTheme('dark', this)"><i data-lucide="moon"></i> Dark Mode</button>
+                    <button class="theme-option active" onclick="setTheme('light', this)"><i class="fas fa-sun"></i> Light Mode</button>
+                    <button class="theme-option" onclick="setTheme('dark', this)"><i class="fas fa-moon"></i> Dark Mode</button>
                   </div>
                 </div>
                 <div class="form-group">
@@ -899,11 +908,187 @@
       </section>
 
       <!-- ======== PLACEHOLDER PAGES ======== -->
-      <section class="page" id="page-students"><div class="page-header"><div class="ph-left"><h1 class="page-title">Students</h1><p class="page-subtitle">Manage all student records and enrolments.</p></div><div class="ph-right"><button class="btn btn-primary"><i data-lucide="user-plus"></i> Add Student</button></div></div><div class="placeholder-content"><i data-lucide="users" style="width:64px;height:64px;opacity:.15"></i><p>Students module — connect your backend to load records.</p></div></section>
-      <section class="page" id="page-subjects"><div class="page-header"><div class="ph-left"><h1 class="page-title">Subjects</h1><p class="page-subtitle">Manage school subjects and curriculum.</p></div></div><div class="placeholder-content"><i data-lucide="book-open" style="width:64px;height:64px;opacity:.15"></i><p>Subjects module — coming soon.</p></div></section>
-      <section class="page" id="page-teachers"><div class="page-header"><div class="ph-left"><h1 class="page-title">Teachers</h1><p class="page-subtitle">Manage teaching staff and assignments.</p></div></div><div class="placeholder-content"><i data-lucide="user-check" style="width:64px;height:64px;opacity:.15"></i><p>Teachers module — coming soon.</p></div></section>
-      <section class="page" id="page-attendance"><div class="page-header"><div class="ph-left"><h1 class="page-title">Attendance</h1><p class="page-subtitle">Track and manage daily student attendance.</p></div></div><div class="placeholder-content"><i data-lucide="calendar-check" style="width:64px;height:64px;opacity:.15"></i><p>Attendance module — coming soon.</p></div></section>
-      <section class="page" id="page-messages"><div class="page-header"><div class="ph-left"><h1 class="page-title">Messages</h1><p class="page-subtitle">Internal messaging and announcements.</p></div></div><div class="placeholder-content"><i data-lucide="message-square" style="width:64px;height:64px;opacity:.15"></i><p>Messages module — coming soon.</p></div></section>
+      <section class="page" id="page-students"><div class="page-header"><div class="ph-left"><h1 class="page-title">Students</h1><p class="page-subtitle">Manage all student records and enrolments.</p></div><div class="ph-right"><button class="btn btn-primary"><i class="fas fa-circle"></i> Add Student</button></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Students module — connect your backend to load records.</p></div></section>
+      <section class="page" id="page-subjects"><div class="page-header"><div class="ph-left"><h1 class="page-title">Subjects</h1><p class="page-subtitle">Manage school subjects and curriculum.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Subjects module — coming soon.</p></div></section>
+      <section class="page" id="page-teachers">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-chalkboard-teacher" style="color:#3B82F6"></i> Teaching Staff</h1>
+      <p class="page-subtitle">Emirate Classic Academy — 2026/2027 Session</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-outline" onclick="resetTeachers()" style="border-color:#EF4444;color:#EF4444;" title="Reset to default list from code">
+        <i class="fas fa-sync-alt"></i> Reset
+      </button>
+      <button class="btn btn-primary" onclick="showAddTeacherModal()">
+        <i class="fas fa-user-plus"></i> Add Teacher
+      </button>
+    </div>
+  </div>
+
+  <!-- Search bar -->
+  <div style="margin-bottom:20px;">
+    <div style="position:relative;max-width:340px;">
+      <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#64748B;font-size:.85rem;"></i>
+      <input type="text" id="teacherSearch" placeholder="Search teachers..." 
+        style="width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.85rem;outline:none;"/>
+    </div>
+  </div>
+
+  <!-- Teachers grid -->
+  <div id="teachersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
+    <!-- Injected by JS -->
+  </div>
+
+  <!-- Empty state -->
+  <div id="teachersEmpty" style="display:none;text-align:center;padding:60px 20px;color:#64748B;">
+    <i class="fas fa-chalkboard-teacher" style="font-size:3rem;opacity:.2;display:block;margin-bottom:14px;"></i>
+    <p style="font-size:.95rem;font-weight:600;">No teachers found</p>
+    <p style="font-size:.82rem;margin-top:4px;">Click "Add Teacher" to add teaching staff</p>
+  </div>
+
+</section>
+      <section class="page" id="page-gallery">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-images" style="color:#7C3AED"></i> School Gallery</h1>
+      <p class="page-subtitle">Emirate Classic Academy — 2026/2027 Session. Upload and manage student photos.</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-outline" onclick="clearGalleryFilter()" id="btnClearFilter" style="display:none">
+        <i class="fas fa-times"></i> Clear Filter
+      </button>
+      <button class="btn btn-primary" onclick="document.getElementById('galleryUploadInput').click()">
+        <i class="fas fa-cloud-upload-alt"></i> Upload Photos
+      </button>
+      <input type="file" id="galleryUploadInput" accept="image/*" multiple hidden />
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;">
+      <i class="fas fa-photo-video" style="color:#7C3AED;font-size:1.1rem;"></i>
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--text)" id="galleryTotalCount">0</div>
+        <div style="font-size:.7rem;color:#64748B;text-transform:uppercase;letter-spacing:.4px">Total Photos</div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;">
+      <i class="fas fa-users" style="color:#3B82F6;font-size:1.1rem;"></i>
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--text)" id="galleryCategoryCount">0</div>
+        <div style="font-size:.7rem;color:#64748B;text-transform:uppercase;letter-spacing:.4px">Categories</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter/Search bar -->
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;">
+    <div style="position:relative;flex:1;min-width:200px;max-width:320px;">
+      <i class="fas fa-search" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#64748B;font-size:.82rem;"></i>
+      <input type="text" id="gallerySearch" placeholder="Search by name or class..."
+        style="width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--border);border-radius:9px;
+        background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.83rem;outline:none;"/>
+    </div>
+    <select id="galleryFilter" style="padding:9px 14px;border:1.5px solid var(--border);border-radius:9px;
+      background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.83rem;outline:none;cursor:pointer;">
+      <option value="">All Classes</option>
+      <option>SS 1A</option><option>SS 1B</option>
+      <option>SS 2A</option><option>SS 2B</option>
+      <option>SS 3A</option><option>SS 3B</option>
+      <option>JSS 1A</option><option>JSS 1B</option>
+      <option>JSS 2A</option><option>JSS 2B</option>
+      <option>JSS 3A</option><option>JSS 3B</option>
+      <option>Primary 1</option><option>Primary 2</option>
+      <option>Primary 3</option><option>Primary 4</option>
+      <option>Primary 5</option><option>Primary 6</option>
+      <option>Staff</option><option>Event</option>
+    </select>
+    <!-- View toggle -->
+    <div style="display:flex;gap:4px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:3px;">
+      <button onclick="setGalleryView('grid')" id="btnGridView"
+        style="padding:6px 12px;border:none;border-radius:7px;cursor:pointer;background:#3B82F6;color:#fff;font-size:.78rem;font-weight:600;">
+        <i class="fas fa-th"></i>
+      </button>
+      <button onclick="setGalleryView('list')" id="btnListView"
+        style="padding:6px 12px;border:none;border-radius:7px;cursor:pointer;background:none;color:#64748B;font-size:.78rem;font-weight:600;">
+        <i class="fas fa-list"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Upload progress bar -->
+  <div id="uploadProgress" style="display:none;margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span style="font-size:.8rem;color:var(--muted)"><i class="fas fa-spinner fa-spin"></i> Uploading photos...</span>
+      <span id="uploadProgressText" style="font-size:.8rem;font-weight:600;color:#3B82F6">0%</span>
+    </div>
+    <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden;">
+      <div id="uploadProgressBar" style="height:100%;background:linear-gradient(90deg,#3B82F6,#7C3AED);border-radius:99px;width:0%;transition:width .3s;"></div>
+    </div>
+  </div>
+
+  <!-- Gallery grid -->
+  <div id="galleryGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
+    <!-- Injected by JS -->
+  </div>
+
+  <!-- Empty state -->
+  <div id="galleryEmpty" style="text-align:center;padding:80px 20px;color:#64748B;">
+    <i class="fas fa-images" style="font-size:4rem;opacity:.15;display:block;margin-bottom:18px;"></i>
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;color:var(--text);">No Photos Yet</h3>
+    <p style="font-size:.85rem;margin-bottom:20px;">Upload student photos to build the school gallery.</p>
+    <button class="btn btn-primary" onclick="document.getElementById('galleryUploadInput').click()">
+      <i class="fas fa-cloud-upload-alt"></i> Upload First Photo
+    </button>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="galleryLightbox" style="display:none;position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,.92);backdrop-filter:blur(8px);
+    align-items:center;justify-content:center;flex-direction:column;">
+    <button onclick="closeLightbox()" style="position:absolute;top:18px;right:22px;
+      background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;
+      border-radius:50%;font-size:1.1rem;cursor:pointer;z-index:1;">
+      <i class="fas fa-times"></i>
+    </button>
+    <!-- Prev -->
+    <button onclick="lightboxNav(-1)" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);
+      background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;
+      border-radius:50%;font-size:1.1rem;cursor:pointer;">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <!-- Next -->
+    <button onclick="lightboxNav(1)" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);
+      background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;
+      border-radius:50%;font-size:1.1rem;cursor:pointer;">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <img id="lightboxImg" src="" alt="" style="max-width:90vw;max-height:75vh;border-radius:12px;object-fit:contain;"/>
+    <div id="lightboxInfo" style="margin-top:16px;text-align:center;color:#fff;">
+      <div id="lightboxName" style="font-family:Poppins,sans-serif;font-size:1.05rem;font-weight:700;"></div>
+      <div id="lightboxMeta" style="font-size:.82rem;color:#94A3B8;margin-top:4px;"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button id="lightboxDownload" onclick="downloadGalleryPhoto()"
+        style="padding:9px 18px;background:#3B82F6;color:#fff;border:none;border-radius:9px;
+        font-weight:600;font-size:.83rem;cursor:pointer;">
+        <i class="fas fa-download"></i> Download
+      </button>
+      <button id="lightboxDelete" onclick="deleteGalleryPhoto()"
+        style="padding:9px 18px;background:rgba(239,68,68,.2);color:#EF4444;border:1px solid rgba(239,68,68,.3);
+        border-radius:9px;font-weight:600;font-size:.83rem;cursor:pointer;">
+        <i class="fas fa-trash-alt"></i> Delete
+      </button>
+    </div>
+    <div id="lightboxCounter" style="margin-top:12px;font-size:.75rem;color:#64748B;"></div>
+  </div>
+
+</section>
+
+<section class="page" id="page-attendance"><div class="page-header"><div class="ph-left"><h1 class="page-title">Attendance</h1><p class="page-subtitle">Track and manage daily student attendance.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Attendance module — coming soon.</p></div></section>
+      <section class="page" id="page-messages"><div class="page-header"><div class="ph-left"><h1 class="page-title">Messages</h1><p class="page-subtitle">Internal messaging and announcements.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Messages module — coming soon.</p></div></section>
 
     </div><!-- End .page-wrapper -->
   </main><!-- End .main-content -->
@@ -913,7 +1098,7 @@
     <div class="modal" id="resultModal">
       <div class="modal-header">
         <h2 class="modal-title">Edit Result</h2>
-        <button class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body">
         <div class="form-row">
@@ -931,19 +1116,21 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" id="modalCancel">Cancel</button>
-        <button class="btn btn-primary" id="modalSave"><i data-lucide="save"></i> Save Changes</button>
+        <button class="btn btn-primary" id="modalSave"><i class="fas fa-save"></i> Save Changes</button>
       </div>
     </div>
   </div>
 
   <!-- Toast Notification -->
   <div class="toast" id="toast">
-    <i data-lucide="check-circle" class="toast-icon"></i>
+    <i class="fas fa-check-circle toast-icon"></i>
     <span class="toast-msg" id="toastMsg">Saved successfully!</span>
   </div>
 
-  <!-- Lucide Icons (must load before script.js) -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- html2canvas — converts HTML to image (for Save Image + PDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- jsPDF — generates PDF from image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <!-- Session guard + local auth (no Supabase needed) -->
