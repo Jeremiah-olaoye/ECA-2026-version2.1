@@ -1,12 +1,23 @@
 /* ================================================================
-   EduTrack Pro — auth.js
-   MUST be the FIRST script loaded in index.html.
-   Guards the dashboard — redirects to login if no valid session.
+   EduTrack Pro - auth.js
+   Loaded on every page after sign-in. It:
+     1. sends visitors who are not signed in to login.html
+     2. keeps the 8-hour inactivity timer
+     3. signs out properly (ends the Supabase sign-in too)
    ================================================================ */
 
    var SESSION_KEY = 'edutrack_session';
 
-   /* ── Read session from localStorage ────────────────────────────── */
+   /* the saved Supabase sign-in lives in a key like  sb-xxxx-auth-token */
+   function hasSupabaseSession(){
+     try{
+       for(var i = 0; i < localStorage.length; i++){
+         if(/^sb-.+-auth-token$/.test(localStorage.key(i))) return true;
+       }
+     }catch(e){}
+     return false;
+   }
+   
    function getSession(){
      try{
        var raw = localStorage.getItem(SESSION_KEY);
@@ -19,30 +30,20 @@
        }
        return s;
      }catch(e){
-       localStorage.removeItem(SESSION_KEY);
+       try{ localStorage.removeItem(SESSION_KEY); }catch(x){}
        return null;
      }
    }
    
-   /* ── GUARD — runs synchronously before page renders ─────────────
-      Uses visibility:hidden (not display:none) so layout is preserved
-      but nothing is visible — then shows the page once session confirmed.
-   ────────────────────────────────────────────────────────────────── */
+   /* Guard: needs BOTH the on-screen session and a real Supabase sign-in */
    (function guard(){
-     var sess = getSession();
-     if(!sess){
-       /* No valid session — hide page immediately, go to login */
+     if(!getSession() || !hasSupabaseSession()){
        document.documentElement.style.visibility = 'hidden';
-       document.documentElement.style.opacity    = '0';
        window.location.replace('login.html');
-       return;
      }
-     /* Valid session — page is visible */
-     document.documentElement.style.visibility = '';
-     document.documentElement.style.opacity    = '';
    })();
    
-   /* ── Extend session on any click ────────────────────────────────── */
+   /* any click counts as activity: push the 8-hour timer forward */
    document.addEventListener('click', function(){
      var s = getSession();
      if(!s) return;
@@ -50,29 +51,39 @@
      try{ localStorage.setItem(SESSION_KEY, JSON.stringify(s)); }catch(e){}
    });
    
-   /* ── Public API used by script.js ───────────────────────────────── */
+   function clearLocalSignIn(){
+     try{
+       localStorage.removeItem(SESSION_KEY);
+       localStorage.removeItem('edutrack_user_name');
+       localStorage.removeItem('edutrack_user_role');
+       var dead = [];
+       for(var i = 0; i < localStorage.length; i++){
+         var k = localStorage.key(i);
+         if(/^sb-.+-auth-token(-code-verifier)?$/.test(k)) dead.push(k);
+       }
+       dead.forEach(function(k){ localStorage.removeItem(k); });
+     }catch(e){}
+   }
+   
    window.EduAuth = {
-   
-     /* Get the current user object from session */
-     getUser: function(){
-       return getSession();
-     },
-   
-     /* Sign out — clears all session data and redirects */
-     signOut: function(){
-       try{
-         localStorage.removeItem(SESSION_KEY);
-         localStorage.removeItem('edutrack_user_name');
-         localStorage.removeItem('edutrack_user_role');
-       }catch(e){}
-       window.location.href = 'login.html';
-     },
-   
-     /* Returns true if user is an admin-level role */
-     isAdmin: function(){
+     getUser : function(){ return getSession(); },
+     isAdmin : function(){
        var s = getSession();
-       if(!s) return false;
-       return ['super admin','admin','principal','superadmin']
-              .indexOf((s.role||'').toLowerCase()) > -1;
+       return !!s && ['admin','super admin','principal'].indexOf((s.role||'').toLowerCase()) > -1;
+     },
+     signOut : function(){
+       var done = false;
+       function finish(){
+         if(done) return; done = true;
+         clearLocalSignIn();
+         window.location.replace('login.html');
+       }
+       try{
+         if(typeof getDB === 'function'){
+           var db = getDB();
+           if(db){ db.auth.signOut().then(finish, finish); setTimeout(finish, 2000); return; }
+         }
+       }catch(e){}
+       finish();
      }
    };

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>My Class — EduTrack Pro | ECA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+  <style>
+    :root{--primary:#3B82F6;--accent:#7C3AED;--gold:#c8a415;--bg:#F8FAFC;--surface:#fff;--border:#E2E8F0;--text:#1E293B;--muted:#64748B;--danger:#EF4444;--success:#22C55E;}
+    [data-theme="dark"]{--bg:#0D1117;--surface:#161B22;--border:#30363D;--text:#E6EDF3;--muted:#8B949E;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    /* ── Top bar ── */
+    .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:12px;}
+    .back-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:none;}
+    .back-btn:hover{border-color:var(--primary);color:var(--primary);}
+    .topbar-title{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;}
+    .topbar-right{display:flex;align-items:center;gap:10px;}
+    .btn{padding:9px 16px;border-radius:9px;font-family:'Inter',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:7px;transition:all .2s;}
+    .btn-primary{background:var(--primary);color:#fff;}
+    .btn-primary:hover{background:#2563EB;transform:translateY(-1px);}
+    .btn-outline{background:none;border:1.5px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+    .btn-gold{background:var(--gold);color:#fff;}
+    .btn-gold:hover{opacity:.9;}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+    /* ── Layout ── */
+    .container{max-width:1200px;margin:0 auto;padding:20px;}
+    /* ── Setup panel ── */
+    .setup-panel{max-width:480px;margin:60px auto;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:32px;text-align:center;}
+    /* ── Cards ── */
+    .card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;}
+    .card-title{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    /* ── Form ── */
+    .form-group{margin-bottom:12px;}
+    .form-group label{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:4px;}
+    .form-input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text);background:var(--bg);outline:none;transition:border .2s;}
+    .form-input:focus{border-color:var(--primary);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    /* ── Student list table ── */
+    .student-table{width:100%;border-collapse:collapse;}
+    .student-table th{background:#1E3A5F;color:#fff;padding:9px 12px;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.4px;}
+    .student-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.83rem;}
+    .student-table tbody tr:hover{background:rgba(59,130,246,.04);}
+    .student-table tbody tr:nth-child(even){background:var(--bg);}
+    /* ── Position badge ── */
+    .pos-badge{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;}
+    /* ── Stats bar ── */
+    .stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;}
+    .stat-box{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+    .stat-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .stat-val{font-size:1.2rem;font-weight:800;color:var(--text);}
+    .stat-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
+    /* ── Action buttons ── */
+    .action-btn{background:none;border:1.5px solid var(--border);border-radius:7px;width:30px;height:30px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;transition:all .15s;}
+    .action-btn:hover{transform:scale(1.1);}
+    /* ── Report cards scroll area ── */
+    .report-cards-area{display:flex;flex-direction:column;gap:40px;margin-top:24px;}
+    /* ── Single report card ── */
+    .rc-wrapper{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:0;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+    .rc-header-bar{background:#1E3A5F;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+    .rc-header-bar h3{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;}
+    .rc-print-btn{background:var(--gold);color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:.75rem;font-weight:700;cursor:pointer;}
+    .rc-body{padding:20px;color:#1E293B;}
+    /* Report card inner styles (same as demo) */
+    .rc-school-header{text-align:center;border-bottom:3px double var(--gold);padding-bottom:12px;margin-bottom:12px;}
+    .rc-school-header h2{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;color:#1E3A5F;}
+    .rc-school-header p{font-size:.68rem;color:#374151;margin-top:2px;}
+    .rc-badge{display:inline-block;border:1px solid var(--gold);padding:3px 16px;border-radius:2px;font-size:.65rem;font-weight:700;color:#92400e;letter-spacing:1px;margin-top:6px;}
+    .rc-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #E2E8F0;margin-bottom:12px;font-size:.68rem;}
+    .rc-info-cell{padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;}
+    .rc-info-cell:last-child{border-right:none;}
+    .rc-info-cell .lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.3px;color:#64748B;margin-bottom:2px;}
+    .rc-info-cell .val{font-weight:700;color:#1E293B;}
+    .rc-section-title{font-family:'Poppins',sans-serif;font-size:.68rem;font-weight:700;color:#1E3A5F;border-left:3px solid var(--gold);padding-left:7px;margin-bottom:7px;}
+    .rc-scores-table{width:100%;border-collapse:collapse;font-size:.62rem;margin-bottom:12px;}
+    .rc-scores-table th{background:#1E3A5F;color:#fff;padding:5px 4px;text-align:center;font-size:.58rem;}
+    .rc-scores-table th:first-child{text-align:left;}
+    .rc-scores-table td{padding:4px;border:1px solid #E2E8F0;text-align:center;}
+    .rc-scores-table td:first-child{text-align:left;font-weight:500;}
+    .rc-scores-table tbody tr:nth-child(even){background:#F8FAFC;}
+    .rc-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #E2E8F0;margin-bottom:10px;}
+    .rc-summary-cell{padding:8px;border-right:1px solid #E2E8F0;text-align:center;}
+    .rc-summary-cell:last-child{border-right:none;}
+    .rc-summary-cell .s-lbl{font-size:.58rem;color:#64748B;text-transform:uppercase;display:block;margin-bottom:2px;}
+    .rc-summary-cell .s-val{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:800;color:var(--gold);}
+    .rc-annual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #E2E8F0;margin-bottom:12px;}
+    .rc-comment-box{border:1px solid #E2E8F0;border-radius:6px;padding:8px 12px;margin-bottom:8px;font-size:.73rem;}
+    .rc-comment-label{font-weight:700;color:#1E3A5F;margin-bottom:3px;font-size:.68rem;text-transform:uppercase;}
+    .rc-sig-row{display:flex;justify-content:space-between;margin-top:16px;gap:20px;}
+    .rc-sig{text-align:center;flex:1;font-size:.65rem;color:#64748B;}
+    .rc-sig-line{height:1px;background:#CBD5E1;margin-bottom:5px;}
+    /* ── Toast ── */
+    #toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:.83rem;font-weight:600;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;}
+    #toast.show{opacity:1;transform:translateY(0);}
+    /* ── Modal ── */
+    .modal-bg{display:none;position:fixed;inset:0;z-index:9998;background:rgba(15,23,42,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px;}
+    .modal-bg.open{display:flex;}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
+    .modal-title{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+    /* ── Loading ── */
+    .loading{text-align:center;padding:60px 20px;color:var(--muted);}
+    .loading i{font-size:2.5rem;color:var(--primary);display:block;margin-bottom:14px;}
+    /* ── Responsive ── */
+    body{overflow-x:hidden;}
+    .container,.card,.stat-box,.rc-wrapper,.modal{min-width:0;}
+    .stat-box>div:last-child{min-width:0;}
+    .student-table td,.modal-title span{overflow-wrap:anywhere;}
+    .stat-val{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .rc-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:12px;}
+    .rc-table-scroll .rc-scores-table{margin-bottom:0;}
+    .rc-swipe-hint{display:none;font-size:.65rem;color:#64748B;margin:-2px 0 6px;}
+    .rc-header-bar{flex-wrap:wrap;gap:8px;}
+    .rc-header-bar h3{min-width:0;overflow-wrap:anywhere;}
+
+    @media(min-width:901px){
+      /* wide screens: keep buttons and short columns on one line; long names wrap instead */
+      .student-table td:nth-child(3),.student-table td:nth-child(5),.student-table td:nth-child(7){white-space:nowrap;}
+      .student-table td:nth-child(8){min-width:132px;}
+      .student-table td:nth-child(8)>div{flex-wrap:nowrap !important;}
+    }
+
+    @media(max-width:768px){
+      .rc-info-grid{grid-template-columns:1fr 1fr;}
+      .rc-summary-grid{grid-template-columns:1fr 1fr;}
+      .form-row{grid-template-columns:1fr;}
+      .stats-bar{grid-template-columns:1fr 1fr;}
+    }
+
+    @media(max-width:900px){
+      .topbar-left{flex:1;min-width:0;}
+      .topbar-title{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .topbar-right .btn{white-space:nowrap;}
+      /* student list: one card per student (2 per row on tablets, 1 on phones) */
+      .student-table{display:block;width:100%;}
+      .student-table tbody{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;}
+      .student-table thead{display:none;}
+      .student-table tbody tr{display:grid;grid-template-columns:36px minmax(0,1fr) auto;grid-template-areas:"pos name name" "pos adm gen" "avg avg grd" "stat stat act";gap:6px 10px;align-items:center;padding:12px;margin:0;border:1px solid var(--border);border-radius:12px;background:var(--surface) !important;}
+      .student-table td{padding:0;border:none;min-width:0;}
+      .student-table td:nth-child(1){grid-area:pos;align-self:start;}
+      .student-table td:nth-child(2){grid-area:name;font-weight:700 !important;font-size:.9rem;}
+      .student-table td:nth-child(3){grid-area:adm;}
+      .student-table td:nth-child(4){grid-area:gen;text-align:right;color:var(--muted);}
+      .student-table td:nth-child(5){grid-area:avg;}
+      .student-table td:nth-child(6){grid-area:grd;text-align:right;}
+      .student-table td:nth-child(7){grid-area:stat;}
+      .student-table td:nth-child(8){grid-area:act;}
+      .student-table td[data-label]::before{content:attr(data-label) ": ";font-weight:500;font-size:.72rem;color:var(--muted);}
+      .action-btn{width:38px;height:38px;font-size:.9rem;}
+    }
+
+    @media(max-width:640px){
+      /* header: title on top, buttons underneath */
+      .topbar{position:static;flex-wrap:wrap;gap:10px;padding:10px 12px;}
+      .topbar-left{width:100%;min-width:0;}
+      .topbar-title{flex:1;min-width:0;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .topbar-right{display:none;width:100%;}
+      .topbar-right.has-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+      .topbar-right .btn{justify-content:center;text-align:center;white-space:normal;line-height:1.2;padding:10px 8px;font-size:.8rem;}
+      #btnAddStudent{grid-column:1 / -1;order:-1;}
+      /* spacing */
+      .container{padding:12px;}
+      .card{padding:14px;border-radius:12px;}
+      .setup-panel{margin:16px auto;padding:22px 16px;}
+      .student-table tbody{grid-template-columns:1fr;}
+      .card-title{flex-wrap:wrap;}
+      /* stat boxes */
+      .stats-bar{gap:10px;margin-bottom:14px;}
+      .stat-box{padding:10px 12px;gap:10px;}
+      .stat-icon{width:32px;height:32px;font-size:.9rem;}
+      .stat-val{font-size:1.05rem;}
+      /* 16px text stops iPhones zooming in when a box is tapped */
+      .form-input,#studentSearch{font-size:16px;}
+      /* pop-up windows */
+      .modal-bg{padding:10px;}
+      .modal{padding:16px;max-height:92vh;max-height:calc(100dvh - 20px);}
+      /* score entry: one card per subject */
+      .scores-table,.scores-table tbody{display:block;width:100%;}
+      .scores-table thead{display:none;}
+      .scores-table tbody tr{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px 0;border-bottom:1px solid var(--border);}
+      .scores-table td{display:block;padding:0 !important;border:none !important;text-align:left !important;}
+      .scores-table td:first-child{grid-column:1 / -1;font-weight:700 !important;font-size:.85rem !important;}
+      .scores-table td:nth-last-child(-n+2){grid-column:span 2;}
+      .scores-table td[data-label]::before{content:attr(data-label);display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);font-weight:600;margin-bottom:2px;}
+      .scores-table .sc-inp{width:100% !important;padding:8px 4px !important;font-size:16px !important;}
+      .scores-summary{gap:6px 14px;flex-wrap:wrap;}
+      /* report cards */
+      .rc-body{padding:14px;}
+      .rc-swipe-hint{display:block;}
+      .rc-scores-table{min-width:430px;}
+      .rc-sig-row{gap:10px;}
+    }
+    @media(max-width:360px){
+      .stat-val{font-size:.95rem;}
+    }
+    @media(max-width:340px){
+      .stat-icon{display:none;}
+      .student-table tbody tr{grid-template-areas:"pos name name" "pos adm gen" "avg avg grd" "stat stat stat" "act act act";}
+      .student-table td:nth-child(8)>div{display:grid !important;grid-template-columns:repeat(3,1fr);gap:8px !important;}
+      .student-table .action-btn{width:100%;}
+    }
+    @media print{
+      .rc-swipe-hint{display:none !important;}
+      .rc-table-scroll{overflow:visible;}
+      .topbar,.stats-bar,.card,.no-print{display:none !important;}
+      .rc-wrapper{box-shadow:none;border:none;page-break-after:always;}
+      .rc-header-bar{display:none;}
+      body{background:#fff;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar no-print">
+  <div class="topbar-left">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    <span class="topbar-title" id="topbarTitle">My Class — EduTrack Pro</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-outline" onclick="printAllCards()" id="btnPrintAll" style="display:none">
+      <i class="fas fa-print"></i> Print All Cards
+    </button>
+    <button class="btn btn-gold" onclick="calcPositions()" id="btnCalcPos" style="display:none">
+      <i class="fas fa-trophy"></i> Calculate Positions
+    </button>
+    <button class="btn btn-primary" onclick="showAddStudentModal()" id="btnAddStudent" style="display:none">
+      <i class="fas fa-user-plus"></i> Add Student
+    </button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- LOADING STATE -->
+  <div id="loadingState" class="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Loading your class data...</p>
+  </div>
+
+  <!-- SETUP STATE — teacher hasn't registered a class yet -->
+  <div id="setupState" style="display:none">
+    <div class="setup-panel">
+      <div style="font-size:3rem;margin-bottom:14px;">🏫</div>
+      <h2 style="font-family:Poppins,sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:8px;">Register Your Class</h2>
+      <p style="font-size:.84rem;color:var(--muted);margin-bottom:24px;">Select your assigned class and term to get started.</p>
+      <div class="form-group">
+        <label>Your Assigned Class</label>
+        <select id="setupClass" class="form-input">
+          <option value="">-- Select Class --</option>
+          <optgroup label="Senior Secondary">
+            <option>SS 1A</option><option>SS 1B</option>
+            <option>SS 2A</option><option>SS 2B</option>
+            <option>SS 3A</option><option>SS 3B</option>
+          </optgroup>
+          <optgroup label="Junior Secondary">
+            <option>JSS 1A</option><option>JSS 1B</option>
+            <option>JSS 2A</option><option>JSS 2B</option>
+            <option>JSS 3A</option><option>JSS 3B</option>
+          </optgroup>
+          <optgroup label="Primary / Basic">
+            <option>Basic 1</option><option>Basic 2</option>
+            <option>Basic 3</option><option>Basic 4</option>
+            <option>Basic 5</option><option>Basic 6</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Current Term</label>
+        <select id="setupTerm" class="form-input">
+          <option>1st Term</option>
+          <option>2nd Term</option>
+          <option>3rd Term</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:12px;justify-content:center;margin-top:8px;" onclick="registerClass()">
+        <i class="fas fa-check-circle"></i> Register My Class
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CLASS PANEL -->
+  <div id="mainState" style="display:none">
+
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- Student list card -->
+    <div class="card no-print">
+      <div class="card-title">
+        <i class="fas fa-users" style="color:var(--primary)"></i>
+        <span id="classListTitle">Students</span>
+        <span style="margin-left:auto;font-size:.75rem;color:var(--muted);font-weight:400;" id="studentCountLabel"></span>
+      </div>
+
+      <!-- Search -->
+      <div style="position:relative;margin-bottom:14px;">
+        <i class="fas fa-search" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.82rem;"></i>
+        <input type="text" id="studentSearch" placeholder="Search name or admission no."
+          style="width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--border);border-radius:9px;
+          background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.83rem;outline:none;"/>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="student-table" id="studentTable">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Student Name</th>
+              <th>Adm. No</th>
+              <th>Gender</th>
+              <th>Avg</th>
+              <th>Grade</th>
+              <th>Scores</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody">
+            <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted);">
+              No students yet. Click "Add Student" to begin.
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALL REPORT CARDS -->
+    <div id="reportCardsSection" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;" class="no-print">
+        <h2 style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:700;">
+          <i class="fas fa-file-alt" style="color:var(--gold)"></i> All Report Cards
+        </h2>
+        <button class="btn btn-outline" onclick="toggleReportCards()" id="btnToggleCards">
+          <i class="fas fa-eye-slash"></i> Hide Cards
+        </button>
+      </div>
+      <div id="reportCardsArea" class="report-cards-area"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD/EDIT STUDENT MODAL -->
+<div class="modal-bg" id="studentModal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="studentModalTitle"><i class="fas fa-user-plus" style="color:var(--primary)"></i> Add Student</span>
+      <button onclick="closeStudentModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);"><i class="fas fa-times"></i></button>
+    </div>
+    <input type="hidden" id="editStudentId"/>
+    <div class="form-group">
+      <label>Full Name *</label>
+      <input type="text" id="sName" class="form-input" placeholder="e.g. AMAKA OKAFOR"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Admission Number</label>
+        <input type="text" id="sAdmNo" class="form-input" placeholder="ECA/2026/001"/>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select id="sGender" class="form-input">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" id="sDob" class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label>Days Present</label>
+        <input type="number" id="sDaysPresent" class="form-input" placeholder="e.g. 148"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Days Opened</label>
+        <input type="number" id="sDaysOpened" class="form-input" placeholder="e.g. 150"/>
+      </div>
+      <div class="form-group">
+        <label>Next Term Date</label>
+        <input type="date" id="sNextTerm" class="form-input"/>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button class="btn btn-outline" onclick="closeStudentModal()" style="flex:1;justify-content:center;">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStudent()" style="flex:2;justify-content:center;" id="saveStudentBtn">
+        <i class="fas fa-save"></i> Save Student
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SCORES MODAL -->
+<div class="modal-bg" id="scoresModal">
+  <div class="modal" style="max-width:720px;">
+    <div class="modal-title">
+      <span id="scoresModalTitle"><i class="fas fa-edit" style="color:var(--primary)"></i> Enter Scores</span>
+      <button onclick="closeScoresModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:.74rem;color:var(--primary);">
+      <i class="fas fa-info-circle"></i> <strong>CW /10 + Assignment /10 + Mid-Term /20 + Exam /60 = 100</strong>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="scores-table" style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#1E3A5F;color:#fff;">
+            <th style="padding:8px;text-align:left;font-size:.7rem;min-width:120px;">Subject</th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">CW<br><span style="font-weight:400;opacity:.7">/10</span></th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">Asst<br><span style="font-weight:400;opacity:.7">/10</span></th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">Mid<br><span style="font-weight:400;opacity:.7">/20</span></th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">Exam<br><span style="font-weight:400;opacity:.7">/60</span></th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">Total</th>
+            <th style="padding:8px;text-align:center;font-size:.7rem;">Grade</th>
+          </tr>
+        </thead>
+        <tbody id="scoresTableBody"></tbody>
+      </table>
+    </div>
+    <div class="scores-summary" style="display:flex;gap:16px;margin-top:12px;padding:10px;background:var(--bg);border-radius:9px;font-size:.82rem;">
+      <span>Total: <strong id="scoresSummaryTotal">--</strong></span>
+      <span>Average: <strong id="scoresSummaryAvg">--</strong></span>
+      <span>Grade: <strong id="scoresSummaryGrade">--</strong></span>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button class="btn btn-outline" onclick="closeScoresModal()" style="flex:1;justify-content:center;">Cancel</button>
+      <button class="btn btn-primary" onclick="saveScores()" style="flex:2;justify-content:center;" id="saveScoresBtn">
+        <i class="fas fa-save"></i> Save Scores
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="myclass.js"></script>
+<script>
+window.addEventListener('load', function(){
+  if (typeof registerClass !== 'function') {
+    var l = document.getElementById('loadingState');
+    if (l) l.innerHTML = '<p style="color:#dc2626;font-weight:700;padding:20px">myclass.js was not found. Put myclass.js in the same folder as myclass.html and refresh.</p>';
+  }
+});
+</script>
+</body>
+</html>

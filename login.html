@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>EduTrack Pro — Emirate Classic Academy</title>
+  <title>EduTrack Pro - Sign in | Emirate Classic Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root{--primary:#3B82F6;--pdark:#2563EB;--accent:#7C3AED;--bg:#F8FAFC;--surface:#FFFFFF;--border:#E2E8F0;--text:#1E293B;--muted:#64748B;--danger:#EF4444;--success:#22C55E;}
@@ -86,6 +85,12 @@
     .foot{margin-top:20px;text-align:center;font-size:.74rem;color:var(--muted);}
     @media(max-width:900px){.left{display:none;}}
     @media(max-width:520px){.right{width:100%;padding:32px 18px;}}
+  
+    .view{width:100%;}
+    .checking{text-align:center;padding:50px 10px;color:var(--muted);font-size:.88rem;}
+    .checking i{font-size:2rem;color:var(--primary);display:block;margin-bottom:12px;}
+    .back-row{margin-top:14px;text-align:center;}
+    .fw input{font-size:16px;}
   </style>
 </head>
 <body>
@@ -113,519 +118,379 @@
   <button class="tbtn" id="themeBtn" title="Toggle theme"><i class="fas fa-moon" id="themeIcon"></i></button>
   <div class="form-wrap">
 
-    <div class="tabs">
-      <button class="tab active" id="tabLogin" onclick="showTab('login')">Sign In</button>
-      <button class="tab" id="tabReset" onclick="showTab('reset')">Reset Password</button>
+    <!-- 0. CHECKING (shown first, while we look for an existing sign-in) -->
+    <div id="viewChecking" class="view checking">
+      <i class="fas fa-spinner fa-spin"></i>
+      Checking your sign-in...
     </div>
 
-    <!-- LOGIN FORM -->
-    <div id="loginForm">
-      <h2 class="ftitle">Welcome back <i class="fas fa-hand-wave" style="color:#F59E0B"></i></h2>
-      <p class="fdesc">Sign in with your authorised school email.</p>
-
+    <!-- 1. SIGN IN -->
+    <div id="viewLogin" class="view" style="display:none">
+      <h2 class="ftitle">Welcome back <i class="fas fa-hand" style="color:#F59E0B"></i></h2>
+      <p class="fdesc">Sign in with your school email and password.</p>
       <div class="allowed-note">
         <i class="fas fa-shield-alt"></i>
-        <strong> Restricted Access</strong> — Only registered staff emails can log in.
+        <strong> Staff only</strong> - accounts are created by the school. If you cannot sign in, contact the school admin.
       </div>
-
-      <div class="banner berr" id="loginErr"><i class="fas fa-exclamation-triangle"></i><span id="loginErrMsg">Invalid credentials.</span></div>
-
+      <div class="banner berr" id="loginErr"><i class="fas fa-exclamation-triangle"></i><span id="loginErrMsg"></span></div>
+      <div class="banner bok"  id="loginOk"><i class="fas fa-check-circle"></i><span id="loginOkMsg"></span></div>
       <div class="field">
         <label>Email Address</label>
         <div class="fw">
           <span class="fi"><i class="fas fa-envelope"></i></span>
-          <input type="email" id="eml" placeholder="yourname@ecacademy.edu.ng" autocomplete="email"/>
+          <input type="email" id="eml" placeholder="yourname@gmail.com" autocomplete="username" inputmode="email" autocapitalize="none"/>
         </div>
       </div>
-
       <div class="field">
         <label>Password</label>
         <div class="fw">
           <span class="fi"><i class="fas fa-lock"></i></span>
-          <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password"/>
-          <button class="eyebtn" id="eyeBtn" type="button"><i class="fas fa-eye" id="eyeIcon"></i></button>
+          <input type="password" id="pwd" placeholder="Your password" autocomplete="current-password"/>
+          <button class="eyebtn" id="eyeLogin" type="button" aria-label="Show password"><i class="fas fa-eye"></i></button>
         </div>
       </div>
-
-      <div class="rowflex">
-        <label class="remem"><input type="checkbox" id="rememberMe"/> Remember me</label>
-        <button class="lnkbtn" onclick="showTab('reset')">Forgot password?</button>
+      <div class="rowflex" style="justify-content:flex-end">
+        <button class="lnkbtn" id="linkForgot" type="button">Forgot password?</button>
       </div>
-
-      <button class="btngo" id="loginBtn" onclick="doLogin()">
-        <div class="spin" id="ls"></div>
-        <span class="lbl"><i class="fas fa-sign-in-alt"></i> Sign In to Dashboard</span>
+      <button class="btngo" id="loginBtn" type="button">
+        <div class="spin"></div>
+        <span class="lbl"><i class="fas fa-sign-in-alt"></i> Sign In</span>
       </button>
-
-      <p class="foot">Emirate Classic Academy &nbsp;&middot;&nbsp; EduTrack Pro 2026</p>
+      <p class="foot">Emirate Classic Academy &middot; EduTrack Pro 2026</p>
     </div>
 
-    <!-- RESET PASSWORD — 3 STEPS -->
-    <div id="resetForm" style="display:none">
-      <div class="steps">
-        <div class="step active" id="st1"><div class="step-num" id="sn1">1</div><span>Email</span></div>
-        <div class="step-line" id="sl1"></div>
-        <div class="step" id="st2"><div class="step-num" id="sn2">2</div><span>Code</span></div>
-        <div class="step-line" id="sl2"></div>
-        <div class="step" id="st3"><div class="step-num" id="sn3">3</div><span>New Password</span></div>
+    <!-- 2. FORGOT PASSWORD -->
+    <div id="viewForgot" class="view" style="display:none">
+      <h2 class="ftitle">Reset password <i class="fas fa-key" style="color:#F59E0B"></i></h2>
+      <p class="fdesc">Enter your school email. We will email you a link to choose a new password.</p>
+      <div class="banner berr" id="forgotErr"><i class="fas fa-exclamation-triangle"></i><span id="forgotErrMsg"></span></div>
+      <div class="banner bok"  id="forgotOk"><i class="fas fa-check-circle"></i><span id="forgotOkMsg"></span></div>
+      <div class="field">
+        <label>Email Address</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-envelope"></i></span>
+          <input type="email" id="fEml" placeholder="yourname@gmail.com" autocomplete="username" inputmode="email" autocapitalize="none"/>
+        </div>
       </div>
+      <ol id="forgotSteps" style="display:none;margin:0 0 16px 18px;padding:0;font-size:.82rem;color:var(--muted);line-height:1.75">
+        <li>Open your email and look for a message from Emirate Classic Academy (check Spam too).</li>
+        <li>Tap the link in that email. It brings you back to this website.</li>
+        <li>Choose your new password, then sign in with it.</li>
+      </ol>
+      <button class="btngo" id="forgotBtn" type="button">
+        <div class="spin"></div>
+        <span class="lbl"><i class="fas fa-paper-plane"></i> Send Reset Link</span>
+      </button>
+      <p class="back-row"><button class="lnkbtn" id="linkBack" type="button"><i class="fas fa-arrow-left"></i> Back to sign in</button></p>
+    </div>
 
-      <!-- Step 1 -->
-      <div id="rStep1">
-        <h2 class="ftitle">Reset Password <i class="fas fa-key" style="color:#F59E0B"></i></h2>
-        <p class="fdesc">Enter your registered school email address.</p>
-        <div class="banner berr" id="rErr1"><i class="fas fa-exclamation-triangle"></i><span id="rErr1Msg">Error.</span></div>
-        <div class="field">
-          <label>Email Address</label>
-          <div class="fw">
-            <span class="fi"><i class="fas fa-envelope"></i></span>
-            <input type="email" id="rEml" placeholder="yourname@ecacademy.edu.ng"/>
-          </div>
+    <!-- 3. CHOOSE A NEW PASSWORD (opened from the email link) -->
+    <div id="viewReset" class="view" style="display:none">
+      <h2 class="ftitle">New password <i class="fas fa-lock" style="color:#22C55E"></i></h2>
+      <p class="fdesc">Choose a new password for your account.</p>
+      <div class="banner berr" id="resetErr"><i class="fas fa-exclamation-triangle"></i><span id="resetErrMsg"></span></div>
+      <div class="field">
+        <label>New Password</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-lock"></i></span>
+          <input type="password" id="newPwd" placeholder="At least 8 characters" autocomplete="new-password"/>
+          <button class="eyebtn" id="eyeNew" type="button" aria-label="Show password"><i class="fas fa-eye"></i></button>
         </div>
-        <button class="btngo" id="rBtn1" onclick="resetStep1()">
-          <div class="spin" id="rs1"></div>
-          <span class="lbl"><i class="fas fa-paper-plane"></i> Send Reset Code</span>
-        </button>
-        <p style="margin-top:12px;text-align:center"><button class="lnkbtn" onclick="showTab('login')">← Back to Sign In</button></p>
       </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-lock"></i></span>
+          <input type="password" id="confPwd" placeholder="Type it again" autocomplete="new-password"/>
+          <button class="eyebtn" id="eyeConf" type="button" aria-label="Show password"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div class="str-bar"><div class="str-fill" id="strengthBar"></div></div>
+        <span id="strengthLabel" style="font-size:.7rem;color:var(--muted)">Enter a password</span>
+      </div>
+      <button class="btngo" id="resetBtn" type="button">
+        <div class="spin"></div>
+        <span class="lbl"><i class="fas fa-save"></i> Save New Password</span>
+      </button>
+    </div>
 
-      <!-- Step 2 -->
-      <div id="rStep2" style="display:none">
-        <h2 class="ftitle">Enter Code <i class="fas fa-mobile-alt" style="color:#3B82F6"></i></h2>
-        <p class="fdesc">Copy the code below and enter it in the boxes.</p>
-        <div class="otp-box">
-          <div class="otp-label"><i class="fas fa-shield-alt"></i> Your Reset Code</div>
-          <div class="otp-code" id="otpDisplay">------</div>
-          <div class="otp-timer" id="otpTimer">Expires in 10:00</div>
-          <button class="otp-copy" onclick="copyOtp()"><i class="fas fa-copy"></i> Copy Code</button>
+    <!-- 4. FIRST SIGN-IN: CONFIRM YOUR NAME -->
+    <div id="viewName" class="view" style="display:none">
+      <h2 class="ftitle">Welcome! <i class="fas fa-user-check" style="color:#3B82F6"></i></h2>
+      <p class="fdesc">This is your first sign-in. Type your full name the way it should appear on report cards.</p>
+      <div class="banner berr" id="nameErr"><i class="fas fa-exclamation-triangle"></i><span id="nameErrMsg"></span></div>
+      <div class="field">
+        <label>Your Full Name</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-user"></i></span>
+          <input type="text" id="fullName" placeholder="e.g. Mrs. Maryam Abubakar" autocomplete="name"/>
         </div>
-        <div class="banner berr" id="rErr2"><i class="fas fa-exclamation-triangle"></i><span id="rErr2Msg">Error.</span></div>
-        <div class="otp-inputs" id="otpInputs">
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
-        </div>
-        <button class="btngo" id="rBtn2" onclick="resetStep2()">
-          <div class="spin" id="rs2"></div>
-          <span class="lbl"><i class="fas fa-check-circle"></i> Verify Code</span>
-        </button>
-        <p style="margin-top:10px;text-align:center;font-size:.78rem;color:var(--muted)">
-          Code expired? <button class="lnkbtn" onclick="resetStep1(true)">Resend</button>
-        </p>
       </div>
-
-      <!-- Step 3 -->
-      <div id="rStep3" style="display:none">
-        <h2 class="ftitle">New Password <i class="fas fa-lock" style="color:#22C55E"></i></h2>
-        <p class="fdesc">Create a strong new password for your account.</p>
-        <div class="banner berr" id="rErr3"><i class="fas fa-exclamation-triangle"></i><span id="rErr3Msg">Error.</span></div>
-        <div class="banner bok" id="rOk3"><i class="fas fa-check-circle"></i><span>Password changed! Redirecting to login...</span></div>
-        <div class="field">
-          <label>New Password</label>
-          <div class="fw">
-            <span class="fi"><i class="fas fa-lock"></i></span>
-            <input type="password" id="newPwd" placeholder="Min 8 characters"/>
-            <button class="eyebtn" onclick="toggleEye('newPwd',this)" type="button"><i class="fas fa-eye"></i></button>
-          </div>
-        </div>
-        <div class="field">
-          <label>Confirm Password</label>
-          <div class="fw">
-            <span class="fi"><i class="fas fa-lock"></i></span>
-            <input type="password" id="confPwd" placeholder="Repeat password"/>
-            <button class="eyebtn" onclick="toggleEye('confPwd',this)" type="button"><i class="fas fa-eye"></i></button>
-          </div>
-        </div>
-        <div style="margin-bottom:16px">
-          <div class="str-bar"><div class="str-fill" id="strengthBar"></div></div>
-          <span id="strengthLabel" style="font-size:.7rem;color:var(--muted)">Enter a password</span>
-        </div>
-        <button class="btngo" id="rBtn3" onclick="resetStep3()">
-          <div class="spin" id="rs3"></div>
-          <span class="lbl"><i class="fas fa-save"></i> Change Password</span>
-        </button>
-      </div>
+      <button class="btngo" id="nameBtn" type="button">
+        <div class="spin"></div>
+        <span class="lbl"><i class="fas fa-arrow-right"></i> Continue</span>
+      </button>
+      <p class="back-row"><button class="lnkbtn" id="linkOther" type="button">Not you? Sign out</button></p>
     </div>
 
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
 /* ================================================================
-   EMIRATE CLASSIC ACADEMY — EduTrack Pro 2026
-   AUTHORISED USERS ONLY
-   Add/remove staff emails and passwords here.
-   The name field is used as the greeting on the dashboard.
+   EduTrack Pro - sign in with Supabase
+   Staff accounts are created by the school admin in Supabase.
    ================================================================ */
-var USERS = [
-  /* FORMAT: { email, password, name, role, school, session, term } */
-  {
-    email:    'giftjeremiaholaoye@gmail.com',
-    password: 'gift2008@123',
-    name:     'Mr. Jeremiah Olaoye',
-    role:     'Super Admin',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'emirateclassicacademyltd@gmail.com',
-    password: 'Emirate@12345',
-    name:     'Mr. Adeyemi',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'maryamshehuabubakar993@gmail.com',
-    password: 'Maryam@12345',
-    name:     'sMaryam',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'hauwayunusa827@gmail.com',
-    password: 'Hauwa@12345',
-    name:     'Hauwa',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'verifiedballer63@gmail.com',
-    password: 'Leakan@12345',
-    name:     'Leakan',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'yisamillicent425@gmail.com',
-    password: 'Yisa@12345',
-    name:     'Yisa',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'akadivine649@gmail.com',
-    password: 'Divine@12345',
-    name:     'Divine',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  {
-    email:    'emmanuelotitoju141@gmail.com',
-    password: 'Emma@12345',
-    name:     'Emmanuel',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-
-  /* ADD MORE STAFF BELOW - copy and paste a block above
-  {
-    email:    'staffemail@ecacademy.edu.ng',
-    password: 'Password@123',
-    name:     'Staff Full Name',
-    role:     'Teacher',
-    school:   'Emirate Classic Academy',
-    session:  '2026/2027',
-    term:     '1st Term'
-  },
-  */
-];
-
 var SESSION_KEY  = 'edutrack_session';
-var resetState   = { email:'', otp:'', expiresAt:0, timerInterval:null };
+var SCHOOL       = 'Emirate Classic Academy';
+var SESSION_YEAR = '2026/2027';
+var db = null, pending = null, recovering = false;
 
-/* ── Check if already logged in ─────────────────────────── */
-(function(){
-  try{
-    var raw=localStorage.getItem(SESSION_KEY);
-    if(!raw) return;
-    var s=JSON.parse(raw);
-    if(s&&s.loggedIn&&s.expiresAt>Date.now()) window.location.replace('index.html');
-  }catch(e){ localStorage.removeItem(SESSION_KEY); }
-})();
+function $(id){ return document.getElementById(id); }
+/* one place that changes page (the test replaces window.__nav) */
+function go(url){ (window.__nav || function(u){ window.location.replace(u); })(url); }
 
-/* ── Load any saved passwords ────────────────────────────── */
-(function(){
-  try{
-    var saved=JSON.parse(localStorage.getItem('et_pwds')||'{}');
-    USERS.forEach(function(u){ var k=u.email.toLowerCase(); if(saved[k]) u.password=saved[k]; });
-  }catch(e){}
-})();
-
-/* ── Tab switcher ────────────────────────────────────────── */
-function showTab(t){
-  document.getElementById('loginForm').style.display=t==='login'?'':'none';
-  document.getElementById('resetForm').style.display=t==='reset'?'':'none';
-  document.getElementById('tabLogin').classList.toggle('active',t==='login');
-  document.getElementById('tabReset').classList.toggle('active',t==='reset');
+var VIEWS = ['viewChecking','viewLogin','viewForgot','viewReset','viewName'];
+function showView(name){
+  VIEWS.forEach(function(v){ $(v).style.display = (v === name) ? '' : 'none'; });
   clearBanners();
-  if(t==='reset') goResetStep(1);
+  var f = { viewLogin:'eml', viewForgot:'fEml', viewReset:'newPwd', viewName:'fullName' }[name];
+  if(f) setTimeout(function(){ var el = $(f); if(el && el.focus) el.focus(); }, 60);
 }
+function showBanner(id, msg){ $(id + 'Msg').textContent = msg; $(id).classList.add('show'); }
 function clearBanners(){
-  ['loginErr','rErr1','rErr2','rErr3','rOk3'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.classList.remove('show');
+  ['loginErr','loginOk','forgotErr','forgotOk','resetErr','nameErr'].forEach(function(id){ $(id).classList.remove('show'); });
+  $('forgotSteps').style.display = 'none';
+}
+function busy(btnId, on){ var b = $(btnId); b.disabled = on; b.classList.toggle('loading', on); }
+
+/* plain-English messages */
+function nice(err){
+  var m = String((err && err.message) || err || '').toLowerCase();
+  if(m.indexOf('invalid login') > -1)                       return 'Incorrect email or password.';
+  if(m.indexOf('not confirmed') > -1)                       return 'This account is not confirmed yet. Please contact the school admin.';
+  if(m.indexOf('rate limit') > -1 || m.indexOf('too many') > -1 || m.indexOf('security purposes') > -1)
+                                                            return 'Too many attempts. Please wait a few minutes and try again.';
+  if(m.indexOf('failed to fetch') > -1 || m.indexOf('network') > -1 || m.indexOf('load failed') > -1)
+                                                            return 'No internet connection. Please check it and try again.';
+  if(m.indexOf('different from the old') > -1 || m.indexOf('same password') > -1)
+                                                            return 'Please choose a password you have not used before.';
+  if(m.indexOf('weak') > -1 || m.indexOf('at least') > -1)  return 'That password is too weak. Use at least 8 characters.';
+  if(m.indexOf('row-level security') > -1 || m.indexOf('permission denied') > -1)
+                                                            return 'This account is not set up for the system yet. Please contact the school admin.';
+  return (err && err.message) ? err.message : 'Something went wrong. Please try again.';
+}
+
+/* first real name, skipping titles like Mr. / Mrs. / Dr. */
+function getFirstName(full){
+  var skip = /^(mr|mrs|ms|miss|dr|prof|sir|chief|alhaji|alhaja|madam|mal|malam)\.?$/i;
+  var parts = String(full || '').trim().split(/\s+/);
+  for(var i = 0; i < parts.length; i++){ if(parts[i].length > 1 && !skip.test(parts[i])) return parts[i]; }
+  return parts[parts.length - 1] || 'Teacher';
+}
+
+function localSessionValid(){
+  try{
+    var s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+    return !!(s && s.loggedIn === true && s.expiresAt > Date.now());
+  }catch(e){ return false; }
+}
+function waitFor(cond, ms){
+  return new Promise(function(res){
+    var t0 = Date.now();
+    (function tick(){ if(cond() || Date.now() - t0 > ms) return res(cond()); setTimeout(tick, 100); })();
   });
 }
 
-/* ── Theme ───────────────────────────────────────────────── */
-var themeBtn=document.getElementById('themeBtn');
-var themeIcon=document.getElementById('themeIcon');
-applyT(localStorage.getItem('edutrack-theme')||'light');
-themeBtn.addEventListener('click',function(){ applyT(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); });
-function applyT(t){
-  document.documentElement.setAttribute('data-theme',t);
-  localStorage.setItem('edutrack-theme',t);
-  themeIcon.className=t==='dark'?'fas fa-sun':'fas fa-moon';
+/* ---------- sign in ---------- */
+async function doLogin(){
+  clearBanners();
+  var email = $('eml').value.trim().toLowerCase(), pass = $('pwd').value;
+  if(!email){ showBanner('loginErr', 'Please enter your email address.'); return; }
+  if(!pass){  showBanner('loginErr', 'Please enter your password.');      return; }
+  busy('loginBtn', true);
+  try{
+    var r = await db.auth.signInWithPassword({ email: email, password: pass });
+    if(r.error) throw r.error;
+    await finishLogin(r.data.user);
+  }catch(e){
+    if(e && e.__afterSignIn){ await failAfterSignIn(e.cause); }
+    else { showBanner('loginErr', nice(e)); }
+  }
+  busy('loginBtn', false);
 }
 
-/* ── Eye toggle ──────────────────────────────────────────── */
-document.getElementById('eyeBtn').addEventListener('click',function(){
-  var p=document.getElementById('pwd');
-  p.type=p.type==='password'?'text':'password';
-  document.getElementById('eyeIcon').className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash';
+/* load the teacher profile, then enter the app */
+async function finishLogin(user){
+  var email = String(user.email || '').toLowerCase(), teacher = null, admin = false;
+  try{
+    teacher = await TeacherDB.get(email);
+    try{ var a = await db.rpc('is_admin'); admin = (a && a.data === true); }catch(x){}
+  }catch(e){ var w = new Error('profile'); w.__afterSignIn = true; w.cause = e; throw w; }
+  if(!teacher || !String(teacher.name || '').trim()){
+    pending = { email: email, teacher: teacher, admin: admin };
+    var meta = (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || '';
+    $('fullName').value = meta;
+    showView('viewName');
+    return;
+  }
+  completeLogin(email, teacher, admin);
+}
+async function failAfterSignIn(e){
+  try{ await db.auth.signOut(); }catch(x){}
+  showView('viewLogin');
+  showBanner('loginErr', 'You signed in, but your profile could not be loaded. ' + nice(e));
+}
+function completeLogin(email, teacher, admin){
+  var sess = {
+    loggedIn: true, email: email, name: teacher.name, firstName: getFirstName(teacher.name),
+    role: admin ? 'Admin' : (teacher.role || 'Teacher'),
+    school: SCHOOL, session: SESSION_YEAR, term: teacher.term || '1st Term',
+    loginTime: Date.now(), expiresAt: Date.now() + 8 * 60 * 60 * 1000
+  };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sess));
+  localStorage.setItem('edutrack_user_name', sess.name);
+  localStorage.setItem('edutrack_user_role', sess.role);
+  go('index.html');
+}
+
+/* ---------- first sign-in: confirm name ---------- */
+async function saveName(){
+  clearBanners();
+  var name = $('fullName').value.trim();
+  if(name.length < 3){ showBanner('nameErr', 'Please type your full name.'); return; }
+  busy('nameBtn', true);
+  try{
+    var t = pending.teacher;
+    var saved = await TeacherDB.upsert({
+      email: pending.email, name: name, role: pending.admin ? 'Admin' : 'Teacher',
+      class_assigned: t ? t.class_assigned : '', session: SESSION_YEAR, term: t ? t.term : '1st Term'
+    });
+    completeLogin(pending.email, saved, pending.admin);
+  }catch(e){ showBanner('nameErr', nice(e)); }
+  busy('nameBtn', false);
+}
+
+/* ---------- forgot password ---------- */
+async function doForgot(){
+  clearBanners();
+  var email = $('fEml').value.trim().toLowerCase();
+  if(!email){ showBanner('forgotErr', 'Please enter your email address.'); return; }
+  busy('forgotBtn', true);
+  try{
+    var r = await db.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    if(r.error) throw r.error;
+    /* same message whether or not the email has an account (keeps staff emails private) */
+    showBanner('forgotOk', 'If that email belongs to a staff account, a reset link is on its way. Check your inbox and your spam folder.');
+    $('forgotSteps').style.display = '';
+  }catch(e){ showBanner('forgotErr', nice(e)); }
+  busy('forgotBtn', false);
+}
+
+/* ---------- choose a new password ---------- */
+async function doReset(){
+  clearBanners();
+  var np = $('newPwd').value, cp = $('confPwd').value;
+  if(np.length < 8){ showBanner('resetErr', 'Password must be at least 8 characters.'); return; }
+  if(np !== cp){     showBanner('resetErr', 'The two passwords do not match.');          return; }
+  busy('resetBtn', true);
+  try{
+    var r = await db.auth.updateUser({ password: np });
+    if(r.error) throw r.error;
+    try{ await db.auth.signOut(); }catch(x){}
+    recovering = false;
+    try{ history.replaceState(null, '', location.pathname); }catch(x){}
+    showView('viewLogin');
+    showBanner('loginOk', 'Password changed. Please sign in with your new password.');
+  }catch(e){ showBanner('resetErr', nice(e)); }
+  busy('resetBtn', false);
+}
+
+/* ---------- small helpers ---------- */
+function toggleEye(inputId, btn){
+  var p = $(inputId); p.type = (p.type === 'password') ? 'text' : 'password';
+  btn.querySelector('i').className = (p.type === 'password') ? 'fas fa-eye' : 'fas fa-eye-slash';
+}
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('edutrack-theme', t);
+  $('themeIcon').className = (t === 'dark') ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+/* ---------- wire up ---------- */
+$('themeBtn').addEventListener('click', function(){
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 });
-function toggleEye(id,btn){
-  var p=document.getElementById(id);
-  p.type=p.type==='password'?'text':'password';
-  btn.querySelector('i').className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash';
-}
-
-/* ── Enter key ───────────────────────────────────────────── */
-document.addEventListener('keydown',function(e){
-  if(e.key!=='Enter') return;
-  var onLogin=document.getElementById('loginForm').style.display!=='none';
-  if(onLogin){ doLogin(); return; }
-  if(document.getElementById('rStep1').style.display!=='none') resetStep1();
-  if(document.getElementById('rStep2').style.display!=='none') resetStep2();
-  if(document.getElementById('rStep3').style.display!=='none') resetStep3();
+$('loginBtn').addEventListener('click', doLogin);
+$('forgotBtn').addEventListener('click', doForgot);
+$('resetBtn').addEventListener('click', doReset);
+$('nameBtn').addEventListener('click', saveName);
+$('linkForgot').addEventListener('click', function(){ var e = $('eml').value.trim(); showView('viewForgot'); if(e) $('fEml').value = e; });
+$('linkBack').addEventListener('click', function(){ showView('viewLogin'); });
+$('linkOther').addEventListener('click', async function(){ try{ await db.auth.signOut(); }catch(x){} pending = null; showView('viewLogin'); });
+$('eyeLogin').addEventListener('click', function(){ toggleEye('pwd', this); });
+$('eyeNew').addEventListener('click',   function(){ toggleEye('newPwd', this); });
+$('eyeConf').addEventListener('click',  function(){ toggleEye('confPwd', this); });
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Enter') return;
+  if($('viewLogin').style.display  !== 'none') doLogin();
+  else if($('viewForgot').style.display !== 'none') doForgot();
+  else if($('viewReset').style.display  !== 'none') doReset();
+  else if($('viewName').style.display   !== 'none') saveName();
 });
-
-/* ── Helpers ─────────────────────────────────────────────── */
-function showErr(bid,mid,msg,iid){
-  document.getElementById(mid).textContent=msg;
-  document.getElementById(bid).classList.add('show');
-  if(iid){ var el=document.getElementById(iid); if(el){ el.classList.add('bad'); el.focus(); setTimeout(function(){ el.classList.remove('bad'); },400); } }
-}
-function setLoading(bid,sid,on){
-  var btn=document.getElementById(bid); if(!btn) return;
-  btn.disabled=on; btn.classList.toggle('loading',on);
-  document.getElementById(sid).style.display=on?'block':'none';
-}
-function findUser(email){
-  var em=email.toLowerCase().trim();
-  for(var i=0;i<USERS.length;i++){ if(USERS[i].email.toLowerCase()===em) return USERS[i]; }
-  return null;
-}
-/* Extract first real name (skip titles) */
-function getFirstName(fullName){
-  var skip=/^(mr|mrs|ms|miss|dr|prof|sir|chief|alhaji|alhaja)\.?$/i;
-  var parts=(fullName||'').split(/\s+/);
-  for(var i=0;i<parts.length;i++){ if(parts[i].length>1&&!skip.test(parts[i])) return parts[i]; }
-  return parts[parts.length-1]||'Admin';
-}
-
-/* ================================================================
-   LOGIN — checks email against USERS array above
-   The name from the user's record becomes the dashboard greeting
-   ================================================================ */
-function doLogin(){
-  clearBanners();
-  var email=document.getElementById('eml').value.trim();
-  var pass =document.getElementById('pwd').value;
-  var rem  =document.getElementById('rememberMe').checked;
-  if(!email){ showErr('loginErr','loginErrMsg','Please enter your email address.','eml'); return; }
-  if(!pass){  showErr('loginErr','loginErrMsg','Please enter your password.','pwd'); return; }
-  setLoading('loginBtn','ls',true);
-  setTimeout(function(){
-    var user=findUser(email);
-    if(!user){
-      setLoading('loginBtn','ls',false);
-      showErr('loginErr','loginErrMsg','This email is not registered. Only authorised school staff can log in.','eml');
-      return;
-    }
-    if(user.password!==pass){
-      setLoading('loginBtn','ls',false);
-      showErr('loginErr','loginErrMsg','Incorrect password. Please try again.','pwd');
-      return;
-    }
-    /* SUCCESS — save full session including name, school, session, term */
-    var HOUR=3600000;
-    var sess={
-      loggedIn:  true,
-      email:     user.email,
-      name:      user.name,        /* full name e.g. "Mrs. Ngozi Eze" */
-      firstName: getFirstName(user.name), /* e.g. "Ngozi" — used for greeting */
-      role:      user.role,
-      school:    user.school,
-      session:   user.session||'2026/2027',
-      term:      user.term||'1st Term',
-      loginTime: Date.now(),
-      expiresAt: Date.now()+(rem?7*24*HOUR:8*HOUR),
-    };
-    localStorage.setItem(SESSION_KEY,JSON.stringify(sess));
-    localStorage.setItem('edutrack_user_name',user.name);
-    localStorage.setItem('edutrack_user_role',user.role);
-    window.location.replace('index.html');
-  },700);
-}
-
-/* ================================================================
-   RESET PASSWORD — STEP 1: verify email exists
-   ================================================================ */
-function resetStep1(resend){
-  clearBanners();
-  var email=(document.getElementById('rEml').value||resetState.email).trim().toLowerCase();
-  if(!email){ showErr('rErr1','rErr1Msg','Please enter your email address.','rEml'); return; }
-  setLoading('rBtn1','rs1',true);
-  setTimeout(function(){
-    setLoading('rBtn1','rs1',false);
-    var user=findUser(email);
-    if(!user){ showErr('rErr1','rErr1Msg','This email is not registered in the system.','rEml'); return; }
-    var otp=Math.floor(100000+Math.random()*900000).toString();
-    resetState.email=email; resetState.otp=otp; resetState.expiresAt=Date.now()+600000;
-    document.getElementById('otpDisplay').textContent=otp;
-    document.getElementById('otpDisplay').style.opacity='1';
-    goResetStep(2); startOtpTimer();
-    document.querySelectorAll('.otp-input').forEach(function(inp){ inp.value=''; });
-    var first=document.querySelector('.otp-input'); if(first) setTimeout(function(){ first.focus(); },100);
-  },800);
-}
-
-/* ── STEP 2: verify OTP ──────────────────────────────────── */
-function resetStep2(){
-  clearBanners();
-  var digits='';
-  document.querySelectorAll('.otp-input').forEach(function(inp){ digits+=inp.value.trim(); });
-  if(digits.length<6){ showErr('rErr2','rErr2Msg','Please enter all 6 digits of the reset code.'); return; }
-  setLoading('rBtn2','rs2',true);
-  setTimeout(function(){
-    setLoading('rBtn2','rs2',false);
-    if(Date.now()>resetState.expiresAt){ showErr('rErr2','rErr2Msg','This code has expired. Click Resend to get a new one.'); return; }
-    if(digits!==resetState.otp){
-      showErr('rErr2','rErr2Msg','Incorrect code. Please check and try again.');
-      document.querySelectorAll('.otp-input').forEach(function(inp){ inp.classList.add('bad'); setTimeout(function(){ inp.classList.remove('bad'); },400); });
-      return;
-    }
-    if(resetState.timerInterval) clearInterval(resetState.timerInterval);
-    goResetStep(3);
-  },600);
-}
-
-/* ── STEP 3: set new password ────────────────────────────── */
-function resetStep3(){
-  clearBanners();
-  var np=document.getElementById('newPwd').value;
-  var cp=document.getElementById('confPwd').value;
-  if(!np){ showErr('rErr3','rErr3Msg','Please enter a new password.','newPwd'); return; }
-  if(np.length<8){ showErr('rErr3','rErr3Msg','Password must be at least 8 characters.','newPwd'); return; }
-  if(np!==cp){ showErr('rErr3','rErr3Msg','Passwords do not match.','confPwd'); return; }
-  setLoading('rBtn3','rs3',true);
-  setTimeout(function(){
-    setLoading('rBtn3','rs3',false);
-    var user=findUser(resetState.email);
-    if(user){ user.password=np; }
-    var saved={};
-    try{ saved=JSON.parse(localStorage.getItem('et_pwds')||'{}'); }catch(e){}
-    saved[resetState.email]=np;
-    localStorage.setItem('et_pwds',JSON.stringify(saved));
-    document.getElementById('rOk3').classList.add('show');
-    setTimeout(function(){ resetState={email:'',otp:'',expiresAt:0,timerInterval:null}; showTab('login'); },2500);
-  },800);
-}
-
-/* ── Step navigation ─────────────────────────────────────── */
-function goResetStep(n){
-  [1,2,3].forEach(function(i){
-    document.getElementById('rStep'+i).style.display=i===n?'':'none';
-    var st=document.getElementById('st'+i), sn=document.getElementById('sn'+i);
-    st.classList.remove('active','done');
-    if(i<n){ st.classList.add('done'); sn.textContent=''; sn.innerHTML='<i class="fas fa-check"></i>'; }
-    if(i===n){ st.classList.add('active'); sn.textContent=i; }
-    if(i>n){ sn.textContent=i; }
-  });
-  if(document.getElementById('sl1')) document.getElementById('sl1').classList.toggle('done',n>1);
-  if(document.getElementById('sl2')) document.getElementById('sl2').classList.toggle('done',n>2);
-}
-
-/* ── OTP Timer ───────────────────────────────────────────── */
-function startOtpTimer(){
-  if(resetState.timerInterval) clearInterval(resetState.timerInterval);
-  resetState.timerInterval=setInterval(function(){
-    var rem=Math.max(0,resetState.expiresAt-Date.now());
-    var m=Math.floor(rem/60000), s=Math.floor((rem%60000)/1000);
-    var el=document.getElementById('otpTimer');
-    if(el) el.textContent='Expires in '+m+':'+(s<10?'0':'')+s;
-    if(rem<=0){
-      clearInterval(resetState.timerInterval);
-      if(el){ el.textContent='Code expired — click Resend'; el.style.color='#EF4444'; }
-      var od=document.getElementById('otpDisplay');
-      if(od){ od.textContent='------'; od.style.opacity='.3'; }
-    }
-  },1000);
-}
-
-/* ── Copy OTP ────────────────────────────────────────────── */
-function copyOtp(){
-  if(!resetState.otp) return;
-  navigator.clipboard.writeText(resetState.otp).then(function(){
-    var btn=document.querySelector('.otp-copy'), orig=btn.innerHTML;
-    btn.innerHTML='<i class="fas fa-check"></i> Copied!';
-    btn.style.background='rgba(34,197,94,.25)';
-    setTimeout(function(){ btn.innerHTML=orig; btn.style.background=''; },2000);
-  }).catch(function(){
-    var ta=document.createElement('textarea');
-    ta.value=resetState.otp; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-  });
-}
-
-/* ── OTP input auto-advance ──────────────────────────────── */
-document.querySelectorAll('.otp-input').forEach(function(inp,idx,all){
-  inp.addEventListener('input',function(){
-    var v=inp.value.replace(/[^0-9]/g,''); inp.value=v.slice(-1);
-    if(v&&idx<all.length-1) all[idx+1].focus();
-  });
-  inp.addEventListener('keydown',function(e){ if(e.key==='Backspace'&&!inp.value&&idx>0) all[idx-1].focus(); });
-  inp.addEventListener('paste',function(e){
-    e.preventDefault();
-    var paste=(e.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'');
-    all.forEach(function(box,i){ box.value=paste[i]||''; });
-    var last=Math.min(paste.length,all.length)-1; if(last>=0) all[last].focus();
-  });
+$('newPwd').addEventListener('input', function(){
+  var p = this.value, score = 0;
+  if(p.length >= 8) score++; if(p.length >= 12) score++;
+  if(/[A-Z]/.test(p)) score++; if(/[0-9]/.test(p)) score++; if(/[^A-Za-z0-9]/.test(p)) score++;
+  var clr = score <= 1 ? '#EF4444' : score <= 2 ? '#F59E0B' : score <= 3 ? '#60A5FA' : '#22C55E';
+  $('strengthBar').style.width = (score / 5 * 100) + '%';
+  $('strengthBar').style.background = clr;
+  $('strengthLabel').textContent = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'][score] || '';
+  $('strengthLabel').style.color = clr;
 });
 
-/* ── Password strength meter ─────────────────────────────── */
-document.getElementById('newPwd').addEventListener('input',function(){
-  var p=this.value, score=0;
-  if(p.length>=8) score++; if(p.length>=12) score++;
-  if(/[A-Z]/.test(p)) score++; if(/[0-9]/.test(p)) score++;
-  if(/[^A-Za-z0-9]/.test(p)) score++;
-  var pct=(score/5*100)+'%';
-  var clr=score<=1?'#EF4444':score<=2?'#F59E0B':score<=3?'#60A5FA':'#22C55E';
-  var lbl=['','Weak','Fair','Good','Strong','Very Strong'][score]||'';
-  document.getElementById('strengthBar').style.width=pct;
-  document.getElementById('strengthBar').style.background=clr;
-  document.getElementById('strengthLabel').textContent=lbl;
-  document.getElementById('strengthLabel').style.color=clr;
-});
+/* ---------- start ---------- */
+(async function init(){
+  applyTheme(localStorage.getItem('edutrack-theme') || 'light');
+  if(typeof supabase === 'undefined' || typeof getDB !== 'function' || !getDB()){
+    showView('viewLogin');
+    showBanner('loginErr', 'The sign-in service could not load. Check your internet connection and refresh the page.');
+    $('loginBtn').disabled = true;
+    return;
+  }
+  db = getDB();
+  db.auth.onAuthStateChange(function(event){
+    if(event === 'PASSWORD_RECOVERY'){ recovering = true; showView('viewReset'); }
+  });
+
+  var hash  = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+  var query = new URLSearchParams(location.search);
+
+  /* an old or already-used email link */
+  if(hash.get('error_description') || query.get('error_description')){
+    try{ history.replaceState(null, '', location.pathname); }catch(x){}
+    showView('viewLogin');
+    showBanner('loginErr', 'That link has expired or was already used. Click "Forgot password?" to get a new one.');
+    return;
+  }
+  /* arriving from the reset email: wait for Supabase to confirm the link */
+  if(hash.get('type') === 'recovery' || hash.get('access_token') || query.get('code')){
+    showView('viewChecking');
+    if(await waitFor(function(){ return recovering; }, 4000)) return;
+  }
+
+  var sess = null;
+  try{ var r = await db.auth.getSession(); sess = r.data && r.data.session; }catch(x){}
+  if(sess && localSessionValid()){
+    try{ await finishLogin(sess.user); }catch(e){ await failAfterSignIn(e && e.cause ? e.cause : e); }
+    return;
+  }
+  if(sess){ try{ await db.auth.signOut(); }catch(x){} }   /* timed out: ask for the password again */
+  showView('viewLogin');
+})();
 </script>
 </body>
 </html>

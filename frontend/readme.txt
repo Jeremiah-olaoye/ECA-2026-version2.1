@@ -1,713 +1,651 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduTrack Pro — Login</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>EduTrack Pro — Emirate Classic Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    /* ═══════════════════════════════════════════════════════
-       DESIGN TOKENS
-    ═══════════════════════════════════════════════════════ */
-    :root {
-      --primary:      #3B82F6;
-      --primary-dark: #2563EB;
-      --accent:       #7C3AED;
-      --bg:           #F8FAFC;
-      --surface:      #FFFFFF;
-      --border:       #E2E8F0;
-      --text:         #1E293B;
-      --muted:        #64748B;
-      --danger:       #EF4444;
-      --success:      #22C55E;
-    }
-    [data-theme="dark"] {
-      --bg:      #0D1117;
-      --surface: #161B22;
-      --border:  #30363D;
-      --text:    #E6EDF3;
-      --muted:   #8B949E;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      transition: background .3s, color .3s;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       LEFT BRANDING PANEL
-    ═══════════════════════════════════════════════════════ */
-    .auth-left {
-      flex: 1;
-      background: linear-gradient(145deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 48px;
-      position: relative;
-      overflow: hidden;
-    }
-    .auth-left::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 30% 50%, rgba(59,130,246,.2) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(124,58,237,.16) 0%, transparent 50%);
-    }
-    .deco {
-      position: absolute;
-      border-radius: 50%;
-      opacity: .07;
-    }
-    .deco-1 { width:320px; height:320px; background:#3B82F6; top:-90px; right:-90px; }
-    .deco-2 { width:220px; height:220px; background:#7C3AED; bottom:-70px; left:-70px; }
-
-    .left-inner {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 400px;
-    }
-    .brand-logo {
-      width: 68px; height: 68px;
-      background: linear-gradient(135deg, #3B82F6, #7C3AED);
-      border-radius: 18px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 22px;
-      box-shadow: 0 8px 32px rgba(59,130,246,.45);
-    }
-    .brand-logo svg { width: 36px; height: 36px; }
-    .brand-name    { font-family:'Poppins',sans-serif; font-size:2rem; font-weight:800; color:#fff; margin-bottom:8px; }
-    .brand-tagline { font-size:.92rem; color:#94A3B8; line-height:1.65; margin-bottom:44px; }
-
-    .features { list-style:none; text-align:left; display:flex; flex-direction:column; gap:16px; }
-    .features li { display:flex; align-items:center; gap:13px; color:#CBD5E1; font-size:.87rem; line-height:1.5; }
-    .feat-icon {
-      width:36px; height:36px; border-radius:9px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:1rem; flex-shrink:0;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       RIGHT FORM PANEL
-    ═══════════════════════════════════════════════════════ */
-    .auth-right {
-      width: 460px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 40px;
-      background: var(--surface);
-      position: relative;
-    }
-    .form-wrap { width: 100%; max-width: 360px; }
-
-    /* Theme toggle */
-    .theme-btn {
-      position: absolute; top: 18px; right: 18px;
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      width: 38px; height: 38px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem;
-      color: var(--muted);
-      transition: all .2s;
-    }
-    .theme-btn:hover { border-color: var(--primary); color: var(--primary); }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 28px;
-      gap: 3px;
-    }
-    .tab-btn {
-      flex: 1; padding: 9px;
-      border: none; background: none;
-      border-radius: 7px;
-      font-family: 'Inter', sans-serif;
-      font-size: .83rem; font-weight: 600;
-      color: var(--muted); cursor: pointer;
-      transition: all .2s;
-    }
-    .tab-btn.active {
-      background: var(--surface);
-      color: var(--primary);
-      box-shadow: 0 1px 4px rgba(0,0,0,.1);
-    }
-
-    /* Headings */
-    .form-title { font-family:'Poppins',sans-serif; font-size:1.4rem; font-weight:700; color:var(--text); margin-bottom:4px; }
-    .form-desc  { font-size:.83rem; color:var(--muted); margin-bottom:26px; }
-
-    /* Fields */
-    .field       { margin-bottom: 16px; }
-    .field label {
-      display: block;
-      font-size: .71rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .5px;
-      color: var(--muted); margin-bottom: 6px;
-    }
-    .field-wrap  { position: relative; }
-    .field-ico   {
-      position: absolute; left:12px; top:50%;
-      transform: translateY(-50%);
-      color: var(--muted); font-size: .9rem;
-      pointer-events: none;
-    }
-    .field input {
-      width: 100%;
-      padding: 10px 40px 10px 38px;
-      border: 1.5px solid var(--border);
-      border-radius: 9px;
-      font-family: 'Inter', sans-serif;
-      font-size: .88rem;
-      color: var(--text);
-      background: var(--bg);
-      outline: none;
-      transition: all .2s;
-    }
-    .field input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
-      background: var(--surface);
-    }
-    .field input.shake {
-      animation: shake .35s ease;
-      border-color: var(--danger);
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      20%      { transform: translateX(-6px); }
-      40%      { transform: translateX(6px); }
-      60%      { transform: translateX(-4px); }
-      80%      { transform: translateX(4px); }
-    }
-
-    /* Eye button */
-    .eye-btn {
-      position: absolute; right:11px; top:50%;
-      transform: translateY(-50%);
-      background: none; border: none;
-      cursor: pointer; font-size: .95rem;
-      color: var(--muted); padding: 3px;
-    }
-    .eye-btn:hover { color: var(--primary); }
-
-    /* Remember / Forgot row */
-    .field-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-    .remember  { display:flex; align-items:center; gap:7px; font-size:.82rem; color:var(--muted); cursor:pointer; user-select:none; }
-    .remember input { accent-color: var(--primary); width:15px; height:15px; cursor:pointer; }
-    .forgot    { font-size:.82rem; color:var(--primary); font-weight:600; text-decoration:none; cursor:pointer; background:none; border:none; }
-    .forgot:hover { opacity:.7; }
-
-    /* Error / Success banners */
-    .banner {
-      display: none;
-      align-items: center;
-      gap: 9px;
-      padding: 11px 14px;
-      border-radius: 9px;
-      font-size: .82rem;
-      margin-bottom: 16px;
-    }
-    .banner.show  { display: flex; }
-    .banner.error { background:rgba(239,68,68,.1);  border:1px solid rgba(239,68,68,.3);  color:#DC2626; }
-    .banner.ok    { background:rgba(34,197,94,.1);  border:1px solid rgba(34,197,94,.3);  color:#16a34a; }
-
-    /* Submit button */
-    .btn-submit {
-      width: 100%; padding: 12px;
-      background: var(--primary);
-      color: white; border: none;
-      border-radius: 9px;
-      font-family: 'Inter', sans-serif;
-      font-size: .92rem; font-weight: 700;
-      cursor: pointer;
-      transition: all .22s;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      position: relative;
-    }
-    .btn-submit:hover:not(:disabled) {
-      background: var(--primary-dark);
-      box-shadow: 0 4px 16px rgba(59,130,246,.4);
-      transform: translateY(-1px);
-    }
-    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-
-    /* Spinner inside button */
-    .spin {
-      width: 17px; height: 17px;
-      border: 2.5px solid rgba(255,255,255,.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: rot .65s linear infinite;
-      display: none;
-    }
-    .btn-submit.loading .spin    { display: block; }
-    .btn-submit.loading .btn-lbl { opacity: 0; position: absolute; }
-    @keyframes rot { to { transform: rotate(360deg); } }
-
-    /* Demo credentials box */
-    .demo-box {
-      background: rgba(59,130,246,.07);
-      border: 1px solid rgba(59,130,246,.18);
-      border-radius: 9px;
-      padding: 13px 15px;
-      font-size: .78rem;
-      color: var(--muted);
-      margin-top: 16px;
-    }
-    .demo-box strong { color: var(--primary); display:block; margin-bottom:4px; }
-    .demo-fill {
-      background: none; border: none;
-      color: var(--primary); font-size:.78rem;
-      font-weight:600; cursor:pointer;
-      text-decoration: underline;
-      padding: 0; margin-top: 5px; display:block;
-    }
-    .demo-fill:hover { opacity: .7; }
-
-    /* Users list in demo box */
-    .user-list { display:flex; flex-direction:column; gap:5px; margin:6px 0 8px; }
-    .user-row  { display:flex; align-items:center; justify-content:space-between; font-size:.75rem; }
-    .user-role { font-size:.65rem; padding:1px 7px; border-radius:99px; font-weight:700; }
-    .role-admin   { background:rgba(59,130,246,.15); color:#3B82F6; }
-    .role-teacher { background:rgba(124,58,237,.15); color:#7C3AED; }
-
-    /* Footer note */
-    .auth-note { margin-top:24px; text-align:center; font-size:.75rem; color:var(--muted); }
-
-    /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width:900px) { .auth-left { display:none; } }
-    @media (max-width:500px) {
-      .auth-right { width:100%; padding:36px 20px; }
-    }
+    :root{--primary:#3B82F6;--pdark:#2563EB;--accent:#7C3AED;--bg:#F8FAFC;--surface:#FFFFFF;--border:#E2E8F0;--text:#1E293B;--muted:#64748B;--danger:#EF4444;--success:#22C55E;}
+    [data-theme="dark"]{--bg:#0D1117;--surface:#161B22;--border:#30363D;--text:#E6EDF3;--muted:#8B949E;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;transition:background .25s,color .25s;}
+    .left{flex:1;background:linear-gradient(145deg,#0F172A 0%,#1E3A5F 50%,#0F172A 100%);display:flex;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden;}
+    .left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(59,130,246,.22) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(124,58,237,.18) 0%,transparent 50%);}
+    .blob{position:absolute;border-radius:50%;opacity:.08;}
+    .b1{width:340px;height:340px;background:#3B82F6;top:-100px;right:-100px;}
+    .b2{width:240px;height:240px;background:#7C3AED;bottom:-80px;left:-80px;}
+    .left-inner{position:relative;z-index:1;text-align:center;max-width:420px;}
+    .logo-box{width:80px;height:80px;background:linear-gradient(135deg,#3B82F6,#7C3AED);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 32px rgba(59,130,246,.45);}
+    .logo-box span{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:1px;}
+    .brand{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:4px;}
+    .brand-sub{font-size:.85rem;color:#60A5FA;font-weight:600;margin-bottom:12px;}
+    .tagline{font-size:.88rem;color:#94A3B8;line-height:1.7;margin-bottom:40px;}
+    .feats{list-style:none;text-align:left;display:flex;flex-direction:column;gap:14px;}
+    .feats li{display:flex;align-items:center;gap:12px;color:#CBD5E1;font-size:.86rem;}
+    .ficon{width:36px;height:36px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+    .right{width:480px;flex-shrink:0;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 40px;position:relative;}
+    .form-wrap{width:100%;max-width:370px;}
+    .tbtn{position:absolute;top:18px;right:18px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--muted);transition:all .2s;}
+    .tbtn:hover{border-color:var(--primary);color:var(--primary);}
+    .tabs{display:flex;gap:3px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:4px;margin-bottom:24px;}
+    .tab{flex:1;padding:9px;border:none;background:none;border-radius:7px;font-family:'Inter',sans-serif;font-size:.83rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .18s;}
+    .tab.active{background:var(--surface);color:var(--primary);box-shadow:0 1px 5px rgba(0,0,0,.09);}
+    .ftitle{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .fdesc{font-size:.82rem;color:var(--muted);margin-bottom:20px;}
+    .field{margin-bottom:14px;}
+    .field label{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px;}
+    .fw{position:relative;}
+    .fi{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.88rem;color:var(--muted);pointer-events:none;}
+    .fw input{width:100%;padding:10px 38px;border:1.5px solid var(--border);border-radius:9px;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);background:var(--bg);outline:none;transition:all .2s;}
+    [data-theme="dark"] .fw input{background:#0D1117;}
+    .fw input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(59,130,246,.14);background:var(--surface);}
+    .fw input.bad{border-color:var(--danger);animation:shake .35s ease;}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+    .eyebtn{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.88rem;color:var(--muted);padding:2px;}
+    .eyebtn:hover{color:var(--primary);}
+    .rowflex{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+    .remem{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted);cursor:pointer;user-select:none;}
+    .remem input{accent-color:var(--primary);width:15px;height:15px;cursor:pointer;}
+    .lnkbtn{background:none;border:none;color:var(--primary);font-size:.82rem;font-weight:600;cursor:pointer;padding:0;}
+    .lnkbtn:hover{opacity:.7;}
+    .banner{display:none;align-items:center;gap:9px;padding:11px 14px;border-radius:9px;font-size:.82rem;margin-bottom:14px;}
+    .banner.show{display:flex;}
+    .berr{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#DC2626;}
+    .bok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#16a34a;}
+    .btngo{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;}
+    .btngo:hover:not(:disabled){background:var(--pdark);box-shadow:0 4px 16px rgba(59,130,246,.38);transform:translateY(-1px);}
+    .btngo:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    .spin{width:17px;height:17px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .65s linear infinite;display:none;flex-shrink:0;}
+    .btngo.loading .spin{display:block;}
+    .btngo.loading .lbl{opacity:0;position:absolute;}
+    @keyframes rot{to{transform:rotate(360deg)}}
+    .otp-box{background:linear-gradient(135deg,#0F172A,#1E3A5F);border:2px solid rgba(59,130,246,.35);border-radius:14px;padding:20px;text-align:center;margin:4px 0 16px;}
+    .otp-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#60A5FA;margin-bottom:8px;}
+    .otp-code{font-family:'Poppins',sans-serif;font-size:2.6rem;font-weight:800;letter-spacing:10px;color:#fff;text-shadow:0 0 20px rgba(59,130,246,.6);}
+    .otp-timer{font-size:.74rem;color:#94A3B8;margin-top:6px;}
+    .otp-copy{background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#93C5FD;border-radius:7px;font-size:.74rem;font-weight:600;cursor:pointer;padding:5px 14px;margin-top:10px;transition:all .2s;}
+    .otp-inputs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+    .otp-input{width:46px;height:54px;border:2px solid var(--border);border-radius:10px;font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;transition:all .2s;}
+    .otp-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(59,130,246,.15);}
+    .steps{display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+    .step{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:var(--muted);}
+    .step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;background:var(--border);color:var(--muted);transition:all .3s;}
+    .step.active .step-num{background:var(--primary);color:#fff;}
+    .step.done .step-num{background:var(--success);color:#fff;}
+    .step-line{width:36px;height:2px;background:var(--border);margin:0 4px;transition:background .3s;}
+    .step-line.done{background:var(--success);}
+    .str-bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:4px;}
+    .str-fill{height:100%;border-radius:99px;transition:all .3s;width:0%;background:var(--danger);}
+    .allowed-note{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;padding:10px 13px;font-size:.75rem;color:#15803d;margin-bottom:14px;}
+    [data-theme="dark"] .allowed-note{color:#4ade80;}
+    .foot{margin-top:20px;text-align:center;font-size:.74rem;color:var(--muted);}
+    @media(max-width:900px){.left{display:none;}}
+    @media(max-width:520px){.right{width:100%;padding:32px 18px;}}
   </style>
 </head>
 <body>
 
-  <!-- ══ LEFT BRANDING ══════════════════════════════════════ -->
-  <div class="auth-left">
-    <div class="deco deco-1"></div>
-    <div class="deco deco-2"></div>
-    <div class="left-inner">
-
-      <div class="brand-logo">
-        <svg viewBox="0 0 32 32" fill="none">
-          <path d="M8 22 L16 10 L24 22" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="16" cy="10" r="2.5" fill="white"/>
-          <rect x="10" y="20" width="12" height="2.5" rx="1.25" fill="white" opacity="0.7"/>
-        </svg>
-      </div>
-
-      <h1 class="brand-name">EduTrack Pro</h1>
-      <p class="brand-tagline">Complete school result management — manage students, publish results and generate report cards.</p>
-
-      <ul class="features">
-        <li>
-          <div class="feat-icon" style="background:rgba(59,130,246,.15)"><i class="fa-solid fa-chart-area"></div>
-          Real-time analytics and performance tracking
-        </li>
-        <li>
-          <div class="feat-icon" style="background:rgba(34,197,94,.15)"><i class="fa-solid fa-book"></div>
-          Automated report card generation and PDF export
-        </li>
-        <li>
-          <div class="feat-icon" style="background:rgba(245,158,11,.15)"><i class="fa-solid fa-graduation-cap"></div>
-          Manage students, teachers and subjects
-        </li>
-        <li>
-          <div class="feat-icon" style="background:rgba(124,58,237,.15)"><i class="fa-solid fa-lock"></div>
-          Role-based access: Admin, Teacher, Viewer
-        </li>
-      </ul>
-    </div>
+<!-- LEFT PANEL -->
+<div class="left">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="left-inner">
+    <div class="logo-box"><span>ECA</span></div>
+    <h1 class="brand">Emirate Classic Academy</h1>
+    <p class="brand-sub">EduTrack Pro — 2026/2027 Session</p>
+    <p class="tagline">Secure, modern school result management. Only authorised staff can access this system.</p>
+    <ul class="feats">
+      <li><div class="ficon" style="background:rgba(59,130,246,.15)"><i class="fas fa-chart-bar" style="color:#3B82F6"></i></div>Real-time analytics and performance tracking</li>
+      <li><div class="ficon" style="background:rgba(34,197,94,.15)"><i class="fas fa-file-alt" style="color:#22C55E"></i></div>Automated report card generation and PDF export</li>
+      <li><div class="ficon" style="background:rgba(245,158,11,.15)"><i class="fas fa-user-graduate" style="color:#F59E0B"></i></div>Manage students, teachers and subjects</li>
+      <li><div class="ficon" style="background:rgba(124,58,237,.15)"><i class="fas fa-lock" style="color:#7C3AED"></i></div>Restricted to authorised email addresses only</li>
+    </ul>
   </div>
+</div>
 
-  <!-- ══ RIGHT FORM ═════════════════════════════════════════ -->
-  <div class="auth-right">
+<!-- RIGHT FORM -->
+<div class="right">
+  <button class="tbtn" id="themeBtn" title="Toggle theme"><i class="fas fa-moon" id="themeIcon"></i></button>
+  <div class="form-wrap">
 
-    <!-- Theme toggle -->
-    <button class="theme-btn" id="themeBtn" title="Toggle dark/light"><i class="fa-solid fa-moon"></i></button>
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="showTab('login')">Sign In</button>
+      <button class="tab" id="tabReset" onclick="showTab('reset')">Reset Password</button>
+    </div>
 
-    <div class="form-wrap">
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <h2 class="ftitle">Welcome back <i class="fas fa-hand-wave" style="color:#F59E0B"></i></h2>
+      <p class="fdesc">Sign in with your authorised school email.</p>
 
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
-        <button class="tab-btn"        id="tabReset" onclick="switchTab('reset')">Reset Password</button>
+      <div class="allowed-note">
+        <i class="fas fa-shield-alt"></i>
+        <strong> Restricted Access</strong> — Only registered staff emails can log in.
       </div>
 
-      <!-- ══ LOGIN FORM ══════════════════════════════════════ -->
-      <div id="loginForm">
-        <h2 class="form-title">Welcome back <i class="fa-solid fa-hand"></h2>
-        <p class="form-desc">Sign in to your EduTrack admin dashboard.</p>
+      <div class="banner berr" id="loginErr"><i class="fas fa-exclamation-triangle"></i><span id="loginErrMsg">Invalid credentials.</span></div>
 
-        <!-- Error banner -->
-        <div class="banner error" id="loginErr">
-          <span>⚠</span><span id="loginErrMsg">Invalid email or password.</span>
-        </div>
-
-        <div class="field">
-          <label>Email Address</label>
-          <div class="field-wrap">
-            <span class="field-ico"><i class="fa-regular fa-envelope"></i></span>
-            <input type="email" id="loginEmail" placeholder="admin@school.edu.ng" autocomplete="email" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Password</label>
-          <div class="field-wrap">
-            <span class="field-ico"><i class="fa-solid fa-lock"></span>
-            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
-            <button class="eye-btn" id="eyeBtn" type="button"><i class="fa-solid fa-eye"></i></button>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <label class="remember">
-            <input type="checkbox" id="rememberMe" /> Remember me
-          </label>
-          <button class="forgot" onclick="switchTab('reset')">Forgot password?</button>
-        </div>
-
-        <button class="btn-submit" id="loginBtn" onclick="handleLogin()">
-          <div class="spin" id="loginSpin"></div>
-          <span class="btn-lbl">Sign In to Dashboard</span>
-        </button>
-
-        <!-- Demo accounts box -->
-        <div class="demo-box">
-          <strong><i class="fa-solid fa-key"></i> Demo Accounts (no setup needed)</strong>
-          <div class="user-list">
-            <div class="user-row">
-              <span>admin@ghs.edu.ng · Admin@123</span>
-              <span class="user-role role-admin">Admin</span>
-            </div>
-            <div class="user-row">
-              <span>teacher@ghs.edu.ng · Teacher@123</span>
-              <span class="user-role role-teacher">Teacher</span>
-            </div>
-          </div>
-          <button class="demo-fill" onclick="fillDemo('admin')">→ Auto-fill Admin account</button>
-          <button class="demo-fill" onclick="fillDemo('teacher')">→ Auto-fill Teacher account</button>
+      <div class="field">
+        <label>Email Address</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-envelope"></i></span>
+          <input type="email" id="eml" placeholder="yourname@ecacademy.edu.ng" autocomplete="email"/>
         </div>
       </div>
 
-      <!-- ══ RESET PASSWORD FORM ═════════════════════════════ -->
-      <div id="resetForm" style="display:none">
-        <h2 class="form-title">Reset Password <i class="fa-solid fa-key"></i></h2>
-        <p class="form-desc">Enter your email and we'll send reset instructions.</p>
+      <div class="field">
+        <label>Password</label>
+        <div class="fw">
+          <span class="fi"><i class="fas fa-lock"></i></span>
+          <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password"/>
+          <button class="eyebtn" id="eyeBtn" type="button"><i class="fas fa-eye" id="eyeIcon"></i></button>
+        </div>
+      </div>
 
-        <div class="banner error" id="resetErr"><span>⚠</span><span id="resetErrMsg">Something went wrong.</span></div>
-        <div class="banner ok"    id="resetOk" ><span>✓</span><span>Password reset link sent to your email!</span></div>
+      <div class="rowflex">
+        <label class="remem"><input type="checkbox" id="rememberMe"/> Remember me</label>
+        <button class="lnkbtn" onclick="showTab('reset')">Forgot password?</button>
+      </div>
 
+      <button class="btngo" id="loginBtn" onclick="doLogin()">
+        <div class="spin" id="ls"></div>
+        <span class="lbl"><i class="fas fa-sign-in-alt"></i> Sign In to Dashboard</span>
+      </button>
+
+      <p class="foot">Emirate Classic Academy &nbsp;&middot;&nbsp; EduTrack Pro 2026</p>
+    </div>
+
+    <!-- RESET PASSWORD — 3 STEPS -->
+    <div id="resetForm" style="display:none">
+      <div class="steps">
+        <div class="step active" id="st1"><div class="step-num" id="sn1">1</div><span>Email</span></div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step" id="st2"><div class="step-num" id="sn2">2</div><span>Code</span></div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step" id="st3"><div class="step-num" id="sn3">3</div><span>New Password</span></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="rStep1">
+        <h2 class="ftitle">Reset Password <i class="fas fa-key" style="color:#F59E0B"></i></h2>
+        <p class="fdesc">Enter your registered school email address.</p>
+        <div class="banner berr" id="rErr1"><i class="fas fa-exclamation-triangle"></i><span id="rErr1Msg">Error.</span></div>
         <div class="field">
           <label>Email Address</label>
-          <div class="field-wrap">
-            <span class="field-ico">✉</span>
-            <input type="email" id="resetEmail" placeholder="admin@school.edu.ng" />
+          <div class="fw">
+            <span class="fi"><i class="fas fa-envelope"></i></span>
+            <input type="email" id="rEml" placeholder="yourname@ecacademy.edu.ng"/>
           </div>
         </div>
-
-        <button class="btn-submit" id="resetBtn" onclick="handleReset()">
-          <div class="spin" id="resetSpin"></div>
-          <span class="btn-lbl">Send Reset Link</span>
+        <button class="btngo" id="rBtn1" onclick="resetStep1()">
+          <div class="spin" id="rs1"></div>
+          <span class="lbl"><i class="fas fa-paper-plane"></i> Send Reset Code</span>
         </button>
+        <p style="margin-top:12px;text-align:center"><button class="lnkbtn" onclick="showTab('login')">← Back to Sign In</button></p>
+      </div>
 
-        <p style="margin-top:16px;text-align:center">
-          <button class="forgot" onclick="switchTab('login')">← Back to Sign In</button>
+      <!-- Step 2 -->
+      <div id="rStep2" style="display:none">
+        <h2 class="ftitle">Enter Code <i class="fas fa-mobile-alt" style="color:#3B82F6"></i></h2>
+        <p class="fdesc">Copy the code below and enter it in the boxes.</p>
+        <div class="otp-box">
+          <div class="otp-label"><i class="fas fa-shield-alt"></i> Your Reset Code</div>
+          <div class="otp-code" id="otpDisplay">------</div>
+          <div class="otp-timer" id="otpTimer">Expires in 10:00</div>
+          <button class="otp-copy" onclick="copyOtp()"><i class="fas fa-copy"></i> Copy Code</button>
+        </div>
+        <div class="banner berr" id="rErr2"><i class="fas fa-exclamation-triangle"></i><span id="rErr2Msg">Error.</span></div>
+        <div class="otp-inputs" id="otpInputs">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]"/>
+        </div>
+        <button class="btngo" id="rBtn2" onclick="resetStep2()">
+          <div class="spin" id="rs2"></div>
+          <span class="lbl"><i class="fas fa-check-circle"></i> Verify Code</span>
+        </button>
+        <p style="margin-top:10px;text-align:center;font-size:.78rem;color:var(--muted)">
+          Code expired? <button class="lnkbtn" onclick="resetStep1(true)">Resend</button>
         </p>
       </div>
 
-      <p class="auth-note">EduTrack Pro v2.0 &nbsp;·&nbsp; © 2025 Government High School</p>
+      <!-- Step 3 -->
+      <div id="rStep3" style="display:none">
+        <h2 class="ftitle">New Password <i class="fas fa-lock" style="color:#22C55E"></i></h2>
+        <p class="fdesc">Create a strong new password for your account.</p>
+        <div class="banner berr" id="rErr3"><i class="fas fa-exclamation-triangle"></i><span id="rErr3Msg">Error.</span></div>
+        <div class="banner bok" id="rOk3"><i class="fas fa-check-circle"></i><span>Password changed! Redirecting to login...</span></div>
+        <div class="field">
+          <label>New Password</label>
+          <div class="fw">
+            <span class="fi"><i class="fas fa-lock"></i></span>
+            <input type="password" id="newPwd" placeholder="Min 8 characters"/>
+            <button class="eyebtn" onclick="toggleEye('newPwd',this)" type="button"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Confirm Password</label>
+          <div class="fw">
+            <span class="fi"><i class="fas fa-lock"></i></span>
+            <input type="password" id="confPwd" placeholder="Repeat password"/>
+            <button class="eyebtn" onclick="toggleEye('confPwd',this)" type="button"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div class="str-bar"><div class="str-fill" id="strengthBar"></div></div>
+          <span id="strengthLabel" style="font-size:.7rem;color:var(--muted)">Enter a password</span>
+        </div>
+        <button class="btngo" id="rBtn3" onclick="resetStep3()">
+          <div class="spin" id="rs3"></div>
+          <span class="lbl"><i class="fas fa-save"></i> Change Password</span>
+        </button>
+      </div>
     </div>
+
   </div>
+</div>
 
-  <script>
-  /* ═══════════════════════════════════════════════════════════
-     AUTH.JS — 100% LOCAL, NO SUPABASE, NO INTERNET NEEDED
-     ═══════════════════════════════════════════════════════════
-     ADD / EDIT USERS HERE ↓
-     Format: { email, password, name, role, school }
-  ═══════════════════════════════════════════════════════════ */
-  const USERS = [
+<script>
+  /* ================================================================
+     EMIRATE CLASSIC ACADEMY — EduTrack Pro 2026
+     AUTHORISED USERS ONLY
+     Add/remove staff emails and passwords here.
+     The name field is used as the greeting on the dashboard.
+     ================================================================ */
+  var USERS = [
+    /* FORMAT: { email, password, name, role, school, session, term } */
     {
-      email:    'admin@ghs.edu.ng',
-      password: 'Admin@123',
-      name:     'Mr. Adebayo K.',
+      email:    'giftjeremiaholaoye@gmail.com',
+      password: 'gift2008@123',
+      name:     'Mr. Jeremiah Olaoye',
       role:     'Super Admin',
-      school:   'Government High School'
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
     },
     {
-      email:    'teacher@ghs.edu.ng',
-      password: 'Teacher@123',
-      name:     'Mrs. Ngozi Eze',
+      email:    'emirateclassicacademyltd@gmail.com',
+      password: 'Emirate@12345',
+      name:     'Mr. Adeyemi',
       role:     'Teacher',
-      school:   'Government High School'
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
     },
     {
-      email:    'principal@ghs.edu.ng',
-      password: 'Principal@123',
-      name:     'Dr. Amaka Obi',
-      role:     'Principal',
-      school:   'Government High School'
+      email:    'maryamshehuabubakar993@gmail.com',
+      password: 'Maryam@12345',
+      name:     'sMaryam',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
     },
-    /* ── ADD MORE USERS BELOW ──────────────────────────────
-       {
-         email:    'newuser@school.edu.ng',
-         password: 'Password@123',
-         name:     'Staff Name',
-         role:     'Admin',
-         school:   'Government High School'
-       },
-    ─────────────────────────────────────────────────────── */
-  ];
+    {
+      email:    'hauwayunusa827@gmail.com',
+      password: 'Hauwa@12345',
+      name:     'Hauwa',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
+    },
+    {
+      email:    'verifiedballer63@gmail.com',
+      password: 'Leakan@12345',
+      name:     'Leakan',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
+    },
+    {
+      email:    'yisamillicent425@gmail.com',
+      password: 'Yisa@12345',
+      name:     'Yisa',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
+    },
+    {
+      email:    'akadivine649@gmail.com',
+      password: 'Divine@12345',
+      name:     'Divine',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
+    },
+    {
+      email:    'emmanuelotitoju141@gmail.com',
+      password: 'Emma@12345',
+      name:     'Emmanuel',
+      role:     'Teacher',
+      school:   'Emirate Classic Academy',
+      session:  '2026/2027',
+      term:     '1st Term'
+    },
+  /* ADD MORE STAFF BELOW - copy and paste a block above
+  {
+    email:    'staffemail@ecacademy.edu.ng',
+    password: 'Password@123',
+    name:     'Staff Full Name',
+    role:     'Teacher',
+    school:   'Emirate Classic Academy',
+    session:  '2026/2027',
+    term:     '1st Term'
+  },
+  */
+];
 
-  /* ── Session key used in localStorage ─────────────────── */
-  const SESSION_KEY = 'edutrack_session';
+var SESSION_KEY  = 'edutrack_session';
+var resetState   = { email:'', otp:'', expiresAt:0, timerInterval:null };
 
-  /* ── Tab switcher ──────────────────────────────────────── */
-  function switchTab(tab) {
-    document.getElementById('loginForm').style.display = tab === 'login' ? '' : 'none';
-    document.getElementById('resetForm').style.display = tab === 'reset' ? '' : 'none';
-    document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-    document.getElementById('tabReset').classList.toggle('active', tab === 'reset');
-    clearBanners();
-  }
+/* ── Check if already logged in ─────────────────────────── */
+(function(){
+  try{
+    var raw=localStorage.getItem(SESSION_KEY);
+    if(!raw) return;
+    var s=JSON.parse(raw);
+    if(s&&s.loggedIn&&s.expiresAt>Date.now()) window.location.replace('index.html');
+  }catch(e){ localStorage.removeItem(SESSION_KEY); }
+})();
 
-  function clearBanners() {
-    ['loginErr','resetErr','resetOk'].forEach(id => {
-      document.getElementById(id)?.classList.remove('show');
-    });
-  }
+/* ── Load any saved passwords ────────────────────────────── */
+(function(){
+  try{
+    var saved=JSON.parse(localStorage.getItem('et_pwds')||'{}');
+    USERS.forEach(function(u){ var k=u.email.toLowerCase(); if(saved[k]) u.password=saved[k]; });
+  }catch(e){}
+})();
 
-  /* ── Demo auto-fill ────────────────────────────────────── */
-  function fillDemo(type) {
-    if (type === 'admin') {
-      document.getElementById('loginEmail').value    = 'admin@ghs.edu.ng';
-      document.getElementById('loginPassword').value = 'Admin@123';
-    } else {
-      document.getElementById('loginEmail').value    = 'teacher@ghs.edu.ng';
-      document.getElementById('loginPassword').value = 'Teacher@123';
-    }
-  }
-
- /* ── Eye toggle ──────────────────────────────────────── */
-    document.getElementById('eyeBtn').addEventListener('click', () => {
-      const pwd = document.getElementById('loginPassword');
-      const btn = document.getElementById('eyeBtn');
-  
-      if (pwd.type === 'password') {
-          pwd.type = 'text';
-          btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-      } else {
-          pwd.type = 'password';
-          btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
-      }
+/* ── Tab switcher ────────────────────────────────────────── */
+function showTab(t){
+  document.getElementById('loginForm').style.display=t==='login'?'':'none';
+  document.getElementById('resetForm').style.display=t==='reset'?'':'none';
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabReset').classList.toggle('active',t==='reset');
+  clearBanners();
+  if(t==='reset') goResetStep(1);
+}
+function clearBanners(){
+  ['loginErr','rErr1','rErr2','rErr3','rOk3'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.classList.remove('show');
   });
+}
 
- /* ── Theme toggle ────────────────────────────────────── */
-    const themeBtn = document.getElementById('themeBtn');
-    const saved    = localStorage.getItem('edutrack-theme') || 'light';
-    applyLoginTheme(saved);
-    themeBtn.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme');
-      applyLoginTheme(cur === 'dark' ? 'light' : 'dark');
-    });
-    function applyLoginTheme(t) {
-      document.documentElement.setAttribute('data-theme', t);
-      localStorage.setItem('edutrack-theme', t);
-  
-      themeBtn.innerHTML =
-          t === 'dark'
-              ? '<i class="fa-regular fa-sun"></i>'
-              : '<i class="fa-solid fa-moon"></i>';
-  }
+/* ── Theme ───────────────────────────────────────────────── */
+var themeBtn=document.getElementById('themeBtn');
+var themeIcon=document.getElementById('themeIcon');
+applyT(localStorage.getItem('edutrack-theme')||'light');
+themeBtn.addEventListener('click',function(){ applyT(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); });
+function applyT(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('edutrack-theme',t);
+  themeIcon.className=t==='dark'?'fas fa-sun':'fas fa-moon';
+}
 
-  /* ── Enter key submits ─────────────────────────────────── */
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
-    const onLogin = document.getElementById('loginForm').style.display !== 'none';
-    if (onLogin) handleLogin(); else handleReset();
+/* ── Eye toggle ──────────────────────────────────────────── */
+document.getElementById('eyeBtn').addEventListener('click',function(){
+  var p=document.getElementById('pwd');
+  p.type=p.type==='password'?'text':'password';
+  document.getElementById('eyeIcon').className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash';
+});
+function toggleEye(id,btn){
+  var p=document.getElementById(id);
+  p.type=p.type==='password'?'text':'password';
+  btn.querySelector('i').className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash';
+}
+
+/* ── Enter key ───────────────────────────────────────────── */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter') return;
+  var onLogin=document.getElementById('loginForm').style.display!=='none';
+  if(onLogin){ doLogin(); return; }
+  if(document.getElementById('rStep1').style.display!=='none') resetStep1();
+  if(document.getElementById('rStep2').style.display!=='none') resetStep2();
+  if(document.getElementById('rStep3').style.display!=='none') resetStep3();
+});
+
+/* ── Helpers ─────────────────────────────────────────────── */
+function showErr(bid,mid,msg,iid){
+  document.getElementById(mid).textContent=msg;
+  document.getElementById(bid).classList.add('show');
+  if(iid){ var el=document.getElementById(iid); if(el){ el.classList.add('bad'); el.focus(); setTimeout(function(){ el.classList.remove('bad'); },400); } }
+}
+function setLoading(bid,sid,on){
+  var btn=document.getElementById(bid); if(!btn) return;
+  btn.disabled=on; btn.classList.toggle('loading',on);
+  document.getElementById(sid).style.display=on?'block':'none';
+}
+function findUser(email){
+  var em=email.toLowerCase().trim();
+  for(var i=0;i<USERS.length;i++){ if(USERS[i].email.toLowerCase()===em) return USERS[i]; }
+  return null;
+}
+/* Extract first real name (skip titles) */
+function getFirstName(fullName){
+  var skip=/^(mr|mrs|ms|miss|dr|prof|sir|chief|alhaji|alhaja)\.?$/i;
+  var parts=(fullName||'').split(/\s+/);
+  for(var i=0;i<parts.length;i++){ if(parts[i].length>1&&!skip.test(parts[i])) return parts[i]; }
+  return parts[parts.length-1]||'Admin';
+}
+
+/* ================================================================
+   LOGIN — checks email against USERS array above
+   The name from the user's record becomes the dashboard greeting
+   ================================================================ */
+function doLogin(){
+  clearBanners();
+  var email=document.getElementById('eml').value.trim();
+  var pass =document.getElementById('pwd').value;
+  var rem  =document.getElementById('rememberMe').checked;
+  if(!email){ showErr('loginErr','loginErrMsg','Please enter your email address.','eml'); return; }
+  if(!pass){  showErr('loginErr','loginErrMsg','Please enter your password.','pwd'); return; }
+  setLoading('loginBtn','ls',true);
+  setTimeout(function(){
+    var user=findUser(email);
+    if(!user){
+      setLoading('loginBtn','ls',false);
+      showErr('loginErr','loginErrMsg','This email is not registered. Only authorised school staff can log in.','eml');
+      return;
+    }
+    if(user.password!==pass){
+      setLoading('loginBtn','ls',false);
+      showErr('loginErr','loginErrMsg','Incorrect password. Please try again.','pwd');
+      return;
+    }
+    /* SUCCESS — save full session including name, school, session, term */
+    var HOUR=3600000;
+    var sess={
+      loggedIn:  true,
+      email:     user.email,
+      name:      user.name,        /* full name e.g. "Mrs. Ngozi Eze" */
+      firstName: getFirstName(user.name), /* e.g. "Ngozi" — used for greeting */
+      role:      user.role,
+      school:    user.school,
+      session:   user.session||'2026/2027',
+      term:      user.term||'1st Term',
+      loginTime: Date.now(),
+      expiresAt: Date.now()+(rem?7*24*HOUR:8*HOUR),
+    };
+    localStorage.setItem(SESSION_KEY,JSON.stringify(sess));
+    localStorage.setItem('edutrack_user_name',user.name);
+    localStorage.setItem('edutrack_user_role',user.role);
+    window.location.replace('index.html');
+  },700);
+}
+
+/* ================================================================
+   RESET PASSWORD — STEP 1: verify email exists
+   ================================================================ */
+function resetStep1(resend){
+  clearBanners();
+  var email=(document.getElementById('rEml').value||resetState.email).trim().toLowerCase();
+  if(!email){ showErr('rErr1','rErr1Msg','Please enter your email address.','rEml'); return; }
+  setLoading('rBtn1','rs1',true);
+  setTimeout(function(){
+    setLoading('rBtn1','rs1',false);
+    var user=findUser(email);
+    if(!user){ showErr('rErr1','rErr1Msg','This email is not registered in the system.','rEml'); return; }
+    var otp=Math.floor(100000+Math.random()*900000).toString();
+    resetState.email=email; resetState.otp=otp; resetState.expiresAt=Date.now()+600000;
+    document.getElementById('otpDisplay').textContent=otp;
+    document.getElementById('otpDisplay').style.opacity='1';
+    goResetStep(2); startOtpTimer();
+    document.querySelectorAll('.otp-input').forEach(function(inp){ inp.value=''; });
+    var first=document.querySelector('.otp-input'); if(first) setTimeout(function(){ first.focus(); },100);
+  },800);
+}
+
+/* ── STEP 2: verify OTP ──────────────────────────────────── */
+function resetStep2(){
+  clearBanners();
+  var digits='';
+  document.querySelectorAll('.otp-input').forEach(function(inp){ digits+=inp.value.trim(); });
+  if(digits.length<6){ showErr('rErr2','rErr2Msg','Please enter all 6 digits of the reset code.'); return; }
+  setLoading('rBtn2','rs2',true);
+  setTimeout(function(){
+    setLoading('rBtn2','rs2',false);
+    if(Date.now()>resetState.expiresAt){ showErr('rErr2','rErr2Msg','This code has expired. Click Resend to get a new one.'); return; }
+    if(digits!==resetState.otp){
+      showErr('rErr2','rErr2Msg','Incorrect code. Please check and try again.');
+      document.querySelectorAll('.otp-input').forEach(function(inp){ inp.classList.add('bad'); setTimeout(function(){ inp.classList.remove('bad'); },400); });
+      return;
+    }
+    if(resetState.timerInterval) clearInterval(resetState.timerInterval);
+    goResetStep(3);
+  },600);
+}
+
+/* ── STEP 3: set new password ────────────────────────────── */
+function resetStep3(){
+  clearBanners();
+  var np=document.getElementById('newPwd').value;
+  var cp=document.getElementById('confPwd').value;
+  if(!np){ showErr('rErr3','rErr3Msg','Please enter a new password.','newPwd'); return; }
+  if(np.length<8){ showErr('rErr3','rErr3Msg','Password must be at least 8 characters.','newPwd'); return; }
+  if(np!==cp){ showErr('rErr3','rErr3Msg','Passwords do not match.','confPwd'); return; }
+  setLoading('rBtn3','rs3',true);
+  setTimeout(function(){
+    setLoading('rBtn3','rs3',false);
+    var user=findUser(resetState.email);
+    if(user){ user.password=np; }
+    var saved={};
+    try{ saved=JSON.parse(localStorage.getItem('et_pwds')||'{}'); }catch(e){}
+    saved[resetState.email]=np;
+    localStorage.setItem('et_pwds',JSON.stringify(saved));
+    document.getElementById('rOk3').classList.add('show');
+    setTimeout(function(){ resetState={email:'',otp:'',expiresAt:0,timerInterval:null}; showTab('login'); },2500);
+  },800);
+}
+
+/* ── Step navigation ─────────────────────────────────────── */
+function goResetStep(n){
+  [1,2,3].forEach(function(i){
+    document.getElementById('rStep'+i).style.display=i===n?'':'none';
+    var st=document.getElementById('st'+i), sn=document.getElementById('sn'+i);
+    st.classList.remove('active','done');
+    if(i<n){ st.classList.add('done'); sn.textContent=''; sn.innerHTML='<i class="fas fa-check"></i>'; }
+    if(i===n){ st.classList.add('active'); sn.textContent=i; }
+    if(i>n){ sn.textContent=i; }
   });
+  if(document.getElementById('sl1')) document.getElementById('sl1').classList.toggle('done',n>1);
+  if(document.getElementById('sl2')) document.getElementById('sl2').classList.toggle('done',n>2);
+}
 
-  /* ═══════════════════════════════════════════════════════
-     LOGIN HANDLER
-     Checks email + password against the USERS array above.
-     No server, no internet needed.
-  ═══════════════════════════════════════════════════════ */
-  function handleLogin() {
-    clearBanners();
-
-    const email    = document.getElementById('loginEmail').value.trim().toLowerCase();
-    const password = document.getElementById('loginPassword').value;
-    const remember = document.getElementById('rememberMe').checked;
-    const btn      = document.getElementById('loginBtn');
-    const emailEl  = document.getElementById('loginEmail');
-    const passEl   = document.getElementById('loginPassword');
-
-    /* ── Validation ──────────────────────────────────────── */
-    if (!email) {
-      emailEl.classList.add('shake');
-      setTimeout(() => emailEl.classList.remove('shake'), 400);
-      showError('loginErr', 'loginErrMsg', 'Please enter your email address.');
-      emailEl.focus();
-      return;
+/* ── OTP Timer ───────────────────────────────────────────── */
+function startOtpTimer(){
+  if(resetState.timerInterval) clearInterval(resetState.timerInterval);
+  resetState.timerInterval=setInterval(function(){
+    var rem=Math.max(0,resetState.expiresAt-Date.now());
+    var m=Math.floor(rem/60000), s=Math.floor((rem%60000)/1000);
+    var el=document.getElementById('otpTimer');
+    if(el) el.textContent='Expires in '+m+':'+(s<10?'0':'')+s;
+    if(rem<=0){
+      clearInterval(resetState.timerInterval);
+      if(el){ el.textContent='Code expired — click Resend'; el.style.color='#EF4444'; }
+      var od=document.getElementById('otpDisplay');
+      if(od){ od.textContent='------'; od.style.opacity='.3'; }
     }
+  },1000);
+}
 
-    if (!password) {
-      passEl.classList.add('shake');
-      setTimeout(() => passEl.classList.remove('shake'), 400);
-      showError('loginErr', 'loginErrMsg', 'Please enter your password.');
-      passEl.focus();
-      return;
-    }
+/* ── Copy OTP ────────────────────────────────────────────── */
+function copyOtp(){
+  if(!resetState.otp) return;
+  navigator.clipboard.writeText(resetState.otp).then(function(){
+    var btn=document.querySelector('.otp-copy'), orig=btn.innerHTML;
+    btn.innerHTML='<i class="fas fa-check"></i> Copied!';
+    btn.style.background='rgba(34,197,94,.25)';
+    setTimeout(function(){ btn.innerHTML=orig; btn.style.background=''; },2000);
+  }).catch(function(){
+    var ta=document.createElement('textarea');
+    ta.value=resetState.otp; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
 
-    /* ── Show loading spinner ────────────────────────────── */
-    setLoading(btn, 'loginSpin', true);
+/* ── OTP input auto-advance ──────────────────────────────── */
+document.querySelectorAll('.otp-input').forEach(function(inp,idx,all){
+  inp.addEventListener('input',function(){
+    var v=inp.value.replace(/[^0-9]/g,''); inp.value=v.slice(-1);
+    if(v&&idx<all.length-1) all[idx+1].focus();
+  });
+  inp.addEventListener('keydown',function(e){ if(e.key==='Backspace'&&!inp.value&&idx>0) all[idx-1].focus(); });
+  inp.addEventListener('paste',function(e){
+    e.preventDefault();
+    var paste=(e.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'');
+    all.forEach(function(box,i){ box.value=paste[i]||''; });
+    var last=Math.min(paste.length,all.length)-1; if(last>=0) all[last].focus();
+  });
+});
 
-    /*
-     * Simulate a small delay so it feels like a real login
-     * (remove the setTimeout and just run the check
-     *  directly if you want instant login)
-     */
-    setTimeout(() => {
-
-      /* ── Find matching user ────────────────────────────── */
-      const user = USERS.find(
-        u => u.email.toLowerCase() === email && u.password === password
-      );
-
-      if (!user) {
-        setLoading(btn, 'loginSpin', false);
-
-        /* Wrong email? */
-        const emailExists = USERS.find(u => u.email.toLowerCase() === email);
-        if (!emailExists) {
-          emailEl.classList.add('shake');
-          setTimeout(() => emailEl.classList.remove('shake'), 400);
-          showError('loginErr', 'loginErrMsg', 'No account found with that email address.');
-        } else {
-          /* Email exists but wrong password */
-          passEl.classList.add('shake');
-          setTimeout(() => passEl.classList.remove('shake'), 400);
-          showError('loginErr', 'loginErrMsg', 'Incorrect password. Please try again.');
-        }
-        return;
-      }
-
-      /* ── SUCCESS — save session ──────────────────────────
-         We store a simple object in localStorage.
-         index.html checks this on load.
-      ──────────────────────────────────────────────────── */
-      const session = {
-        email:      user.email,
-        name:       user.name,
-        role:       user.role,
-        school:     user.school,
-        loggedIn:   true,
-        loginTime:  Date.now(),
-        /* If "remember me" is checked, expire in 7 days,
-           otherwise expire in 8 hours */
-        expiresAt:  Date.now() + (remember ? 7*24*60*60*1000 : 8*60*60*1000),
-      };
-
-      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-
-      /* ── Redirect to dashboard ───────────────────────── */
-      window.location.href = 'index.html';
-
-    }, 800); /* end setTimeout */
-  }
-
-  /* ═══════════════════════════════════════════════════════
-     RESET PASSWORD HANDLER
-     Since there's no backend, we just show a friendly message.
-     To make this real, plug in EmailJS or Nodemailer later.
-  ═══════════════════════════════════════════════════════ */
-  function handleReset() {
-    clearBanners();
-
-    const email  = document.getElementById('resetEmail').value.trim().toLowerCase();
-    const btn    = document.getElementById('resetBtn');
-    const emailEl = document.getElementById('resetEmail');
-
-    if (!email) {
-      emailEl.classList.add('shake');
-      setTimeout(() => emailEl.classList.remove('shake'), 400);
-      showError('resetErr', 'resetErrMsg', 'Please enter your email address.');
-      return;
-    }
-
-    setLoading(btn, 'resetSpin', true);
-
-    setTimeout(() => {
-      setLoading(btn, 'resetSpin', false);
-
-      const exists = USERS.find(u => u.email.toLowerCase() === email);
-      if (!exists) {
-        emailEl.classList.add('shake');
-        setTimeout(() => emailEl.classList.remove('shake'), 400);
-        showError('resetErr', 'resetErrMsg', 'No account found with that email address.');
-        return;
-      }
-
-      /* Show success — in a real system you'd email the new password here */
-      document.getElementById('resetOk').classList.add('show');
-
-    }, 900);
-  }
-
-  /* ── Helpers ───────────────────────────────────────────── */
-  function showError(bannerId, msgId, msg) {
-    document.getElementById(msgId).textContent = msg;
-    document.getElementById(bannerId).classList.add('show');
-  }
-
-  function setLoading(btn, spinId, on) {
-    btn.disabled = on;
-    btn.classList.toggle('loading', on);
-    document.getElementById(spinId).style.display = on ? 'block' : 'none';
-  }
-
-  /* ── If already logged in, skip to dashboard ───────────── */
-  (function checkExistingSession() {
-    try {
-      const raw = localStorage.getItem('edutrack_session');
-      if (!raw) return;
-      const sess = JSON.parse(raw);
-      if (sess.loggedIn && sess.expiresAt > Date.now()) {
-        window.location.href = 'index.html';
-      }
-    } catch(e) {
-      localStorage.removeItem('edutrack_session');
-    }
-  })();
-  </script>
+/* ── Password strength meter ─────────────────────────────── */
+document.getElementById('newPwd').addEventListener('input',function(){
+  var p=this.value, score=0;
+  if(p.length>=8) score++; if(p.length>=12) score++;
+  if(/[A-Z]/.test(p)) score++; if(/[0-9]/.test(p)) score++;
+  if(/[^A-Za-z0-9]/.test(p)) score++;
+  var pct=(score/5*100)+'%';
+  var clr=score<=1?'#EF4444':score<=2?'#F59E0B':score<=3?'#60A5FA':'#22C55E';
+  var lbl=['','Weak','Fair','Good','Strong','Very Strong'][score]||'';
+  document.getElementById('strengthBar').style.width=pct;
+  document.getElementById('strengthBar').style.background=clr;
+  document.getElementById('strengthLabel').textContent=lbl;
+  document.getElementById('strengthLabel').style.color=clr;
+});
+</script>
 </body>
 </html>
+
+
+
+
+
+
+// Disable Function Keys (F1-F12) and DevTools Shortcuts (Ctrl+Shift+I, etc.)
+document.addEventListener('keydown', function(event) {
+  // Check if the key starts with 'F' followed by numbers (F1 to F12)
+  if (event.key.startsWith('F') && !isNaN(event.key.substring(1))) {
+      event.preventDefault();
+  }
+  
+  // Prevent common inspection shortcuts (Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+  if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) {
+      event.preventDefault();
+  }
+  if (event.ctrlKey && event.key === 'u') {
+      event.preventDefault();
+  }
+});

@@ -39,6 +39,7 @@
         <span class="logo-tag">Pro</span>
       </div>
     </div>
+    
 
     <!-- School Info Strip -->
     <div class="school-strip">
@@ -94,6 +95,11 @@
           <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
           <span class="nav-label">Analytics</span>
         </li>
+        <li class="nav-item" onclick="window.location.href='myclass.html'" style="cursor:pointer;">
+          <span class="nav-icon"><i class="fas fa-chalkboard"></i></span>
+          <span class="nav-label">My Class</span>
+          <span class="nav-badge" style="background:#22C55E;color:#fff;font-size:.62rem;padding:2px 6px;border-radius:99px;font-weight:700;margin-left:auto;">NEW</span>
+        </li>
         <li class="nav-item" data-page="report">
           <span class="nav-icon"><i class="fas fa-print"></i></span>
           <span class="nav-label">Report Card</span>
@@ -121,7 +127,7 @@
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=b6e3f4" alt="Admin" />
         </div>
         <div class="user-details">
-          <span class="user-name-sm">Loading…</span>
+          <span class="user-name-sm">Administrator</span>
           <span class="user-role-sm">Admin</span>
         </div>
         <span class="user-arrow" data-action="logout" title="Logout" style="cursor:pointer"><i class="fas fa-sign-out-alt"></i></span>
@@ -205,8 +211,8 @@
         <!-- Page Header -->
         <div class="page-header">
           <div class="ph-left">
-            <h1 class="page-title">Welcome back 👋</h1>
-            <p class="page-subtitle">Here's what's happening in your school today.</p>
+            <h1 class="page-title" id="welcomeTitle">Welcome back 👋</h1>
+            <p class="page-subtitle" id="welcomeSubtitle">Here's what's happening in your school today.</p>
           </div>
           <div class="ph-right">
             <button class="btn btn-outline"><i class="fas fa-download"></i> Export Report</button>
@@ -328,13 +334,15 @@
                 <p class="chart-subtitle">All classes combined</p>
               </div>
             </div>
-            <div class="chart-body chart-donut-wrap" style="position:relative;">
-              <canvas id="gradeChart" style="max-height:180px;"></canvas>
+            <div class="chart-donut-wrap">
+              <div class="chart-body" style="position:relative;height:200px;width:100%;">
+                <canvas id="gradeChart" style="display:block;width:100%;height:100%;"></canvas>
+              </div>
               <div class="donut-legend">
-                <div class="dl-item"><span class="dl-dot" style="background:#3B82F6"></span> A (80–100): 22%</div>
-                <div class="dl-item"><span class="dl-dot" style="background:#22C55E"></span> B (65–79): 31%</div>
-                <div class="dl-item"><span class="dl-dot" style="background:#F59E0B"></span> C (50–64): 29%</div>
-                <div class="dl-item"><span class="dl-dot" style="background:#EF4444"></span> F (0–49): 18%</div>
+                <div class="dl-item"><span class="dl-dot" style="background:#22C55E"></span> A (75–100): 20%</div>
+                <div class="dl-item"><span class="dl-dot" style="background:#3B82F6"></span> B (65–74): 28%</div>
+                <div class="dl-item"><span class="dl-dot" style="background:#F59E0B"></span> C (55–64): 30%</div>
+                <div class="dl-item"><span class="dl-dot" style="background:#EF4444"></span> F (0–39): 10%</div>
               </div>
             </div>
           </div>
@@ -348,7 +356,7 @@
             <div class="table-header">
               <div class="th-left">
                 <h3 class="chart-title">Recent Results</h3>
-                <span class="table-count">Showing 8 of 1,240</span>
+                <span class="table-count" id="dashTableCount">Showing 0 of 0</span>
               </div>
               <div class="th-right">
                 <div class="tbl-search-wrap">
@@ -468,7 +476,7 @@
           <div class="table-header">
             <div class="th-left">
               <h3 class="chart-title">All Results</h3>
-              <span class="table-count">1,240 total records</span>
+              <span class="table-count" id="resultsTableCount">0 total records</span>
             </div>
             <div class="th-right">
               <div class="tbl-search-wrap">
@@ -499,45 +507,53 @@
       <section class="page" id="page-report">
         <div class="page-header">
           <div class="ph-left">
-            <h1 class="page-title">Report Card Generator</h1>
-            <p class="page-subtitle">Fill the form on the left — preview updates live as you type.</p>
+            <h1 class="page-title"><i class="fas fa-file-alt" style="color:#3B82F6"></i> Report Card Generator</h1>
+            <p class="page-subtitle">Emirate Classic Academy — Generate, preview and print student report cards.</p>
           </div>
           <div class="ph-right" style="flex-wrap:wrap;gap:8px;">
             <button class="btn btn-outline" id="btnPrintReport"><i class="fas fa-print"></i> Print</button>
             <button class="btn btn-outline" id="btnImageReport" style="border-color:#7C3AED;color:#7C3AED;"><i class="fas fa-image"></i> Save Image</button>
             <button class="btn btn-outline" id="btnShareReport" style="border-color:#22C55E;color:#22C55E;"><i class="fas fa-share-alt"></i> Share</button>
-            <button class="btn btn-primary"  id="btnSaveReport"><i class="fas fa-download"></i> Download PDF</button>
+            <button class="btn btn-primary" id="btnSaveReport"><i class="fas fa-download"></i> Download PDF</button>
           </div>
         </div>
 
         <div class="report-grid">
 
-          <!-- ══════════════ LEFT: INPUT FORM ══════════════════ -->
+          <!-- ══ LEFT FORM ══════════════════════════════════════ -->
           <div class="report-form-panel">
 
-            <!-- ── School Details ─────────────────────────────── -->
+            <!-- School Details -->
             <div class="rcard">
               <h3 class="rcard-title"><i class="fas fa-school"></i> School Details</h3>
-              <div class="logo-upload-area" id="logoUploadArea">
-                <i class="fas fa-image"></i>
-                <span id="logoUploadText">Click to upload school logo</span>
-                <input type="file" accept="image/*" id="logoUpload" hidden />
+              <div class="logo-upload-area" id="logoUploadArea" style="cursor:pointer;border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;margin-bottom:14px;">
+                <i class="fas fa-image" style="font-size:1.4rem;color:#64748B;display:block;margin-bottom:6px;"></i>
+                <span id="logoUploadText" style="font-size:.78rem;color:#64748B;">Click to upload school logo/crest</span>
+                <input type="file" accept="image/*" id="logoUpload" hidden/>
               </div>
               <div class="form-group">
                 <label>School Name</label>
-                <input type="text" id="rc_schoolName" class="form-input" value="Emirate Classic Academy, Lagos" />
+                <input type="text" id="rc_schoolName" class="form-input" value="EMIRATE CLASSIC ACADEMY LTD"/>
               </div>
               <div class="form-group">
                 <label>School Address</label>
-                <input type="text" id="rc_schoolAddr" class="form-input" value="ECA School Address, Nigeria" />
+                <input type="text" id="rc_schoolAddr" class="form-input" value="Gbaganu off Bida Road"/>
+              </div>
+              <div class="form-group">
+                <label>Motto</label>
+                <input type="text" id="rc_motto" class="form-input" value="Knowledge is power action and light"/>
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="text" id="rc_phone" class="form-input" placeholder="+234 800 000 0000"/>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Session</label>
                   <select id="rc_session" class="form-input">
                     <option>2026/2027</option>
-                    <option>2023/2024</option>
                     <option>2025/2026</option>
+                    <option>2024/2025</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -545,32 +561,35 @@
                   <select id="rc_term" class="form-input">
                     <option>1st Term</option>
                     <option>2nd Term</option>
-                    <option selected>3rd Term</option>
+                    <option>3rd Term</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <!-- ── Student Information ────────────────────────── -->
+            <!-- Student Information -->
             <div class="rcard">
-              <h3 class="rcard-title"><i class="fas fa-user"></i> Student Information</h3>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>First Name</label>
-                  <input type="text" id="rc_firstName" class="form-input" placeholder="e.g. Amaka" />
-                </div>
-                <div class="form-group">
-                  <label>Last Name</label>
-                  <input type="text" id="rc_lastName" class="form-input" placeholder="e.g. Okafor" />
-                </div>
+              <h3 class="rcard-title"><i class="fas fa-user-graduate"></i> Student Information</h3>
+              <div class="form-group">
+                <label>Student Full Name</label>
+                <input type="text" id="rc_studentName" class="form-input" placeholder="e.g. IDRIS ABUBAKAR"/>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Admission No.</label>
-                  <input type="text" id="rc_admNo" class="form-input" placeholder="ECA/2026/001" />
+                  <input type="text" id="rc_admNo" class="form-input" placeholder="ECA/2026/001"/>
                 </div>
                 <div class="form-group">
-                  <label>Class <span style="font-size:.68rem;color:#3B82F6;font-weight:500">(subjects auto-change)</span></label>
+                  <label>Gender</label>
+                  <select id="rc_gender" class="form-input">
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Class</label>
                   <select id="rc_class" class="form-input">
                     <optgroup label="Senior Secondary">
                       <option>SS 1A</option><option>SS 1B</option>
@@ -582,169 +601,311 @@
                       <option>JSS 2A</option><option>JSS 2B</option>
                       <option>JSS 3A</option><option>JSS 3B</option>
                     </optgroup>
-                    <optgroup label="Primary">
-                      <option>Primary 1</option><option>Primary 2</option>
-                      <option>Primary 3</option><option>Primary 4</option>
-                      <option>Primary 5</option><option>Primary 6</option>
+                    <optgroup label="Primary / Basic">
+                      <option>Basic 1</option><option>Basic 2</option>
+                      <option>Basic 3</option><option>Basic 4</option>
+                      <option>Basic 5</option><option>Basic 6</option>
                     </optgroup>
                   </select>
                 </div>
-              </div>
-              <div class="form-row">
                 <div class="form-group">
-                  <label>Gender</label>
-                  <select id="rc_gender" class="form-input">
-                    <option>Female</option>
-                    <option>Male</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Date of Birth</label>
-                  <input type="date" id="rc_dob" class="form-input" />
+                  <label>No. in Class</label>
+                  <input type="number" id="rc_classSize" class="form-input" placeholder="e.g. 19"/>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Position in Class</label>
-                  <input type="text" id="rc_position" class="form-input" placeholder="e.g. 3rd" />
+                  <input type="text" id="rc_position" class="form-input" placeholder="e.g. 10th"/>
                 </div>
                 <div class="form-group">
-                  <label>No. of Students</label>
-                  <input type="number" id="rc_classSize" class="form-input" placeholder="e.g. 42" />
+                  <label>Date of Birth</label>
+                  <input type="date" id="rc_dob" class="form-input"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Days School Opened</label>
+                  <input type="number" id="rc_daysOpened" class="form-input" placeholder="e.g. 150"/>
+                </div>
+                <div class="form-group">
+                  <label>Days Present</label>
+                  <input type="number" id="rc_daysPresent" class="form-input" placeholder="e.g. 148"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Days Absent</label>
+                  <input type="number" id="rc_daysAbsent" class="form-input" placeholder="e.g. 2"/>
+                </div>
+                <div class="form-group">
+                  <label>Next Term Begins</label>
+                  <input type="date" id="rc_nextTerm" class="form-input"/>
                 </div>
               </div>
             </div>
 
-            <!-- ── Subject Scores ─────────────────────────────── -->
+            <!-- Subject Scores -->
             <div class="rcard">
-              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
                 <h3 class="rcard-title" style="margin:0"><i class="fas fa-book-open"></i> Subject Scores</h3>
-                <button class="btn btn-outline btn-sm" id="btnAddSubject" style="font-size:.75rem">
+                <button class="btn btn-outline btn-sm" id="btnAddSubject" style="font-size:.74rem;padding:5px 10px;">
                   <i class="fas fa-plus-circle"></i> Add Subject
                 </button>
               </div>
-
-              <!-- Score breakdown columns info -->
-              <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:.75rem;color:#3B82F6;">
-                <strong>Scoring:</strong> CA1 (10) + CA2 (10) + Mid-Term Test (20) + Exam (60) = <strong>100 Total</strong>
+              <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:.74rem;color:#3B82F6;">
+                <i class="fas fa-info-circle"></i> <strong>Scoring:</strong> Class Work (10) + Assignment (10) + Mid-Term Test (20) + Exam (60) = <strong>100</strong>
               </div>
-
+              <!-- Previous term totals -->
+              <div class="form-row" style="margin-bottom:12px;">
+                <div class="form-group">
+                  <label>1st Term Total (optional)</label>
+                  <input type="number" id="rc_term1Total" class="form-input" placeholder="e.g. 1800"/>
+                </div>
+                <div class="form-group">
+                  <label>2nd Term Total (optional)</label>
+                  <input type="number" id="rc_term2Total" class="form-input" placeholder="e.g. 1850"/>
+                </div>
+              </div>
               <div class="scores-table-wrap">
                 <table class="scores-table" id="scoresTable">
                   <thead>
                     <tr>
                       <th style="min-width:130px">Subject</th>
-                      <th style="width:52px">CA1<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/10</span></th>
-                      <th style="width:52px">CA2<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/10</span></th>
-                      <th style="width:60px">Mid-Term<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/20</span></th>
-                      <th style="width:58px">Exam<br><span style="font-weight:400;font-size:.62rem;opacity:.7">/60</span></th>
-                      <th style="width:50px">Total</th>
-                      <th style="width:46px">Grade</th>
-                      <th style="width:90px">Comment</th>
-                      <th style="width:34px"></th>
+                      <th style="width:50px">CW<br><span style="font-weight:400;font-size:.6rem;opacity:.7">/10</span></th>
+                      <th style="width:50px">Asst<br><span style="font-weight:400;font-size:.6rem;opacity:.7">/10</span></th>
+                      <th style="width:56px">Mid<br><span style="font-weight:400;font-size:.6rem;opacity:.7">/20</span></th>
+                      <th style="width:56px">Exam<br><span style="font-weight:400;font-size:.6rem;opacity:.7">/60</span></th>
+                      <th style="width:46px">Total</th>
+                      <th style="width:44px">Grade</th>
+                      <th style="width:80px">Remark</th>
+                      <th style="width:30px"></th>
                     </tr>
                   </thead>
-                  <tbody id="scoresBody"><!-- injected by JS --></tbody>
+                  <tbody id="scoresBody"></tbody>
                 </table>
               </div>
-
-              <div class="score-summary" style="grid-template-columns:repeat(4,1fr)">
-                <div class="ss-item"><span>Grand Total</span><strong id="totalScore">—</strong></div>
-                <div class="ss-item"><span>Average</span><strong id="avgScore">—</strong></div>
-                <div class="ss-item"><span>Overall Grade</span><strong id="overallGrade">—</strong></div>
-                <div class="ss-item"><span>Remark</span><strong id="overallRemark">—</strong></div>
+              <div class="score-summary" style="grid-template-columns:repeat(4,1fr);margin-top:12px;">
+                <div class="ss-item"><span>Total Obtained</span><strong id="totalScore">--</strong></div>
+                <div class="ss-item"><span>Total Obtainable</span><strong id="totalObtainable">--</strong></div>
+                <div class="ss-item"><span>Average</span><strong id="avgScore">--</strong></div>
+                <div class="ss-item"><span>Overall Grade</span><strong id="overallGrade">--</strong></div>
               </div>
             </div>
 
-            <!-- ── Comments ───────────────────────────────────── -->
+            <!-- Annual Summary -->
+            <div class="rcard">
+              <h3 class="rcard-title"><i class="fas fa-chart-bar"></i> Annual Summary</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Annual Total Marks</label>
+                  <input type="number" id="rc_annualTotal" class="form-input" placeholder="Auto-calculated"/>
+                </div>
+                <div class="form-group">
+                  <label>Annual Position</label>
+                  <input type="text" id="rc_annualPosition" class="form-input" placeholder="e.g. 17th"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comments -->
             <div class="rcard">
               <h3 class="rcard-title"><i class="fas fa-comments"></i> Comments</h3>
               <div class="form-group">
-                <label>Class Teacher's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated — you can edit)</span></label>
-                <textarea id="rc_teacherComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered…"></textarea>
+                <label>Class Teacher's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated)</span></label>
+                <textarea id="rc_teacherComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered..."></textarea>
               </div>
               <div class="form-group">
-                <label>Principal's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated — you can edit)</span></label>
-                <textarea id="rc_principalComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered…"></textarea>
-              </div>
-              <div class="form-group">
-                <label>Next Term Begins</label>
-                <input type="date" id="rc_nextTerm" class="form-input" />
+                <label>Principal's Comment <span style="font-size:.68rem;color:#22C55E">(auto-generated)</span></label>
+                <textarea id="rc_principalComment" class="form-input" rows="3" placeholder="Auto-generated when scores are entered..."></textarea>
               </div>
             </div>
 
           </div><!-- /form-panel -->
 
-          <!-- ══════════════ RIGHT: LIVE PREVIEW ══════════════ -->
+          <!-- ══ RIGHT LIVE PREVIEW ════════════════════════════ -->
           <div class="report-preview-panel">
             <div class="preview-sticky">
               <div class="preview-label"><i class="fas fa-eye"></i> Live Preview — updates as you type</div>
 
-              <div class="report-card-preview" id="reportPreview">
+              <!-- REPORT CARD PREVIEW — matches the demo screenshot -->
+              <div class="report-card-preview" id="reportPreview" style="background:#fff;padding:20px;border-radius:12px;border:1px solid #E2E8F0;">
 
-                <!-- Header -->
-                <div class="rp-header">
-                  <div class="rp-logo-placeholder" id="prev_logo"><i class="fas fa-school"></i></div>
-                  <div class="rp-school-info">
-                    <h2 id="prev_schoolName">Emirate Classic Academy, Lagos</h2>
-                    <p  id="prev_schoolAddr">12 Education Crescent, Lagos State</p>
-                    <p class="rp-term-badge" id="prev_termBadge">3rd Term Report Card — 2026/2027</p>
+                <!-- HEADER -->
+                <div style="text-align:center;border-bottom:3px double #c8a415;padding-bottom:14px;margin-bottom:14px;">
+                  <div style="display:flex;align-items:center;justify-content:center;gap:16px;">
+                    <div id="prev_logo" style="width:64px;height:64px;border-radius:50%;background:#1E3A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-family:Poppins,sans-serif;font-size:.85rem;font-weight:800;flex-shrink:0;">ECA</div>
+                    <div>
+                      <h2 id="prev_schoolName" style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:800;color:#1E3A5F;margin-bottom:2px;">EMIRATE CLASSIC ACADEMY LTD</h2>
+                      <p id="prev_schoolAddr" style="font-size:.72rem;color:#374151;margin-bottom:1px;">Gbaganu off Bida Road</p>
+                      <p id="prev_motto" style="font-size:.68rem;color:#64748B;font-style:italic;margin-bottom:1px;">Motto: Knowledge is power action and light</p>
+                      <p id="prev_phone" style="font-size:.68rem;color:#64748B;">Phone: --</p>
+                    </div>
+                    <!-- Student photo placeholder -->
+                    <div style="width:60px;height:60px;border:1px solid #E2E8F0;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:.62rem;color:#94A3B8;flex-shrink:0;">
+                      <i class="fas fa-user" style="font-size:1.2rem;margin-bottom:2px;"></i>Photo
+                    </div>
+                  </div>
+                  <div style="margin-top:8px;display:inline-block;border:1px solid #c8a415;padding:3px 18px;border-radius:2px;font-size:.68rem;font-weight:700;color:#92400e;letter-spacing:1px;">
+                    TERMLY EXAMINATION REPORT SHEET
                   </div>
                 </div>
 
-                <!-- Student Info Grid -->
-                <div class="rp-student-info">
-                  <div class="rp-si-row"><span>Name:</span>         <strong id="prev_name">—</strong></div>
-                  <div class="rp-si-row"><span>Adm. No:</span>      <strong id="prev_admNo">—</strong></div>
-                  <div class="rp-si-row"><span>Class:</span>        <strong id="prev_class">—</strong></div>
-                  <div class="rp-si-row"><span>Gender:</span>       <strong id="prev_gender">—</strong></div>
-                  <div class="rp-si-row"><span>Date of Birth:</span><strong id="prev_dob">—</strong></div>
-                  <div class="rp-si-row"><span>Session:</span>      <strong id="prev_session">2026/2027</strong></div>
-                  <div class="rp-si-row"><span>Term:</span>         <strong id="prev_term">3rd Term</strong></div>
-                  <div class="rp-si-row"><span>Position:</span>     <strong id="prev_position">—</strong></div>
+                <!-- STUDENT INFO GRID -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border:1px solid #E2E8F0;margin-bottom:14px;font-size:.68rem;">
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Admission No</div>
+                    <div id="prev_admNo" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Gender</div>
+                    <div id="prev_gender" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">No. in Class</div>
+                    <div id="prev_classSize" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Student Name</div>
+                    <div id="prev_name" style="font-weight:700;color:#1E293B;font-size:.72rem;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Class</div>
+                    <div id="prev_class" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Term</div>
+                    <div id="prev_term" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Session</div>
+                    <div id="prev_session" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-bottom:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Position</div>
+                    <div id="prev_position" style="font-weight:700;color:#c8a415;font-size:.85rem;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Days Opened</div>
+                    <div id="prev_daysOpened" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Days Present</div>
+                    <div id="prev_daysPresent" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;border-right:1px solid #E2E8F0;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Days Absent</div>
+                    <div id="prev_daysAbsent" style="font-weight:700;color:#1E293B;">--</div>
+                  </div>
+                  <div style="padding:5px 8px;">
+                    <div style="color:#64748B;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Next Term Begins</div>
+                    <div id="prev_nextTerm" style="font-weight:700;color:#1E293B;font-size:.65rem;">--</div>
+                  </div>
                 </div>
 
-                <!-- Scores Table Preview -->
-                <table class="rp-scores">
+                <!-- ACADEMIC PERFORMANCE TABLE -->
+                <div style="font-family:Poppins,sans-serif;font-size:.68rem;font-weight:700;color:#1E3A5F;border-left:3px solid #c8a415;padding-left:8px;margin-bottom:8px;">
+                  ACADEMIC PERFORMANCE
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:.65rem;margin-bottom:14px;">
                   <thead>
-                    <tr>
-                      <th>Subject</th>
-                      <th style="text-align:center">CA1</th>
-                      <th style="text-align:center">CA2</th>
-                      <th style="text-align:center">Mid</th>
-                      <th style="text-align:center">Exam</th>
-                      <th style="text-align:center">Total</th>
-                      <th style="text-align:center">Grade</th>
-                      <th>Comment</th>
+                    <tr style="background:#1E3A5F;color:#fff;">
+                      <th style="padding:5px 4px;text-align:left;font-size:.6rem;min-width:90px;">SUBJECT</th>
+                      <th colspan="4" style="padding:5px 4px;text-align:center;font-size:.6rem;border-left:1px solid rgba(255,255,255,.2);">3RD TERM</th>
+                      <th style="padding:5px 4px;text-align:center;font-size:.6rem;border-left:1px solid rgba(255,255,255,.2);">2ND</th>
+                      <th style="padding:5px 4px;text-align:center;font-size:.6rem;">1ST</th>
+                      <th style="padding:5px 4px;text-align:center;font-size:.6rem;border-left:1px solid rgba(255,255,255,.2);">TOTAL</th>
+                      <th style="padding:5px 4px;text-align:center;font-size:.6rem;">GRADE</th>
+                      <th style="padding:5px 4px;text-align:center;font-size:.6rem;">POS</th>
+                      <th style="padding:5px 4px;text-align:left;font-size:.6rem;">REMARK</th>
+                    </tr>
+                    <tr style="background:#f1f5f9;color:#374151;">
+                      <th style="padding:4px;text-align:left;font-size:.58rem;border:1px solid #E2E8F0;">SUBJECT</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">CLASS WORK</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">ASSIGNMENT</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">MID-TERM TEST</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">EXAMS</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">TOTAL</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">TERM</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">TERM</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">TOTAL</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">GRADE</th>
+                      <th style="padding:4px;text-align:center;font-size:.58rem;border:1px solid #E2E8F0;">POS</th>
+                      <th style="padding:4px;text-align:left;font-size:.58rem;border:1px solid #E2E8F0;">REMARK</th>
                     </tr>
                   </thead>
                   <tbody id="prev_scoresBody">
-                    <tr><td colspan="8" style="text-align:center;color:#94A3B8;padding:14px;font-size:.78rem;">
-                      Select a class and enter scores to see them here
+                    <tr><td colspan="12" style="text-align:center;color:#94A3B8;padding:14px;font-size:.75rem;border:1px solid #E2E8F0;">
+                      Enter subject scores on the left to see them here
                     </td></tr>
                   </tbody>
                 </table>
 
-                <!-- Summary Bar -->
-                <div class="rp-summary">
-                  <div class="rps-item"><span>Grand Total</span><strong id="prev_total">—</strong></div>
-                  <div class="rps-item"><span>Average</span>   <strong id="prev_avg">—</strong></div>
-                  <div class="rps-item"><span>Grade</span>     <strong id="prev_grade">—</strong></div>
-                  <div class="rps-item"><span>Position</span>  <strong id="prev_position2">—</strong></div>
+                <!-- PERFORMANCE SUMMARY -->
+                <div style="font-family:Poppins,sans-serif;font-size:.68rem;font-weight:700;color:#1E3A5F;border-left:3px solid #c8a415;padding-left:8px;margin-bottom:8px;">
+                  PERFORMANCE SUMMARY
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border:1px solid #E2E8F0;margin-bottom:10px;">
+                  <div style="padding:8px;border-right:1px solid #E2E8F0;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Mark Obtained</div>
+                    <div id="prev_total" style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:800;color:#c8a415;">--</div>
+                  </div>
+                  <div style="padding:8px;border-right:1px solid #E2E8F0;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Mark Obtainable</div>
+                    <div id="prev_obtainable" style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:800;color:#c8a415;">--</div>
+                  </div>
+                  <div style="padding:8px;border-right:1px solid #E2E8F0;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Average Score</div>
+                    <div id="prev_avg" style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:800;color:#1E3A5F;">--</div>
+                  </div>
+                  <div style="padding:8px;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Term Grade</div>
+                    <div id="prev_grade" style="font-family:Poppins,sans-serif;font-size:1rem;font-weight:800;color:#1E3A5F;">--</div>
+                  </div>
+                </div>
+                <!-- Annual row -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid #E2E8F0;margin-bottom:14px;">
+                  <div style="padding:8px;border-right:1px solid #E2E8F0;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Annual Marks</div>
+                    <div id="prev_annualMarks" style="font-family:Poppins,sans-serif;font-size:.9rem;font-weight:800;color:#c8a415;">--</div>
+                  </div>
+                  <div style="padding:8px;border-right:1px solid #E2E8F0;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Annual Total</div>
+                    <div id="prev_annualTotal" style="font-family:Poppins,sans-serif;font-size:.9rem;font-weight:800;color:#c8a415;">--</div>
+                  </div>
+                  <div style="padding:8px;text-align:center;">
+                    <div style="font-size:.6rem;color:#64748B;text-transform:uppercase;margin-bottom:3px;">Annual Position</div>
+                    <div id="prev_annualPosition" style="font-family:Poppins,sans-serif;font-size:.9rem;font-weight:800;color:#1E3A5F;">--</div>
+                  </div>
                 </div>
 
-                <!-- Comments -->
-                <div class="rp-comments">
-                  <div class="rp-comment"><strong>Class Teacher:</strong> <em id="prev_teacherComment">—</em></div>
-                  <div class="rp-comment"><strong>Principal:</strong>     <em id="prev_principalComment">—</em></div>
-                  <div class="rp-comment"><strong>Next Term Begins:</strong> <em id="prev_nextTerm">—</em></div>
+                <!-- TEACHER'S COMMENTS -->
+                <div style="font-family:Poppins,sans-serif;font-size:.68rem;font-weight:700;color:#1E3A5F;border-left:3px solid #c8a415;padding-left:8px;margin-bottom:8px;">
+                  TEACHER'S COMMENTS
+                </div>
+                <div style="border:1px solid #E2E8F0;border-radius:6px;padding:10px 12px;margin-bottom:10px;">
+                  <div style="font-size:.72rem;color:#374151;line-height:1.6;font-style:italic;" id="prev_teacherComment">--</div>
+                  <div style="margin-top:10px;border-top:1px solid #E2E8F0;padding-top:8px;display:flex;justify-content:space-between;font-size:.65rem;color:#64748B;">
+                    <span>Class Teacher: <span style="border-bottom:1px solid #374151;padding-bottom:1px;min-width:100px;display:inline-block;">&nbsp;</span></span>
+                    <span>Signature: <span style="border-bottom:1px solid #374151;padding-bottom:1px;min-width:80px;display:inline-block;">&nbsp;</span></span>
+                  </div>
                 </div>
 
-                <!-- Signature Line -->
-                <div class="rp-footer">
-                  <div class="rp-sig"><div class="sig-line"></div><span>Class Teacher</span></div>
-                  <div class="rp-sig"><div class="sig-line"></div><span>Principal</span></div>
-                  <div class="rp-sig"><div class="sig-line"></div><span>Date</span></div>
+                <!-- PRINCIPAL'S COMMENTS -->
+                <div style="font-family:Poppins,sans-serif;font-size:.68rem;font-weight:700;color:#1E3A5F;border-left:3px solid #c8a415;padding-left:8px;margin-bottom:8px;">
+                  PRINCIPAL'S COMMENTS
+                </div>
+                <div style="border:1px solid #E2E8F0;border-radius:6px;padding:10px 12px;margin-bottom:10px;">
+                  <div style="font-size:.72rem;color:#374151;line-height:1.6;font-style:italic;" id="prev_principalComment">--</div>
+                  <div style="margin-top:10px;border-top:1px solid #E2E8F0;padding-top:8px;display:flex;justify-content:space-between;font-size:.65rem;color:#64748B;">
+                    <span>Principal: <span style="border-bottom:1px solid #374151;padding-bottom:1px;min-width:100px;display:inline-block;">&nbsp;</span></span>
+                    <span>Stamp: <span style="border-bottom:1px solid #374151;padding-bottom:1px;min-width:80px;display:inline-block;">&nbsp;</span></span>
+                  </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div style="text-align:center;font-size:.62rem;color:#94A3B8;border-top:1px solid #E2E8F0;padding-top:8px;margin-top:8px;">
+                  Emirate Classic Academy Ltd &nbsp;·&nbsp; EduTrack Pro 2026
                 </div>
 
               </div><!-- /reportPreview -->
@@ -772,22 +933,22 @@
             <div class="chart-header">
               <div><h3 class="chart-title">Term-on-Term Performance Trend</h3><p class="chart-subtitle">Average class scores across 3 terms</p></div>
             </div>
-            <div style="position:relative;height:220px;"><canvas id="trendChart" style="display:block;width:100%;height:100%;"></canvas></div>
+            <div style="position:relative;height:220px;width:100%;display:block;"><canvas id="trendChart" style="display:block;width:100%;height:100%;"></canvas></div>
           </div>
 
           <div class="chart-card">
             <div class="chart-header"><div><h3 class="chart-title">Subject Performance</h3><p class="chart-subtitle">School-wide averages</p></div></div>
-            <div style="position:relative;height:220px;"><canvas id="subjectChart" style="display:block;width:100%;height:100%;"></canvas></div>
+            <div style="position:relative;height:220px;width:100%;display:block;"><canvas id="subjectChart" style="display:block;width:100%;height:100%;"></canvas></div>
           </div>
 
           <div class="chart-card">
             <div class="chart-header"><div><h3 class="chart-title">Attendance by Class</h3><p class="chart-subtitle">Current term attendance %</p></div></div>
-            <div style="position:relative;height:220px;"><canvas id="attendanceChart" style="display:block;width:100%;height:100%;"></canvas></div>
+            <div style="position:relative;height:220px;width:100%;display:block;"><canvas id="attendanceChart" style="display:block;width:100%;height:100%;"></canvas></div>
           </div>
 
           <div class="chart-card">
             <div class="chart-header"><div><h3 class="chart-title">Grade Distribution</h3><p class="chart-subtitle">Breakdown by grade band</p></div></div>
-            <div style="position:relative;height:220px;"><canvas id="gradeBarChart" style="display:block;width:100%;height:100%;"></canvas></div>
+            <div style="position:relative;height:220px;width:100%;display:block;"><canvas id="gradeBarChart" style="display:block;width:100%;height:100%;"></canvas></div>
           </div>
         </div>
 
@@ -908,8 +1069,126 @@
       </section>
 
       <!-- ======== PLACEHOLDER PAGES ======== -->
-      <section class="page" id="page-students"><div class="page-header"><div class="ph-left"><h1 class="page-title">Students</h1><p class="page-subtitle">Manage all student records and enrolments.</p></div><div class="ph-right"><button class="btn btn-primary"><i class="fas fa-circle"></i> Add Student</button></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Students module — connect your backend to load records.</p></div></section>
-      <section class="page" id="page-subjects"><div class="page-header"><div class="ph-left"><h1 class="page-title">Subjects</h1><p class="page-subtitle">Manage school subjects and curriculum.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Subjects module — coming soon.</p></div></section>
+      <section class="page" id="page-students">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-users" style="color:#3B82F6"></i> Students</h1>
+      <p class="page-subtitle">Emirate Classic Academy — 2026/2027 Session</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-primary" onclick="goTo('class', document.querySelector('.nav-item[data-page=\'class\']'))">
+        <i class="fas fa-chalkboard"></i> Manage My Class
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and filter -->
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+    <div style="position:relative;flex:1;min-width:200px;max-width:340px;">
+      <i class="fas fa-search" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#64748B;font-size:.82rem;"></i>
+      <input type="text" id="studentsSearch" placeholder="Search students..."
+        style="width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--border);border-radius:9px;
+        background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.83rem;outline:none;"/>
+    </div>
+    <select id="studentsClassFilter" style="padding:9px 14px;border:1.5px solid var(--border);border-radius:9px;
+      background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:.83rem;outline:none;">
+      <option value="">All Classes</option>
+      <option>SS 1A</option><option>SS 1B</option>
+      <option>SS 2A</option><option>SS 2B</option>
+      <option>SS 3A</option><option>SS 3B</option>
+      <option>JSS 1A</option><option>JSS 1B</option>
+      <option>JSS 2A</option><option>JSS 2B</option>
+      <option>JSS 3A</option><option>JSS 3B</option>
+    </select>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student</th><th>Class</th><th>Subjects</th>
+            <th>Total</th><th>Average</th><th>Grade</th>
+            <th>Status</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTableBody">
+          <tr><td colspan="8" style="text-align:center;padding:40px;color:#64748B;">
+            <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:10px;"></i>
+            Loading students...
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+      <section class="page" id="page-subjects">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-book-open" style="color:#7C3AED"></i> Subjects</h1>
+      <p class="page-subtitle">Nigerian curriculum subjects by class level</p>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+    <!-- SS Subjects -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <h3 style="font-family:Poppins,sans-serif;font-size:.92rem;font-weight:700;color:#3B82F6;margin-bottom:12px;">
+        <i class="fas fa-graduation-cap"></i> Senior Secondary (SS 1-3)
+      </h3>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--text);">
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>English Language</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Mathematics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Biology</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Chemistry</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Physics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Economics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Government</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Literature in English</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Agricultural Science</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#3B82F6;margin-right:6px;"></i>Civic Education</span>
+        <span style="color:#64748B;font-size:.75rem;margin-top:4px;">+ 13 more subjects</span>
+      </div>
+    </div>
+    <!-- JSS Subjects -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <h3 style="font-family:Poppins,sans-serif;font-size:.92rem;font-weight:700;color:#7C3AED;margin-bottom:12px;">
+        <i class="fas fa-school"></i> Junior Secondary (JSS 1-3)
+      </h3>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--text);">
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>English Language</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Mathematics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Basic Science</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Basic Technology</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Social Studies</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Civic Education</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Home Economics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Business Studies</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Computer Studies</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#7C3AED;margin-right:6px;"></i>Agricultural Science</span>
+        <span style="color:#64748B;font-size:.75rem;margin-top:4px;">+ 10 more subjects</span>
+      </div>
+    </div>
+    <!-- Primary Subjects -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <h3 style="font-family:Poppins,sans-serif;font-size:.92rem;font-weight:700;color:#22C55E;margin-bottom:12px;">
+        <i class="fas fa-child"></i> Primary / Basic (1-6)
+      </h3>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--text);">
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>English Language</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Mathematics</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Basic Science & Tech</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Social Studies</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Verbal Reasoning</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Quantitative Reasoning</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>English Comprehension</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Hand Writing</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>National Values</span>
+        <span><i class="fas fa-circle" style="font-size:.4rem;color:#22C55E;margin-right:6px;"></i>Computer Studies</span>
+        <span style="color:#64748B;font-size:.75rem;margin-top:4px;">+ 8 more subjects</span>
+      </div>
+    </div>
+  </div>
+</section>
       <section class="page" id="page-teachers">
   <div class="page-header">
     <div class="ph-left">
@@ -1087,8 +1366,182 @@
 
 </section>
 
-<section class="page" id="page-attendance"><div class="page-header"><div class="ph-left"><h1 class="page-title">Attendance</h1><p class="page-subtitle">Track and manage daily student attendance.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Attendance module — coming soon.</p></div></section>
-      <section class="page" id="page-messages"><div class="page-header"><div class="ph-left"><h1 class="page-title">Messages</h1><p class="page-subtitle">Internal messaging and announcements.</p></div></div><div class="placeholder-content"><i class="fas fa-circle" style="width:64px;height:64px;opacity:.15"></i><p>Messages module — coming soon.</p></div></section>
+<section class="page" id="page-class">
+
+  <!-- ── SETUP STEP 1: Teacher registers their class ───────── -->
+  <div id="classSetupPanel" style="display:none;">
+    <div style="max-width:500px;margin:60px auto;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:32px;text-align:center;">
+      <div style="font-size:3rem;margin-bottom:14px;">🏫</div>
+      <h2 style="font-family:Poppins,sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:8px;">Register Your Class</h2>
+      <p style="font-size:.84rem;color:#64748B;margin-bottom:24px;">Select the class you are assigned to for this session.</p>
+      <select id="teacherClassSelect" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:Inter,sans-serif;font-size:.9rem;color:var(--text);background:var(--bg);outline:none;margin-bottom:14px;">
+        <option value="">-- Select Your Class --</option>
+        <optgroup label="Senior Secondary">
+          <option>SS 1A</option><option>SS 1B</option>
+          <option>SS 2A</option><option>SS 2B</option>
+          <option>SS 3A</option><option>SS 3B</option>
+        </optgroup>
+        <optgroup label="Junior Secondary">
+          <option>JSS 1A</option><option>JSS 1B</option>
+          <option>JSS 2A</option><option>JSS 2B</option>
+          <option>JSS 3A</option><option>JSS 3B</option>
+        </optgroup>
+        <optgroup label="Primary / Basic">
+          <option>Basic 1</option><option>Basic 2</option>
+          <option>Basic 3</option><option>Basic 4</option>
+          <option>Basic 5</option><option>Basic 6</option>
+        </optgroup>
+      </select>
+      <select id="teacherTermSelect" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:Inter,sans-serif;font-size:.9rem;color:var(--text);background:var(--bg);outline:none;margin-bottom:20px;">
+        <option>1st Term</option>
+        <option>2nd Term</option>
+        <option>3rd Term</option>
+      </select>
+      <button onclick="registerTeacherClass()" style="width:100%;padding:13px;background:#3B82F6;color:#fff;border:none;border-radius:9px;font-family:Inter,sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;">
+        <i class="fas fa-check-circle"></i> Register My Class
+      </button>
+    </div>
+  </div>
+
+  <!-- ── MAIN CLASS PANEL ───────────────────────────────────── -->
+  <div id="classMainPanel" style="display:none;">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div class="ph-left">
+        <h1 class="page-title" id="classPanelTitle"><i class="fas fa-chalkboard" style="color:#3B82F6"></i> My Class</h1>
+        <p class="page-subtitle" id="classPanelSub">Loading...</p>
+      </div>
+      <div class="ph-right" style="flex-wrap:wrap;gap:8px;">
+        <button class="btn btn-outline" onclick="calcAndShowPositions()" id="btnCalcPos">
+          <i class="fas fa-trophy"></i> Calculate Positions
+        </button>
+        <button class="btn btn-outline" onclick="printAllReportCards()" style="border-color:#7C3AED;color:#7C3AED;">
+          <i class="fas fa-print"></i> Print All Cards
+        </button>
+        <button class="btn btn-primary" onclick="showAddStudentModal()" id="btnAddStudent">
+          <i class="fas fa-user-plus"></i> Add Student
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-users" style="color:#3B82F6;font-size:1.2rem;"></i>
+        <div><div id="classStudentCount" style="font-size:1.3rem;font-weight:800;color:var(--text);">0</div>
+        <div style="font-size:.7rem;color:#64748B;text-transform:uppercase;">Students</div></div>
+      </div>
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-clipboard-check" style="color:#22C55E;font-size:1.2rem;"></i>
+        <div><div id="classResultCount" style="font-size:1.3rem;font-weight:800;color:var(--text);">0</div>
+        <div style="font-size:.7rem;color:#64748B;text-transform:uppercase;">Results Entered</div></div>
+      </div>
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-trophy" style="color:#F59E0B;font-size:1.2rem;"></i>
+        <div><div id="classTopStudent" style="font-size:.9rem;font-weight:700;color:var(--text);">--</div>
+        <div style="font-size:.7rem;color:#64748B;text-transform:uppercase;">Top Student</div></div>
+      </div>
+    </div>
+
+    <!-- Student list -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <h3 style="font-family:Poppins,sans-serif;font-size:.95rem;font-weight:700;">
+          <i class="fas fa-list" style="color:#3B82F6"></i> Student List
+        </h3>
+        <span id="classLimitNote" style="font-size:.75rem;color:#64748B;"></span>
+      </div>
+      <div id="classStudentList" style="padding:0;">
+        <!-- Injected by JS -->
+      </div>
+      <div id="classEmptyState" style="text-align:center;padding:50px 20px;color:#64748B;display:none;">
+        <i class="fas fa-user-graduate" style="font-size:2.5rem;opacity:.2;display:block;margin-bottom:12px;"></i>
+        <p style="font-weight:600;margin-bottom:4px;">No students yet</p>
+        <p style="font-size:.82rem;">Click "Add Student" to register students in your class.</p>
+      </div>
+    </div>
+
+  </div><!-- /classMainPanel -->
+
+  <!-- Loading state -->
+  <div id="classLoadingState" style="text-align:center;padding:80px 20px;color:#64748B;">
+    <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#3B82F6;display:block;margin-bottom:14px;"></i>
+    <p>Loading class data...</p>
+  </div>
+
+</section>
+
+<section class="page" id="page-attendance">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-calendar-check" style="color:#22C55E"></i> Attendance</h1>
+      <p class="page-subtitle">Track student attendance per class</p>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px;">
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+      <i class="fas fa-calendar-alt" style="font-size:1.8rem;color:#3B82F6;display:block;margin-bottom:8px;"></i>
+      <div style="font-size:1.4rem;font-weight:800;color:var(--text);">150</div>
+      <div style="font-size:.72rem;color:#64748B;text-transform:uppercase;margin-top:2px;">Days Opened</div>
+    </div>
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+      <i class="fas fa-user-check" style="font-size:1.8rem;color:#22C55E;display:block;margin-bottom:8px;"></i>
+      <div style="font-size:1.4rem;font-weight:800;color:#22C55E;">91%</div>
+      <div style="font-size:.72rem;color:#64748B;text-transform:uppercase;margin-top:2px;">Average Attendance</div>
+    </div>
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+      <i class="fas fa-user-times" style="font-size:1.8rem;color:#EF4444;display:block;margin-bottom:8px;"></i>
+      <div style="font-size:1.4rem;font-weight:800;color:#EF4444;">9%</div>
+      <div style="font-size:.72rem;color:#64748B;text-transform:uppercase;margin-top:2px;">Absence Rate</div>
+    </div>
+  </div>
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:24px;text-align:center;">
+    <i class="fas fa-calendar-check" style="font-size:3rem;color:#22C55E;opacity:.3;display:block;margin-bottom:14px;"></i>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">Detailed Attendance Coming Soon</h3>
+    <p style="font-size:.83rem;color:#64748B;">Use the Days Opened / Days Present / Days Absent fields in the Report Card to record attendance per student.</p>
+    <button class="btn btn-primary" style="margin-top:16px;" onclick="goTo('report', document.querySelector('.nav-item[data-page=\'report\']'))">
+      <i class="fas fa-file-alt"></i> Go to Report Card
+    </button>
+  </div>
+</section>
+      <section class="page" id="page-messages">
+  <div class="page-header">
+    <div class="ph-left">
+      <h1 class="page-title"><i class="fas fa-comments" style="color:#F59E0B"></i> Messages</h1>
+      <p class="page-subtitle">Internal school communication</p>
+    </div>
+  </div>
+  <!-- Quick announcements -->
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div style="background:rgba(59,130,246,.07);border:1.5px solid rgba(59,130,246,.2);border-radius:12px;padding:16px 18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div style="width:34px;height:34px;border-radius:50%;background:#3B82F6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0;">AD</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">Admin</div>
+          <div style="font-size:.72rem;color:#64748B;">Today</div>
+        </div>
+        <span style="margin-left:auto;background:#3B82F6;color:#fff;font-size:.65rem;padding:2px 8px;border-radius:99px;font-weight:700;">ANNOUNCEMENT</span>
+      </div>
+      <p style="font-size:.83rem;color:var(--text);line-height:1.6;">Welcome to EduTrack Pro — Emirate Classic Academy 2026/2027 Session. All teachers should register their classes and enter student scores before the end of term.</p>
+    </div>
+    <div style="background:rgba(34,197,94,.07);border:1.5px solid rgba(34,197,94,.2);border-radius:12px;padding:16px 18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div style="width:34px;height:34px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0;">PR</div>
+        <div>
+          <div style="font-weight:700;font-size:.88rem;">Principal</div>
+          <div style="font-size:.72rem;color:#64748B;">Yesterday</div>
+        </div>
+        <span style="margin-left:auto;background:#22C55E;color:#fff;font-size:.65rem;padding:2px 8px;border-radius:99px;font-weight:700;">REMINDER</span>
+      </div>
+      <p style="font-size:.83rem;color:var(--text);line-height:1.6;">Report cards must be completed and printed before the last day of term. Please use the Report Card section to generate and print each student's card.</p>
+    </div>
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;text-align:center;color:#64748B;">
+      <i class="fas fa-comments" style="font-size:2rem;opacity:.2;display:block;margin-bottom:10px;"></i>
+      <p style="font-size:.83rem;">Full messaging module coming soon. For now, use this space for announcements.</p>
+    </div>
+  </div>
+</section>
 
     </div><!-- End .page-wrapper -->
   </main><!-- End .main-content -->
@@ -1127,6 +1580,9 @@
     <span class="toast-msg" id="toastMsg">Saved successfully!</span>
   </div>
 
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <!-- html2canvas — converts HTML to image (for Save Image + PDF) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <!-- jsPDF — generates PDF from image -->
